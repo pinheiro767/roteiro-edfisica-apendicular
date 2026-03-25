@@ -1,13 +1,14 @@
 {
-  "name": "Guia de Estudo - Sistema Esquelético",
-  "short_name": "Guia Esquelético",
-  "description": "Aplicativo PWA de Anatomia Humana com anotações, fotos, vídeos, arquivos e uso offline.",
+  "name": "Anatomia UEM PWA",
+  "short_name": "Anatomia UEM",
+  "description": "App PWA de Anatomia com notas, foto, arquivos e uso offline.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#0f1923",
-  "theme_color": "#0f1923",
+  "background_color": "#0b1020",
+  "theme_color": "#0b1020",
+  "orientation": "portrait-primary",
+  "lang": "pt-BR",
   "icons": [
     {
       "src": "icons/icon-192.png",
