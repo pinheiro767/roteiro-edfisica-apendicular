@@ -1,343 +1,1186 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="h-full">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#0b1020" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Anatomia UEM" />
-  <meta name="description" content="App PWA de Anatomia para anotações, fotos, arquivos e estudo offline." />
-  <title>Anatomia UEM • PWA</title>
-  <link rel="manifest" href="manifest.json" />
-  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
-  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0f1923">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Guia Esquelético">
+  <title>Guia de Estudo – Sistema Esquelético</title>
+
+  <link rel="manifest" id="dynamic-manifest">
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    :root{
-      --bg:#07101d;
-      --bg2:#0b1020;
-      --card:#121a30;
-      --card2:#18233d;
-      --line:#2c3a61;
-      --text:#eef4ff;
-      --muted:#aab8d3;
-      --accent:#7dd3fc;
-      --accent2:#c4b5fd;
-      --gold:#fbbf24;
-      --danger:#f87171;
-      --ok:#34d399;
-      --shadow:0 12px 32px rgba(0,0,0,.28);
-      --radius:22px;
+    :root {
+      --bg: #0f1923;
+      --surface: #162030;
+      --surface2: #1e2d3d;
+      --accent: #c8964a;
+      --accent2: #5ba4cf;
+      --text: #e8dfd0;
+      --text-muted: #8a9bb0;
+      --border: #2a3d52;
+      --highlight: #c8964a22;
+      --success: #4ade80;
+      --danger: #e06c75;
     }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:linear-gradient(180deg,var(--bg),var(--bg2));color:var(--text);font-family:Inter,Arial,sans-serif}
-    body{min-height:100vh}
-    .wrap{max-width:1100px;margin:0 auto;padding:20px}
-    .hero{position:relative;overflow:hidden;background:radial-gradient(circle at top right,rgba(125,211,252,.18),transparent 30%),linear-gradient(135deg,#0f172a,#0b1020 55%,#0a1428);border:1px solid rgba(125,211,252,.18);border-radius:30px;padding:28px;box-shadow:var(--shadow)}
-    .badge{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.06);color:var(--accent);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
-    h1{font-size:clamp(28px,4vw,48px);line-height:1.02;margin:14px 0 10px}
-    .sub{max-width:760px;color:var(--muted);font-size:16px;line-height:1.6}
-    .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;margin-top:18px}
-    .card{background:rgba(18,26,48,.92);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
-    .toolbar,.actions{display:flex;flex-wrap:wrap;gap:10px}
-    .btn, .file-label{
-      appearance:none;border:none;text-decoration:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;
-      padding:12px 16px;border-radius:14px;font-weight:700;font-size:14px;transition:.2s transform,.2s opacity,.2s background,.2s border-color;
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      scroll-behavior: smooth;
     }
-    .btn:hover,.file-label:hover{transform:translateY(-1px)}
-    .btn-primary{background:linear-gradient(135deg,var(--accent),#60a5fa);color:#07101d}
-    .btn-secondary{background:rgba(255,255,255,.04);color:var(--text);border:1px solid var(--line)}
-    .btn-danger{background:rgba(248,113,113,.12);color:#fecaca;border:1px solid rgba(248,113,113,.35)}
-    .btn-success{background:rgba(52,211,153,.12);color:#bbf7d0;border:1px solid rgba(52,211,153,.35)}
-    .file-label{background:rgba(255,255,255,.04);color:var(--text);border:1px dashed var(--line)}
-    .file-label input{display:none}
-    .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
-    .kpi{padding:14px;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.06)}
-    .kpi b{display:block;font-size:24px;color:var(--gold)}
-    .kpi span{font-size:12px;color:var(--muted)}
-    h2{margin:0 0 12px;font-size:22px}
-    p{margin:0}
-    textarea{width:100%;min-height:180px;resize:vertical;background:#0d162b;border:1px solid var(--line);color:var(--text);padding:16px;border-radius:18px;font:inherit;line-height:1.6;outline:none}
-    textarea:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(125,211,252,.08)}
-    .hint{font-size:13px;color:var(--muted);margin-top:10px}
-    .attachments{display:grid;gap:12px;margin-top:14px}
-    .item{background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.06);padding:12px;border-radius:18px}
-    .item-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:10px}
-    .item-title{font-weight:700;font-size:14px;word-break:break-word}
-    .meta{font-size:12px;color:var(--muted)}
-    img.preview, video.preview, audio.preview{width:100%;max-height:340px;object-fit:contain;border-radius:14px;background:#09111e}
-    .file-box{padding:12px;border-radius:14px;background:#0d162b;border:1px dashed var(--line)}
-    .list{display:grid;gap:10px}
-    .topic{padding:14px;border-radius:16px;background:#0d162b;border:1px solid var(--line)}
-    .topic strong{display:block;margin-bottom:6px;color:var(--accent)}
-    .footer{margin-top:18px;text-align:center;color:var(--muted);font-size:13px;padding:12px}
-    .install-tip{margin-top:12px;padding:12px;border-radius:16px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);color:#fde68a;font-size:13px}
-    @media (max-width:900px){.grid{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr 1fr}}
-    @media (max-width:640px){.wrap{padding:14px}.hero{padding:18px}.kpis{grid-template-columns:1fr}.btn,.file-label{width:100%}}
+    body { overflow-x: hidden; }
+    h1, h2, h3, h4 { font-family: 'Crimson Pro', serif; }
+
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      z-index: 1000; width: 0%;
+    }
+
+    .page-wrapper { min-height: 100%; display: flex; flex-direction: column; }
+
+    .site-header {
+      background: linear-gradient(135deg, #0a1520 0%, #162030 50%, #0f1923 100%);
+      border-bottom: 2px solid var(--accent);
+      padding: 2rem 1.25rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .site-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at top right, #c8964a18 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .header-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
+    .header-badge {
+      display: inline-block;
+      background: var(--accent);
+      color: #0f1923;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: .3rem .8rem;
+      border-radius: 999px;
+      margin-bottom: .75rem;
+    }
+
+    .action-row {
+      display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.2rem;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .7rem 1rem; border-radius: 10px; border: 1px solid transparent;
+      font-size: .86rem; font-weight: 600; cursor: pointer; transition: .2s;
+      text-decoration: none;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--accent); color: #0f1923; border-color: var(--accent); }
+    .btn-primary:hover { background: #d8a65a; }
+    .btn-secondary { background: transparent; color: var(--accent2); border-color: var(--accent2); }
+    .btn-secondary:hover { background: #5ba4cf1a; }
+    .btn-danger { background: transparent; color: var(--danger); border-color: var(--danger); }
+    .btn-danger:hover { background: #e06c7520; }
+    .btn-install { background: transparent; color: var(--success); border-color: var(--success); }
+    .btn-install:hover { background: #4ade8020; }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 1.25rem;
+      padding: 1.25rem;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      flex: 1;
+    }
+
+    .nav-sidebar {
+      position: sticky; top: 1rem; align-self: start;
+      max-height: calc(100vh - 2rem);
+      overflow: auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem;
+    }
+    .nav-link {
+      display: flex; align-items: center; gap: .55rem;
+      padding: .65rem .75rem; border-radius: 8px; text-decoration: none;
+      color: var(--text-muted); font-size: .88rem; border-left: 2px solid transparent;
+      transition: .2s;
+    }
+    .nav-link:hover, .nav-link.active {
+      background: var(--surface2);
+      color: var(--text);
+      border-left-color: var(--accent);
+    }
+
+    .section-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.35rem;
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-size: 1.55rem;
+      color: var(--accent);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: .6rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+      flex-wrap: wrap;
+    }
+    .subsection-title {
+      color: var(--accent2);
+      font-size: 1.15rem;
+      margin: 1rem 0 .65rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      flex-wrap: wrap;
+    }
+
+    .def-box {
+      background: var(--surface2);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      padding: 1rem;
+      margin: .75rem 0;
+    }
+    .def-box .term {
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: .35rem;
+      font-size: 1.05rem;
+    }
+    .def-box p {
+      color: var(--text-muted);
+      line-height: 1.65;
+      font-size: .92rem;
+    }
+
+    .region-tag, .count-badge, .label-pill {
+      display: inline-flex; align-items: center; gap: .3rem;
+      border-radius: 999px; padding: .2rem .55rem;
+      font-size: .72rem; font-weight: 700;
+      letter-spacing: .04em;
+    }
+    .tag-axial { background: #c8964a22; color: var(--accent); border: 1px solid #c8964a44; }
+    .tag-appendicular { background: #5ba4cf22; color: var(--accent2); border: 1px solid #5ba4cf44; }
+    .count-badge {
+      background: var(--surface2); color: var(--accent2); border: 1px solid #5ba4cf55;
+    }
+
+    .bone-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: .55rem;
+      margin: .5rem 0;
+    }
+    .bone-item {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: .72rem .85rem;
+      font-size: .84rem;
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+      transition: .15s;
+    }
+    .bone-item::before {
+      content: '';
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent2);
+      flex-shrink: 0;
+    }
+
+    .notes-label {
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      display: block;
+      margin: 1rem 0 .35rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .notes-area {
+      width: 100%;
+      min-height: 120px;
+      padding: .9rem 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      font-size: .92rem;
+      line-height: 1.65;
+      resize: vertical;
+    }
+    .notes-area:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(200,150,74,.15);
+    }
+
+    .media-box {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: var(--surface2);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+    }
+    .media-title {
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--accent2);
+      margin-bottom: .75rem;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .media-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .55rem;
+      margin-bottom: .8rem;
+    }
+    .media-button {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      padding: .65rem .9rem;
+      border-radius: 10px;
+      font-size: .8rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--accent2);
+      background: transparent;
+      color: var(--accent2);
+      transition: .2s;
+    }
+    .media-button:hover { background: #5ba4cf14; }
+
+    .media-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: .7rem;
+    }
+    .media-item {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #13202d;
+      aspect-ratio: 1;
+      cursor: pointer;
+    }
+    .media-item img, .media-item video, .media-item .file-card {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .file-card {
+      display: flex !important;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: .65rem;
+      text-align: center;
+      gap: .4rem;
+      color: var(--text);
+      font-size: .72rem;
+      line-height: 1.35;
+      background: linear-gradient(180deg, #1e2d3d 0%, #162030 100%);
+    }
+    .file-card small {
+      color: var(--text-muted);
+      font-size: .68rem;
+      word-break: break-word;
+    }
+
+    .media-delete, .media-download {
+      position: absolute;
+      border: none;
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0;
+      transition: .18s;
+      backdrop-filter: blur(8px);
+    }
+    .media-delete {
+      top: 6px; right: 6px;
+      background: rgba(224,108,117,.92);
+      color: white;
+    }
+    .media-download {
+      left: 6px; bottom: 6px;
+      background: rgba(15,25,35,.78);
+      color: white;
+    }
+    .media-item:hover .media-delete, .media-item:hover .media-download { opacity: 1; }
+
+    .empty-gallery {
+      color: var(--text-muted);
+      font-size: .82rem;
+      padding: .85rem;
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .helper-text {
+      color: var(--text-muted);
+      font-size: .78rem;
+      margin-top: .55rem;
+      line-height: 1.45;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(5, 10, 15, .88);
+      padding: 1rem;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal.show { display: flex; }
+    .modal-shell {
+      width: min(920px, 100%);
+      max-height: 88vh;
+      overflow: auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1rem;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: .8rem; right: .8rem;
+      width: 38px; height: 38px;
+      border-radius: 10px; border: none;
+      background: var(--accent);
+      color: #0f1923;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .modal-media img, .modal-media video, .modal-media iframe {
+      width: 100%;
+      border-radius: 12px;
+      max-height: 72vh;
+      object-fit: contain;
+      background: #0a1520;
+    }
+    .modal-file-box {
+      padding: 2rem;
+      text-align: center;
+      color: var(--text);
+    }
+
+    #toast {
+      position: fixed;
+      right: 1rem; bottom: 1rem;
+      padding: .85rem 1rem;
+      border-radius: 12px;
+      background: #203042;
+      border: 1px solid var(--accent);
+      color: var(--text);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: .22s;
+      pointer-events: none;
+      z-index: 10000;
+      max-width: min(92vw, 420px);
+      font-size: .86rem;
+    }
+    #toast.show { opacity: 1; transform: translateY(0); }
+
+    footer {
+      text-align: center;
+      padding: 1.4rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: .82rem;
+    }
+
+    .status-box {
+      margin-top: 1rem;
+      background: #13202d;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: .9rem 1rem;
+      color: var(--text-muted);
+      font-size: .84rem;
+      line-height: 1.55;
+    }
+
+    @media (max-width: 900px) {
+      .content-grid { grid-template-columns: 1fr; }
+      .nav-sidebar { position: static; max-height: none; }
+    }
+
+    @media print {
+      .no-print, .modal, #toast { display: none !important; }
+      body { background: white; color: black; }
+      .site-header, .section-card, .nav-sidebar, .media-box {
+        background: white !important; color: black !important; border-color: #bbb !important;
+      }
+      .notes-area {
+        background: white !important; color: black !important; border-color: #bbb !important;
+      }
+      .media-gallery { display: none !important; }
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <section class="hero">
-      <div class="badge">PWA • offline • GitHub Pages</div>
-      <h1>App PWA de Anatomia</h1>
-      <p class="sub">Versão pronta para subir no GitHub. Permite <b>anotar</b>, <b>tirar foto</b>, <b>adicionar arquivo</b>, abrir em modo app e funcionar offline após a primeira carga.</p>
-      <div class="toolbar" style="margin-top:16px">
-        <button id="installBtn" class="btn btn-primary" hidden>Instalar app</button>
-        <button id="saveBtn" class="btn btn-success">Salvar anotações</button>
-        <button id="pdfBtn" class="btn btn-secondary">Salvar em PDF</button>
-        <button id="clearBtn" class="btn btn-danger">Limpar tudo</button>
-      </div>
-      <div class="install-tip">No celular, depois de publicar no GitHub Pages, abra o link no navegador e use <b>Adicionar à tela inicial</b>.</div>
-      <div class="kpis">
-        <div class="kpi"><b id="notesCount">0</b><span>caracteres anotados</span></div>
-        <div class="kpi"><b id="mediaCount">0</b><span>mídias/arquivos salvos</span></div>
-        <div class="kpi"><b>UEM</b><span>responsável tecnológico: Cláudia Pinheiro</span></div>
-      </div>
-    </section>
+  <div id="scroll-bar" class="scroll-progress no-print"></div>
+  <div id="toast"></div>
 
-    <div class="grid">
-      <section class="card">
-        <h2>Anotações</h2>
-        <textarea id="notes" placeholder="Digite aqui suas observações, respostas, roteiro de aula, checklist anatômico, casos clínicos, dúvidas ou referências..."></textarea>
-        <p class="hint">Salvamento local no navegador/aparelho. Para evitar travamento, os arquivos grandes são bloqueados automaticamente.</p>
-      </section>
+  <div id="media-modal" class="modal" aria-hidden="true">
+    <div class="modal-shell">
+      <button class="modal-close" onclick="closeMediaModal()">✕</button>
+      <div id="modal-content-area" class="modal-media"></div>
+    </div>
+  </div>
 
-      <section class="card">
-        <h2>Foto e arquivo</h2>
-        <div class="actions">
-          <label class="file-label">📷 Tirar foto
-            <input id="photoInput" type="file" accept="image/*" capture="environment" />
-          </label>
-          <label class="file-label">🖼️ Inserir imagem
-            <input id="imageInput" type="file" accept="image/*" />
-          </label>
-          <label class="file-label">📎 Adicionar arquivo
-            <input id="fileInput" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.csv,image/*,video/*,audio/*" />
-          </label>
+  <input type="file" id="camera-input" accept="image/*" capture="environment" hidden>
+  <input type="file" id="video-input" accept="video/*" capture="environment" hidden>
+  <input type="file" id="file-input" hidden>
+
+  <div class="page-wrapper">
+    <header class="site-header no-print">
+      <div class="header-inner">
+        <div class="header-badge">Anatomia Humana · Guia de Estudo</div>
+        <h1 style="font-size:2.2rem;font-weight:700;margin-bottom:.25rem;">Sistema Esquelético</h1>
+        <p style="font-size:.95rem;color:var(--accent);font-weight:600;">Educação Física · Universidade Estadual de Maringá</p>
+        <p style="font-size:.85rem;color:var(--text-muted);margin-top:.2rem;">Profª Dra. Cláudia Pinheiro</p>
+
+        <div class="action-row">
+          <button class="btn btn-primary" onclick="saveAllData()"><i data-lucide="save" style="width:15px;height:15px;"></i>Salvar tudo</button>
+          <button class="btn btn-secondary" onclick="window.print()"><i data-lucide="printer" style="width:15px;height:15px;"></i>Imprimir / PDF</button>
+          <button class="btn btn-danger" onclick="clearAllData()"><i data-lucide="trash-2" style="width:15px;height:15px;"></i>Limpar dados</button>
+          <button class="btn btn-install" id="install-btn" onclick="installPWA()" hidden><i data-lucide="download" style="width:15px;height:15px;"></i>Instalar app</button>
+          <button class="btn btn-secondary" onclick="exportBackup()"><i data-lucide="download-cloud" style="width:15px;height:15px;"></i>Backup JSON</button>
+          <button class="btn btn-secondary" onclick="importBackup()"><i data-lucide="upload-cloud" style="width:15px;height:15px;"></i>Restaurar backup</button>
         </div>
-        <p class="hint">Limite por item: 8 MB. Tipos aceitos: imagens, vídeo, áudio, PDF, Office e texto.</p>
-      </section>
+
+        <div class="status-box">
+          Agora o app permite <strong style="color:var(--text);">tirar fotos</strong>, <strong style="color:var(--text);">anexar arquivos</strong>, <strong style="color:var(--text);">gravar vídeos curtos</strong> e salvar tudo localmente no navegador.
+          Em iPhone e alguns navegadores, a câmera pode abrir como seletor de mídia do aparelho.
+        </div>
+      </div>
+    </header>
+
+    <div class="content-grid">
+      <aside class="no-print">
+        <nav class="nav-sidebar" aria-label="Navegação do guia">
+          <p style="font-size:.74rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);padding:.25rem .4rem .6rem;">Conteúdo</p>
+          <a class="nav-link" href="#sec-intro"><i data-lucide="book-open" style="width:14px;height:14px;"></i>Introdução</a>
+          <a class="nav-link" href="#sec-partes"><i data-lucide="layers" style="width:14px;height:14px;"></i>Partes do osso</a>
+          <a class="nav-link" href="#sec-sup"><i data-lucide="arrow-up" style="width:14px;height:14px;"></i>Membro superior</a>
+          <a class="nav-link" href="#sec-inf"><i data-lucide="arrow-down" style="width:14px;height:14px;"></i>Membro inferior</a>
+          <a class="nav-link" href="#sec-notes"><i data-lucide="pencil" style="width:14px;height:14px;"></i>Anotações gerais</a>
+
+          <div style="margin-top:1rem;padding:1rem;background:var(--surface2);border-radius:12px;border:1px solid var(--border);">
+            <p style="font-size:.72rem;color:var(--text-muted);margin-bottom:.55rem;text-transform:uppercase;letter-spacing:.08em;">Divisão esqueletal</p>
+            <div style="display:flex;flex-direction:column;gap:.45rem;">
+              <span class="region-tag tag-axial">Axial</span>
+              <small style="color:var(--text-muted);">Crânio · Coluna · Costelas · Esterno</small>
+              <span class="region-tag tag-appendicular" style="margin-top:.35rem;">Apendicular</span>
+              <small style="color:var(--text-muted);">Membros superiores e inferiores + cinturas</small>
+            </div>
+          </div>
+        </nav>
+      </aside>
+
+      <main>
+        <section id="sec-intro" class="section-card">
+          <h2 class="section-title"><i data-lucide="book-open" style="width:22px;height:22px;"></i>Sistema Esquelético – Introdução</h2>
+          <p style="font-size:.92rem;color:var(--text-muted);line-height:1.7;">
+            O sistema esquelético é formado por ossos, cartilagens e ligamentos. Divide-se em esqueleto axial e apendicular e fornece sustentação, proteção e base para o movimento.
+          </p>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:1rem;">
+            <div class="def-box">
+              <div class="term">Esqueleto Axial</div>
+              <p>Forma o eixo longitudinal do corpo e inclui crânio, coluna vertebral, esterno e costelas.</p>
+            </div>
+            <div class="def-box" style="border-left-color:var(--accent2);">
+              <div class="term" style="color:var(--accent2);">Esqueleto Apendicular</div>
+              <p>Inclui os membros superiores e inferiores, além das cinturas escapular e pélvica.</p>
+            </div>
+          </div>
+
+          <label class="notes-label" for="notes-intro"><i data-lucide="pencil" style="width:12px;height:12px;"></i>Minhas anotações — Introdução</label>
+          <textarea id="notes-intro" class="notes-area" placeholder="Escreva aqui suas anotações sobre a introdução do sistema esquelético..."></textarea>
+          <div class="media-box">
+            <div class="media-title"><i data-lucide="image" style="width:14px;height:14px;"></i>Mídia da seção</div>
+            <div class="media-actions">
+              <button class="media-button" onclick="capturePhoto('notes-intro')"><i data-lucide="camera" style="width:14px;height:14px;"></i>Tirar foto</button>
+              <button class="media-button" onclick="captureVideo('notes-intro')"><i data-lucide="video" style="width:14px;height:14px;"></i>Adicionar vídeo</button>
+              <button class="media-button" onclick="uploadFile('notes-intro')"><i data-lucide="file-plus" style="width:14px;height:14px;"></i>Adicionar arquivo</button>
+            </div>
+            <div id="media-gallery-notes-intro" class="media-gallery"></div>
+            <div class="helper-text">Aceita imagem, PDF, áudio, vídeo e documentos em geral. Os anexos ficam salvos neste navegador.</div>
+          </div>
+        </section>
+
+        <section id="sec-partes" class="section-card">
+          <h2 class="section-title"><i data-lucide="layers" style="width:22px;height:22px;"></i>Partes do Osso Longo</h2>
+          <div class="def-box"><div class="term">Diáfise</div><p>Porção cilíndrica central do osso longo.</p></div>
+          <div class="def-box"><div class="term">Epífise</div><p>Extremidades proximal e distal do osso longo.</p></div>
+          <div class="def-box"><div class="term">Metáfise</div><p>Zona de transição entre diáfise e epífise.</p></div>
+          <div class="def-box"><div class="term">Cartilagem epifisial</div><p>Placa de crescimento presente durante o desenvolvimento.</p></div>
+          <div class="def-box"><div class="term">Linha epifisial</div><p>Marca de fusão após o término do crescimento longitudinal.</p></div>
+
+          <label class="notes-label" for="notes-partes">Minhas anotações — Partes do osso</label>
+          <textarea id="notes-partes" class="notes-area" placeholder="Descreva diferenças, exemplos clínicos e observações práticas..."></textarea>
+          <div class="media-box">
+            <div class="media-title"><i data-lucide="image" style="width:14px;height:14px;"></i>Mídia da seção</div>
+            <div class="media-actions">
+              <button class="media-button" onclick="capturePhoto('notes-partes')"><i data-lucide="camera" style="width:14px;height:14px;"></i>Tirar foto</button>
+              <button class="media-button" onclick="captureVideo('notes-partes')"><i data-lucide="video" style="width:14px;height:14px;"></i>Adicionar vídeo</button>
+              <button class="media-button" onclick="uploadFile('notes-partes')"><i data-lucide="file-plus" style="width:14px;height:14px;"></i>Adicionar arquivo</button>
+            </div>
+            <div id="media-gallery-notes-partes" class="media-gallery"></div>
+          </div>
+        </section>
+
+        <section id="sec-sup" class="section-card">
+          <h2 class="section-title"><i data-lucide="arrow-up" style="width:22px;height:22px;"></i>Membro Superior <span class="region-tag tag-appendicular">Apendicular</span></h2>
+
+          <h3 class="subsection-title">Escápula <span class="count-badge">8 estruturas</span></h3>
+          <div class="bone-grid">
+            <div class="bone-item">Espinha da escápula</div>
+            <div class="bone-item">Acrômio</div>
+            <div class="bone-item">Processo coracoide</div>
+            <div class="bone-item">Fossa supraespinal</div>
+            <div class="bone-item">Fossa infraespinal</div>
+            <div class="bone-item">Margem medial</div>
+            <div class="bone-item">Margem lateral</div>
+            <div class="bone-item">Incisura da escápula</div>
+          </div>
+
+          <h3 class="subsection-title">Clavícula <span class="count-badge">4 estruturas</span></h3>
+          <div class="bone-grid">
+            <div class="bone-item">Extremidade esternal</div>
+            <div class="bone-item">Corpo da clavícula</div>
+            <div class="bone-item">Extremidade acromial</div>
+            <div class="bone-item">Tubérculo conoide</div>
+          </div>
+
+          <h3 class="subsection-title">Úmero <span class="count-badge">10 estruturas</span></h3>
+          <div class="bone-grid">
+            <div class="bone-item">Cabeça do úmero</div>
+            <div class="bone-item">Tubérculo maior</div>
+            <div class="bone-item">Tubérculo menor</div>
+            <div class="bone-item">Sulco intertubercular</div>
+            <div class="bone-item">Corpo do úmero</div>
+            <div class="bone-item">Tróclea</div>
+            <div class="bone-item">Capítulo</div>
+            <div class="bone-item">Fossa coronoide</div>
+            <div class="bone-item">Fossa do olécrano</div>
+            <div class="bone-item">Sulco do nervo radial</div>
+          </div>
+
+          <label class="notes-label" for="notes-sup">Minhas anotações — Membro superior</label>
+          <textarea id="notes-sup" class="notes-area" placeholder="Pontos de reparo, palpação, relação clínica e biomecânica..."></textarea>
+          <div class="media-box">
+            <div class="media-title"><i data-lucide="image" style="width:14px;height:14px;"></i>Mídia da seção</div>
+            <div class="media-actions">
+              <button class="media-button" onclick="capturePhoto('notes-sup')"><i data-lucide="camera" style="width:14px;height:14px;"></i>Tirar foto</button>
+              <button class="media-button" onclick="captureVideo('notes-sup')"><i data-lucide="video" style="width:14px;height:14px;"></i>Adicionar vídeo</button>
+              <button class="media-button" onclick="uploadFile('notes-sup')"><i data-lucide="file-plus" style="width:14px;height:14px;"></i>Adicionar arquivo</button>
+            </div>
+            <div id="media-gallery-notes-sup" class="media-gallery"></div>
+          </div>
+        </section>
+
+        <section id="sec-inf" class="section-card">
+          <h2 class="section-title"><i data-lucide="arrow-down" style="width:22px;height:22px;"></i>Membro Inferior <span class="region-tag tag-appendicular">Apendicular</span></h2>
+
+          <h3 class="subsection-title">Fêmur <span class="count-badge">11 estruturas</span></h3>
+          <div class="bone-grid">
+            <div class="bone-item">Cabeça do fêmur</div>
+            <div class="bone-item">Fóvea da cabeça do fêmur</div>
+            <div class="bone-item">Colo do fêmur</div>
+            <div class="bone-item">Trocânter maior</div>
+            <div class="bone-item">Trocânter menor</div>
+            <div class="bone-item">Linha intertrocantérica</div>
+            <div class="bone-item">Crista intertrocantérica</div>
+            <div class="bone-item">Corpo do fêmur</div>
+            <div class="bone-item">Côndilo medial</div>
+            <div class="bone-item">Côndilo lateral</div>
+            <div class="bone-item">Face patelar</div>
+          </div>
+
+          <h3 class="subsection-title">Tíbia e Fíbula</h3>
+          <div class="bone-grid">
+            <div class="bone-item">Tuberosidade da tíbia</div>
+            <div class="bone-item">Maléolo medial</div>
+            <div class="bone-item">Margem interóssea</div>
+            <div class="bone-item">Cabeça da fíbula</div>
+            <div class="bone-item">Corpo da fíbula</div>
+            <div class="bone-item">Maléolo lateral</div>
+          </div>
+
+          <label class="notes-label" for="notes-inf">Minhas anotações — Membro inferior</label>
+          <textarea id="notes-inf" class="notes-area" placeholder="Estruturas palpáveis, prática profissional, lesões e observações..."></textarea>
+          <div class="media-box">
+            <div class="media-title"><i data-lucide="image" style="width:14px;height:14px;"></i>Mídia da seção</div>
+            <div class="media-actions">
+              <button class="media-button" onclick="capturePhoto('notes-inf')"><i data-lucide="camera" style="width:14px;height:14px;"></i>Tirar foto</button>
+              <button class="media-button" onclick="captureVideo('notes-inf')"><i data-lucide="video" style="width:14px;height:14px;"></i>Adicionar vídeo</button>
+              <button class="media-button" onclick="uploadFile('notes-inf')"><i data-lucide="file-plus" style="width:14px;height:14px;"></i>Adicionar arquivo</button>
+            </div>
+            <div id="media-gallery-notes-inf" class="media-gallery"></div>
+          </div>
+        </section>
+
+        <section id="sec-notes" class="section-card">
+          <h2 class="section-title"><i data-lucide="pencil" style="width:22px;height:22px;"></i>Anotações Gerais</h2>
+          <textarea id="notes-general" class="notes-area" style="min-height:220px;" placeholder="Escreva aqui resumos, dúvidas, esquemas e observações gerais..."></textarea>
+          <div class="media-box">
+            <div class="media-title"><i data-lucide="image" style="width:14px;height:14px;"></i>Mídia geral</div>
+            <div class="media-actions">
+              <button class="media-button" onclick="capturePhoto('notes-general')"><i data-lucide="camera" style="width:14px;height:14px;"></i>Tirar foto</button>
+              <button class="media-button" onclick="captureVideo('notes-general')"><i data-lucide="video" style="width:14px;height:14px;"></i>Adicionar vídeo</button>
+              <button class="media-button" onclick="uploadFile('notes-general')"><i data-lucide="file-plus" style="width:14px;height:14px;"></i>Adicionar arquivo</button>
+            </div>
+            <div id="media-gallery-notes-general" class="media-gallery"></div>
+          </div>
+        </section>
+      </main>
     </div>
 
-    <section class="card" style="margin-top:18px">
-      <h2>Materiais salvos</h2>
-      <div id="attachments" class="attachments"></div>
-      <p id="emptyState" class="hint">Nenhum item salvo ainda.</p>
-    </section>
-
-    <section class="card" style="margin-top:18px">
-      <h2>Blocos rápidos de estudo</h2>
-      <div class="list">
-        <div class="topic"><strong>Esqueleto axial</strong> Crânio, hioide, vértebras, costelas, esterno e sacro.</div>
-        <div class="topic"><strong>Esqueleto apendicular</strong> Ossos dos membros e cíngulos escapular e pélvico.</div>
-        <div class="topic"><strong>Registro prático</strong> Use este app para documentar peças anatômicas, fotos, anotações e arquivos de apoio.</div>
-      </div>
-    </section>
-
-    <div class="footer">App PWA pronto para GitHub Pages • Responsável tecnológico: Cláudia Pinheiro</div>
+    <footer>
+      Profª Dra. Cláudia Pinheiro · Educação Física · UEM
+    </footer>
   </div>
 
 <script>
-const STORAGE_KEY = 'anatomia-uem-pwa-v2';
-const MAX_FILE_SIZE = 8 * 1024 * 1024;
-let deferredPrompt = null;
+  const STORAGE_KEY = 'guia_esqueletico_app_v2';
+  const MAX_FILE_MB = 8;
+  const SECTION_IDS = ['notes-intro', 'notes-partes', 'notes-sup', 'notes-inf', 'notes-general'];
 
-const notesEl = document.getElementById('notes');
-const attachmentsEl = document.getElementById('attachments');
-const emptyStateEl = document.getElementById('emptyState');
-const notesCountEl = document.getElementById('notesCount');
-const mediaCountEl = document.getElementById('mediaCount');
-const installBtn = document.getElementById('installBtn');
+  const state = {
+    notes: {},
+    media: {},
+    activeSectionForUpload: null,
+    deferredPrompt: null
+  };
 
-function readState(){
-  try {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { notes:'', attachments:[] };
-  } catch {
-    return { notes:'', attachments:[] };
+  function createManifest() {
+    const manifest = {
+      name: 'Guia de Estudo - Sistema Esquelético',
+      short_name: 'Guia Esquelético',
+      start_url: './',
+      scope: './',
+      display: 'standalone',
+      background_color: '#0f1923',
+      theme_color: '#0f1923',
+      icons: [
+        {
+          src: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='32' fill='%230f1923'/><text x='96' y='122' font-size='76' text-anchor='middle'>💀</text></svg>",
+          sizes: '192x192',
+          type: 'image/svg+xml',
+          purpose: 'any'
+        }
+      ]
+    };
+    const blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
+    const url = URL.createObjectURL(blob);
+    document.getElementById('dynamic-manifest').setAttribute('href', url);
   }
-}
 
-function saveState(state){
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  updateStats(state);
-}
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    clearTimeout(showToast._timer);
+    showToast._timer = setTimeout(() => toast.classList.remove('show'), 2600);
+  }
 
-function updateStats(state = readState()){
-  notesCountEl.textContent = (state.notes || '').length;
-  mediaCountEl.textContent = state.attachments.length;
-}
+  function safeFileSize(size) {
+    if (!size && size !== 0) return '';
+    if (size < 1024) return size + ' B';
+    if (size < 1024 * 1024) return (size / 1024).toFixed(1) + ' KB';
+    return (size / 1024 / 1024).toFixed(2) + ' MB';
+  }
 
-function formatBytes(bytes){
-  if(bytes < 1024) return bytes + ' B';
-  if(bytes < 1024 * 1024) return (bytes/1024).toFixed(1) + ' KB';
-  return (bytes/(1024*1024)).toFixed(2) + ' MB';
-}
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      state.notes = parsed.notes || {};
+      state.media = parsed.media || {};
+    } catch (error) {
+      console.error(error);
+      showToast('Não foi possível restaurar os dados salvos.');
+    }
+  }
 
-function saveNotes(){
-  const state = readState();
-  state.notes = notesEl.value;
-  saveState(state);
-  toast('Anotações salvas.');
-}
+  function persistState(silent = false) {
+    SECTION_IDS.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) state.notes[id] = el.value;
+    });
 
-function toast(message){
-  const div = document.createElement('div');
-  div.textContent = message;
-  div.style.cssText = 'position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#111827;color:#fff;padding:12px 16px;border-radius:14px;border:1px solid #334155;z-index:9999;box-shadow:0 10px 24px rgba(0,0,0,.3)';
-  document.body.appendChild(div);
-  setTimeout(()=>div.remove(), 2200);
-}
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        notes: state.notes,
+        media: state.media
+      }));
+      if (!silent) showToast('Conteúdo salvo neste navegador.');
+    } catch (error) {
+      console.error(error);
+      showToast('Falha ao salvar. O armazenamento do navegador pode estar cheio.');
+    }
+  }
 
-function restore(){
-  const state = readState();
-  notesEl.value = state.notes || '';
-  renderAttachments(state.attachments || []);
-  updateStats(state);
-}
+  function hydrateNotes() {
+    SECTION_IDS.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.value = state.notes[id] || '';
+      el.addEventListener('input', () => persistState(true));
+    });
+  }
 
-function renderAttachments(items){
-  attachmentsEl.innerHTML = '';
-  emptyStateEl.style.display = items.length ? 'none' : 'block';
+  function ensureMediaSection(sectionId) {
+    if (!state.media[sectionId]) state.media[sectionId] = [];
+  }
 
-  items.forEach((item, index) => {
-    const wrap = document.createElement('article');
-    wrap.className = 'item';
+  function addMediaItem(sectionId, item) {
+    ensureMediaSection(sectionId);
+    state.media[sectionId].unshift({
+      id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now() + Math.random()),
+      createdAt: new Date().toISOString(),
+      ...item
+    });
+    persistState(true);
+    renderGallery(sectionId);
+  }
 
-    const head = document.createElement('div');
-    head.className = 'item-head';
-    head.innerHTML = `
-      <div>
-        <div class="item-title">${escapeHtml(item.name)}</div>
-        <div class="meta">${escapeHtml(item.type || 'arquivo')} • ${formatBytes(item.size || 0)}</div>
-      </div>
-      <button class="btn btn-danger" style="padding:8px 12px" data-remove="${index}">Excluir</button>
-    `;
-    wrap.appendChild(head);
+  function removeMediaItem(sectionId, itemId) {
+    ensureMediaSection(sectionId);
+    state.media[sectionId] = state.media[sectionId].filter(item => item.id !== itemId);
+    persistState(true);
+    renderGallery(sectionId);
+    showToast('Anexo removido.');
+  }
 
-    if ((item.type || '').startsWith('image/')) {
-      const img = document.createElement('img');
-      img.src = item.data;
-      img.alt = item.name;
-      img.className = 'preview';
-      wrap.appendChild(img);
-    } else if ((item.type || '').startsWith('video/')) {
-      const video = document.createElement('video');
-      video.src = item.data;
-      video.controls = true;
-      video.className = 'preview';
-      wrap.appendChild(video);
-    } else if ((item.type || '').startsWith('audio/')) {
-      const audio = document.createElement('audio');
-      audio.src = item.data;
-      audio.controls = true;
-      audio.className = 'preview';
-      wrap.appendChild(audio);
-    } else {
-      const box = document.createElement('div');
-      box.className = 'file-box';
-      const link = document.createElement('a');
-      link.href = item.data;
-      link.download = item.name;
-      link.textContent = 'Abrir ou baixar arquivo';
-      link.style.color = '#7dd3fc';
-      link.style.fontWeight = '700';
-      box.appendChild(link);
-      wrap.appendChild(box);
+  function renderGallery(sectionId) {
+    ensureMediaSection(sectionId);
+    const gallery = document.getElementById(`media-gallery-${sectionId}`);
+    if (!gallery) return;
+
+    const items = state.media[sectionId];
+    if (!items.length) {
+      gallery.innerHTML = `<div class="empty-gallery">Nenhum anexo nesta seção ainda.</div>`;
+      return;
     }
 
-    attachmentsEl.appendChild(wrap);
-  });
+    gallery.innerHTML = items.map(item => {
+      const escapedName = (item.name || 'arquivo').replace(/"/g, '&quot;');
+      const openAttr = `onclick="openMediaModal('${sectionId}','${item.id}')"`;
+      const downloadAttr = `onclick="downloadMedia(event,'${sectionId}','${item.id}')"`;
+      const deleteAttr = `onclick="removeMediaItem('${sectionId}','${item.id}')"`;
 
-  attachmentsEl.querySelectorAll('[data-remove]').forEach(btn => {
-    btn.addEventListener('click', () => removeAttachment(Number(btn.dataset.remove)));
-  });
-}
+      if (item.kind === 'image') {
+        return `
+          <div class="media-item" ${openAttr} title="${escapedName}">
+            <img src="${item.dataUrl}" alt="${escapedName}">
+            <button class="media-download" ${downloadAttr} title="Baixar">↓</button>
+            <button class="media-delete" ${deleteAttr} title="Excluir">✕</button>
+          </div>
+        `;
+      }
 
-function removeAttachment(index){
-  const state = readState();
-  state.attachments.splice(index,1);
-  saveState(state);
-  renderAttachments(state.attachments);
-  toast('Item removido.');
-}
+      if (item.kind === 'video') {
+        return `
+          <div class="media-item" ${openAttr} title="${escapedName}">
+            <video src="${item.dataUrl}" muted playsinline></video>
+            <button class="media-download" ${downloadAttr} title="Baixar">↓</button>
+            <button class="media-delete" ${deleteAttr} title="Excluir">✕</button>
+          </div>
+        `;
+      }
 
-function processFile(file){
-  if (!file) return;
-  if (file.size > MAX_FILE_SIZE) {
-    toast('Arquivo acima de 8 MB. Escolha um menor para evitar travamento.');
-    return;
+      return `
+        <div class="media-item" ${openAttr} title="${escapedName}">
+          <div class="file-card">
+            <i data-lucide="file-text" style="width:28px;height:28px;"></i>
+            <strong>${escapedName.length > 20 ? escapedName.slice(0, 20) + '…' : escapedName}</strong>
+            <small>${item.mime || 'arquivo'} · ${safeFileSize(item.size || 0)}</small>
+          </div>
+          <button class="media-download" ${downloadAttr} title="Baixar">↓</button>
+          <button class="media-delete" ${deleteAttr} title="Excluir">✕</button>
+        </div>
+      `;
+    }).join('');
+
+    if (window.lucide) lucide.createIcons();
   }
-  const reader = new FileReader();
-  reader.onload = () => {
-    const state = readState();
-    state.attachments.unshift({
-      name: file.name,
-      type: file.type || 'application/octet-stream',
-      size: file.size,
-      data: reader.result,
-      createdAt: new Date().toISOString()
+
+  function renderAllGalleries() {
+    SECTION_IDS.forEach(renderGallery);
+  }
+
+  function readFileAsDataURL(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
     });
-    saveState(state);
-    renderAttachments(state.attachments);
-    toast('Arquivo salvo com sucesso.');
-  };
-  reader.readAsDataURL(file);
-}
+  }
 
-function escapeHtml(str=''){
-  return str.replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
-}
+  async function handleSelectedFile(file, sectionId, forcedKind = null) {
+    if (!file || !sectionId) return;
+    const sizeMb = file.size / 1024 / 1024;
+    if (sizeMb > MAX_FILE_MB) {
+      showToast(`O arquivo excede ${MAX_FILE_MB} MB.`);
+      return;
+    }
 
-['photoInput','imageInput','fileInput'].forEach(id => {
-  document.getElementById(id).addEventListener('change', e => {
-    const file = e.target.files && e.target.files[0];
-    processFile(file);
-    e.target.value = '';
-  });
-});
+    try {
+      const dataUrl = await readFileAsDataURL(file);
+      let kind = forcedKind;
+      if (!kind) {
+        if ((file.type || '').startsWith('image/')) kind = 'image';
+        else if ((file.type || '').startsWith('video/')) kind = 'video';
+        else kind = 'file';
+      }
 
-document.getElementById('saveBtn').addEventListener('click', saveNotes);
-document.getElementById('pdfBtn').addEventListener('click', () => window.print());
-document.getElementById('clearBtn').addEventListener('click', () => {
-  if (!confirm('Deseja apagar anotações e arquivos salvos neste aparelho?')) return;
-  localStorage.removeItem(STORAGE_KEY);
-  restore();
-  toast('Conteúdo apagado.');
-});
+      addMediaItem(sectionId, {
+        kind,
+        name: file.name || (kind === 'image' ? 'foto' : 'arquivo'),
+        mime: file.type || 'application/octet-stream',
+        size: file.size || 0,
+        dataUrl
+      });
+      showToast('Arquivo anexado com sucesso.');
+    } catch (error) {
+      console.error(error);
+      showToast('Não foi possível processar o arquivo.');
+    }
+  }
 
-notesEl.addEventListener('input', () => {
-  const state = readState();
-  state.notes = notesEl.value;
-  saveState(state);
-});
+  function capturePhoto(sectionId) {
+    state.activeSectionForUpload = sectionId;
+    const input = document.getElementById('camera-input');
+    input.value = '';
+    input.click();
+  }
 
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  installBtn.hidden = false;
-});
+  function captureVideo(sectionId) {
+    state.activeSectionForUpload = sectionId;
+    const input = document.getElementById('video-input');
+    input.value = '';
+    input.click();
+  }
 
-installBtn.addEventListener('click', async () => {
-  if (!deferredPrompt) return;
-  deferredPrompt.prompt();
-  await deferredPrompt.userChoice;
-  deferredPrompt = null;
-  installBtn.hidden = true;
-});
+  function uploadFile(sectionId) {
+    state.activeSectionForUpload = sectionId;
+    const input = document.getElementById('file-input');
+    input.accept = '.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt,.rtf,.zip,.rar,.mp3,.wav,.m4a,.jpg,.jpeg,.png,.webp,.gif,.mp4,.mov,.avi';
+    input.value = '';
+    input.click();
+  }
 
-window.addEventListener('appinstalled', () => {
-  installBtn.hidden = true;
-  toast('App instalado com sucesso.');
-});
+  async function handleCameraCapture(event) {
+    const file = event.target.files?.[0];
+    if (!file || !state.activeSectionForUpload) return;
+    await handleSelectedFile(file, state.activeSectionForUpload, 'image');
+    event.target.value = '';
+  }
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./service-worker.js').catch(() => {});
-  });
-}
+  async function handleVideoCapture(event) {
+    const file = event.target.files?.[0];
+    if (!file || !state.activeSectionForUpload) return;
+    await handleSelectedFile(file, state.activeSectionForUpload, 'video');
+    event.target.value = '';
+  }
 
-restore();
+  async function handleFileUpload(event) {
+    const file = event.target.files?.[0];
+    if (!file || !state.activeSectionForUpload) return;
+    await handleSelectedFile(file, state.activeSectionForUpload);
+    event.target.value = '';
+  }
+
+  function getMediaItem(sectionId, itemId) {
+    ensureMediaSection(sectionId);
+    return state.media[sectionId].find(item => item.id === itemId);
+  }
+
+  function openMediaModal(sectionId, itemId) {
+    const item = getMediaItem(sectionId, itemId);
+    if (!item) return;
+
+    const modal = document.getElementById('media-modal');
+    const area = document.getElementById('modal-content-area');
+
+    if (item.kind === 'image') {
+      area.innerHTML = `<img src="${item.dataUrl}" alt="${item.name || 'imagem'}">`;
+    } else if (item.kind === 'video') {
+      area.innerHTML = `<video src="${item.dataUrl}" controls playsinline></video>`;
+    } else if ((item.mime || '').includes('pdf')) {
+      area.innerHTML = `<iframe src="${item.dataUrl}" title="${item.name || 'PDF'}"></iframe>`;
+    } else {
+      area.innerHTML = `
+        <div class="modal-file-box">
+          <h3 style="margin-bottom:.75rem;">${item.name || 'Arquivo'}</h3>
+          <p style="color:var(--text-muted);margin-bottom:1rem;">Tipo: ${item.mime || 'desconhecido'} · Tamanho: ${safeFileSize(item.size || 0)}</p>
+          <a class="btn btn-primary" href="${item.dataUrl}" download="${item.name || 'arquivo'}">Baixar arquivo</a>
+        </div>
+      `;
+    }
+
+    modal.classList.add('show');
+    modal.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeMediaModal() {
+    const modal = document.getElementById('media-modal');
+    const area = document.getElementById('modal-content-area');
+    area.innerHTML = '';
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+
+  function downloadMedia(event, sectionId, itemId) {
+    event.stopPropagation();
+    const item = getMediaItem(sectionId, itemId);
+    if (!item) return;
+
+    const link = document.createElement('a');
+    link.href = item.dataUrl;
+    link.download = item.name || 'arquivo';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
+
+  function saveAllData() {
+    persistState(false);
+  }
+
+  function clearAllData() {
+    const confirmed = confirm('Deseja apagar todas as anotações e anexos salvos neste navegador?');
+    if (!confirmed) return;
+
+    state.notes = {};
+    state.media = {};
+    SECTION_IDS.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+      renderGallery(id);
+    });
+    localStorage.removeItem(STORAGE_KEY);
+    showToast('Todos os dados locais foram apagados.');
+  }
+
+  function exportBackup() {
+    SECTION_IDS.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) state.notes[id] = el.value;
+    });
+
+    const backup = {
+      exportedAt: new Date().toISOString(),
+      app: 'Guia Esquelético',
+      version: 2,
+      data: {
+        notes: state.notes,
+        media: state.media
+      }
+    };
+
+    const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'backup-guia-esqueletico.json';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    showToast('Backup exportado.');
+  }
+
+  function importBackup() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json,application/json';
+    input.onchange = async (event) => {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      try {
+        const text = await file.text();
+        const parsed = JSON.parse(text);
+        const data = parsed.data || parsed;
+        state.notes = data.notes || {};
+        state.media = data.media || {};
+        hydrateNotes();
+        renderAllGalleries();
+        persistState(true);
+        showToast('Backup restaurado com sucesso.');
+      } catch (error) {
+        console.error(error);
+        showToast('Arquivo de backup inválido.');
+      }
+    };
+    input.click();
+  }
+
+  async function installPWA() {
+    if (state.deferredPrompt) {
+      state.deferredPrompt.prompt();
+      const choice = await state.deferredPrompt.userChoice;
+      if (choice.outcome === 'accepted') {
+        showToast('App instalado.');
+      }
+      state.deferredPrompt = null;
+      document.getElementById('install-btn').hidden = true;
+      return;
+    }
+    showToast('Use o menu do navegador e escolha "Instalar app" ou "Adicionar à tela inicial".');
+  }
+
+  function registerServiceWorker() {
+    if (!('serviceWorker' in navigator)) return;
+    const swCode = `
+      const CACHE_NAME = 'guia-esqueletico-cache-v2';
+      const URLS = ['./'];
+      self.addEventListener('install', event => {
+        event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(URLS)).then(() => self.skipWaiting()));
+      });
+      self.addEventListener('activate', event => {
+        event.waitUntil(
+          caches.keys().then(keys => Promise.all(keys.map(key => key !== CACHE_NAME ? caches.delete(key) : null)))
+            .then(() => self.clients.claim())
+        );
+      });
+      self.addEventListener('fetch', event => {
+        if (event.request.method !== 'GET') return;
+        event.respondWith(
+          caches.match(event.request).then(response => response || fetch(event.request).then(networkResponse => {
+            const copy = networkResponse.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy)).catch(() => {});
+            return networkResponse;
+          }).catch(() => caches.match('./')))
+        );
+      });
+    `;
+    const blob = new Blob([swCode], { type: 'text/javascript' });
+    const swUrl = URL.createObjectURL(blob);
+    navigator.serviceWorker.register(swUrl).catch(console.error);
+  }
+
+  function setupInstallEvents() {
+    window.addEventListener('beforeinstallprompt', (event) => {
+      event.preventDefault();
+      state.deferredPrompt = event;
+      document.getElementById('install-btn').hidden = false;
+    });
+
+    window.addEventListener('appinstalled', () => {
+      state.deferredPrompt = null;
+      document.getElementById('install-btn').hidden = true;
+      showToast('O app foi instalado com sucesso.');
+    });
+  }
+
+  function setupInputs() {
+    document.getElementById('camera-input').addEventListener('change', handleCameraCapture);
+    document.getElementById('video-input').addEventListener('change', handleVideoCapture);
+    document.getElementById('file-input').addEventListener('change', handleFileUpload);
+
+    document.getElementById('media-modal').addEventListener('click', (event) => {
+      if (event.target.id === 'media-modal') closeMediaModal();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeMediaModal();
+    });
+  }
+
+  function updateScrollBar() {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    document.getElementById('scroll-bar').style.width = pct + '%';
+  }
+
+  function setupSectionHighlight() {
+    const sections = document.querySelectorAll('main section[id]');
+    const navLinks = [...document.querySelectorAll('.nav-link')];
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id));
+      });
+    }, { rootMargin: '-30% 0px -55% 0px', threshold: 0.01 });
+
+    sections.forEach(section => observer.observe(section));
+  }
+
+  function boot() {
+    createManifest();
+    loadState();
+    hydrateNotes();
+    renderAllGalleries();
+    setupInputs();
+    setupInstallEvents();
+    registerServiceWorker();
+    setupSectionHighlight();
+    updateScrollBar();
+
+    window.addEventListener('scroll', updateScrollBar, { passive: true });
+
+    if (window.lucide) lucide.createIcons();
+  }
+
+  window.capturePhoto = capturePhoto;
+  window.captureVideo = captureVideo;
+  window.uploadFile = uploadFile;
+  window.handleCameraCapture = handleCameraCapture;
+  window.handleVideoCapture = handleVideoCapture;
+  window.handleFileUpload = handleFileUpload;
+  window.openMediaModal = openMediaModal;
+  window.closeMediaModal = closeMediaModal;
+  window.removeMediaItem = removeMediaItem;
+  window.downloadMedia = downloadMedia;
+  window.saveAllData = saveAllData;
+  window.clearAllData = clearAllData;
+  window.exportBackup = exportBackup;
+  window.importBackup = importBackup;
+  window.installPWA = installPWA;
+
+  document.addEventListener('DOMContentLoaded', boot);
 </script>
 </body>
 </html>
