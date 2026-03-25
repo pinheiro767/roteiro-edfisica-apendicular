@@ -1,8 +1,8 @@
 {
   "name": "Guia de Estudo – Sistema Esquelético",
   "short_name": "Guia Esquelético",
-  "description": "Guia de estudo do sistema esquelético para Educação Física com anotações, fotos, vídeos e arquivos.",
-  "start_url": "./",
+  "description": "Guia de estudo do sistema esquelético para Educação Física com anotações, fotos, vídeos, arquivos e instalação como app PWA.",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "background_color": "#0f1923",
@@ -11,15 +11,15 @@
   "lang": "pt-BR",
   "icons": [
     {
-      "src": "icons/icon-192.svg",
+      "src": "./icons/icon-192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "icons/icon-512.svg",
+      "src": "./icons/icon-512.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ]
