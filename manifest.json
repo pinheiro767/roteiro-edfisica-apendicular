@@ -1,12 +1,12 @@
 {
-  "name": "Guia Esquelético - Anatomia",
-  "short_name": "Esquelético",
-  "description": "Guia de estudo de anatomia com anotações e mídias ilimitadas.",
+  "name": "Guia Esquelético",
+  "short_name": "Guia Esq.",
+  "description": "Guia de estudo de anatomia do sistema esquelético com mídias ilimitadas.",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#0f1923",
-  "theme_color": "#0f1923",
   "orientation": "portrait",
+  "theme_color": "#0f1923",
+  "background_color": "#0f1923",
   "icons": [
     {
       "src": "./icons/icon-192.png",
