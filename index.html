@@ -9,6 +9,7 @@
   <meta name="apple-mobile-web-app-title" content="Guia Esquelético">
   <link rel="icon" type="image/png" sizes="192x192" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%230f1923' width='192' height='192'/><text x='50%' y='50%' font-size='120' fill='%23c8964a' text-anchor='middle' dominant-baseline='middle' font-family='serif' font-weight='bold'>Ⓢ</text></svg>">
   <title>Guia de Estudo – Sistema Esquelético</title>
+  <link rel="manifest" href="./manifest.json">
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&amp;family=DM+Sans:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
@@ -514,7 +515,8 @@
  <body>
   <div id="scroll-bar" class="scroll-progress no-print" style="width:0%"></div>
   <div id="toast"></div>
-  <div id="media-modal" class="modal"><button class="modal-close" onclick="closeMediaModal()">✕</button>
+  <div id="media-modal" class="modal">
+   <button class="modal-close" onclick="closeMediaModal()">✕</button>
    <div class="modal-content" id="modal-content-area"></div>
   </div><input type="file" id="camera-input" accept="image/*" capture="environment" style="display:none;" onchange="handleFile(event, 'image')"> <input type="file" id="video-input" accept="video/*" capture="environment" style="display:none;" onchange="handleFile(event, 'video')"> <input type="file" id="file-input" accept="*/*" style="display:none;" onchange="handleFile(event, 'file')">
   <div class="page-wrapper">
@@ -526,8 +528,7 @@
      <h1 id="guide-title-el" style="font-size:clamp(1.5rem, 6vw, 2.2rem);font-weight:700;color:#e8dfd0;margin-bottom:0.25rem;word-break:break-word;">Sistema Esquelético</h1>
      <p id="course-name-el" style="font-size:clamp(0.75rem, 2.5vw, 0.9rem);color:#c8964a;font-weight:500;word-break:break-word;">Educação Física · Universidade Estadual de Maringá</p>
      <p id="professor-name-el" style="font-size:clamp(0.7rem, 2vw, 0.82rem);color:#8a9bb0;margin-top:0.2rem;word-break:break-word;">Profª Dra. Cláudia Pinheiro</p>
-     <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:1rem;">
-      <button class="btn btn-primary" onclick="saveTextNotes()"><i data-lucide="save" style="width:16px;height:16px;"></i> <span style="display: inline;">Salvar</span></button> <button class="btn btn-secondary" onclick="window.print()"><i data-lucide="printer" style="width:16px;height:16px;"></i> <span style="display: inline;">PDF</span></button> <button class="btn" style="background:var(--surface2);color:#4ade80;border-color:#4ade80;" onclick="installPWA()"><i data-lucide="download" style="width:16px;height:16px;"></i> <span style="display: inline;">App</span></button>
+     <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:1rem;"><button class="btn btn-primary" onclick="saveTextNotes()"><i data-lucide="save" style="width:16px;height:16px;"></i> <span style="display: inline;">Salvar</span></button> <button class="btn btn-secondary" onclick="window.print()"><i data-lucide="printer" style="width:16px;height:16px;"></i> <span style="display: inline;">PDF</span></button> <button class="btn" style="background:var(--surface2);color:#4ade80;border-color:#4ade80;" onclick="installPWA()"><i data-lucide="download" style="width:16px;height:16px;"></i> <span style="display: inline;">App</span></button>
      </div>
     </div>
    </header>
@@ -547,7 +548,8 @@
       <p style="color:var(--text-muted);font-size:0.8rem;word-break:break-word;">O sistema esquelético é dividido em <strong>Axial</strong> (80 ossos) e <strong>Apendicular</strong> (126 ossos).</p>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 1rem 0; max-width: 100%;">
        <div style="background: #c8964a22; border: 1px solid #c8964a44; border-radius: 10px; padding: 1rem; min-height: 200px; display: flex; flex-direction: column; gap: 0.5rem;">
-        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;"><span class="region-tag tag-axial">AXIAL</span>
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+         <span class="region-tag tag-axial">AXIAL</span>
         </div>
         <p style="font-family: 'Crimson Pro', serif; font-size: 1rem; font-weight: 600; color: var(--accent); margin-bottom: 0.5rem;">80 Ossos</p>
         <ul style="list-style: none; padding: 0; color: var(--text-muted); font-size: 0.75rem; line-height: 1.6;">
@@ -560,7 +562,8 @@
         </ul>
        </div>
        <div style="background: #5ba4cf22; border: 1px solid #5ba4cf44; border-radius: 10px; padding: 1rem; min-height: 200px; display: flex; flex-direction: column; gap: 0.5rem;">
-        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;"><span class="region-tag tag-appendicular">APENDICULAR</span>
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+         <span class="region-tag tag-appendicular">APENDICULAR</span>
         </div>
         <p style="font-family: 'Crimson Pro', serif; font-size: 1rem; font-weight: 600; color: var(--accent2); margin-bottom: 0.5rem;">126 Ossos</p>
         <ul style="list-style: none; padding: 0; color: var(--text-muted); font-size: 0.75rem; line-height: 1.6;">
@@ -576,8 +579,7 @@
       <div style="background: var(--surface2); border-left: 3px solid var(--accent2); border-radius: 0 8px 8px 0; padding: 1rem; margin: 1rem 0;">
        <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.6;"><strong style="color: var(--accent2);">Função:</strong> O esqueleto <strong>axial</strong> forma o eixo central do corpo (proteção de órgãos vitais), enquanto o <strong>apendicular</strong> permite movimento e locomoção.</p>
       </div><textarea id="notes-intro" class="notes-area" placeholder="Anotações da introdução..."></textarea>
-      <div class="media-controls">
-       <button class="media-button" onclick="triggerFile('camera-input', 'notes-intro')"><i data-lucide="camera" style="width:14px;height:14px;"></i> Foto</button> <button class="media-button" onclick="triggerFile('video-input', 'notes-intro')"><i data-lucide="video" style="width:14px;height:14px;"></i> Vídeo</button> <button class="media-button" onclick="triggerFile('file-input', 'notes-intro')"><i data-lucide="file-plus" style="width:14px;height:14px;"></i> Arquivo</button>
+      <div class="media-controls"><button class="media-button" onclick="triggerFile('camera-input', 'notes-intro')"><i data-lucide="camera" style="width:14px;height:14px;"></i> Foto</button> <button class="media-button" onclick="triggerFile('video-input', 'notes-intro')"><i data-lucide="video" style="width:14px;height:14px;"></i> Vídeo</button> <button class="media-button" onclick="triggerFile('file-input', 'notes-intro')"><i data-lucide="file-plus" style="width:14px;height:14px;"></i> Arquivo</button>
       </div>
       <div id="gallery-notes-intro" class="media-gallery"></div>
      </section>
@@ -600,8 +602,7 @@
         Linha Epifisial
        </div>
       </div><textarea id="notes-partes" class="notes-area" placeholder="Anotações das partes do osso..."></textarea>
-      <div class="media-controls">
-       <button class="media-button" onclick="triggerFile('camera-input', 'notes-partes')"><i data-lucide="camera" style="width:14px;height:14px;"></i> Foto</button>
+      <div class="media-controls"><button class="media-button" onclick="triggerFile('camera-input', 'notes-partes')"><i data-lucide="camera" style="width:14px;height:14px;"></i> Foto</button>
       </div>
       <div id="gallery-notes-partes" class="media-gallery"></div>
      </section>
@@ -724,8 +725,7 @@
         Falanges (Prox., Média, Distal)
        </div>
       </div><textarea id="notes-sup" class="notes-area" placeholder="Anotações Membro Superior..."></textarea>
-      <div class="media-controls">
-       <button class="media-button" onclick="triggerFile('camera-input', 'notes-sup')"><i data-lucide="camera" style="width:14px;height:14px;"></i> Foto</button>
+      <div class="media-controls"><button class="media-button" onclick="triggerFile('camera-input', 'notes-sup')"><i data-lucide="camera" style="width:14px;height:14px;"></i> Foto</button>
       </div>
       <div id="gallery-notes-sup" class="media-gallery"></div>
      </section>
@@ -785,8 +785,7 @@
         Falanges
        </div>
       </div><textarea id="notes-inf" class="notes-area" placeholder="Anotações Membro Inferior..."></textarea>
-      <div class="media-controls">
-       <button class="media-button" onclick="triggerFile('camera-input', 'notes-inf')"><i data-lucide="camera" style="width:14px;height:14px;"></i> Foto</button>
+      <div class="media-controls"><button class="media-button" onclick="triggerFile('camera-input', 'notes-inf')"><i data-lucide="camera" style="width:14px;height:14px;"></i> Foto</button>
       </div>
       <div id="gallery-notes-inf" class="media-gallery"></div>
      </section>
@@ -800,22 +799,19 @@
         Viscero: Nasais, Maxilas, Zigomáticos, Lacrimais, Palatinos, Conchas, Vômer, Mandíbula
        </div>
       </div><textarea id="notes-cranio" class="notes-area" placeholder="Anotações Crânio..."></textarea>
-      <div class="media-controls">
-       <button class="media-button" onclick="triggerFile('camera-input', 'notes-cranio')"><i data-lucide="camera" style="width:14px;height:14px;"></i> Foto</button>
+      <div class="media-controls"><button class="media-button" onclick="triggerFile('camera-input', 'notes-cranio')"><i data-lucide="camera" style="width:14px;height:14px;"></i> Foto</button>
       </div>
       <div id="gallery-notes-cranio" class="media-gallery"></div>
      </section>
      <section id="sec-aplicacao" class="section-card">
       <h2 class="section-title">Aplicação Prática</h2><textarea id="notes-aplicacao" class="notes-area" placeholder="Anotações Aplicação Prática..."></textarea>
-      <div class="media-controls">
-       <button class="media-button" onclick="triggerFile('camera-input', 'notes-aplicacao')"><i data-lucide="camera" style="width:14px;height:14px;"></i> Foto</button>
+      <div class="media-controls"><button class="media-button" onclick="triggerFile('camera-input', 'notes-aplicacao')"><i data-lucide="camera" style="width:14px;height:14px;"></i> Foto</button>
       </div>
       <div id="gallery-notes-aplicacao" class="media-gallery"></div>
      </section>
      <section id="sec-notes" class="section-card">
       <h2 class="section-title">Anotações Gerais</h2><textarea id="notes-general" class="notes-area" style="min-height:180px;" placeholder="Dúvidas e esquemas..."></textarea>
-      <div class="media-controls">
-       <button class="media-button" onclick="triggerFile('camera-input', 'notes-general')"><i data-lucide="camera" style="width:14px;height:14px;"></i> Foto</button>
+      <div class="media-controls"><button class="media-button" onclick="triggerFile('camera-input', 'notes-general')"><i data-lucide="camera" style="width:14px;height:14px;"></i> Foto</button>
       </div>
       <div id="gallery-notes-general" class="media-gallery"></div>
      </section>
@@ -967,7 +963,11 @@
   }
 
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./service-worker.js').catch(err => console.log('SW falhou', err));
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./service-worker.js')
+        .then(() => console.log('Service Worker registrado com sucesso!'))
+        .catch(err => console.log('Erro ao registrar Service Worker:', err));
+    });
   }
 
   // Scroll progress
@@ -988,5 +988,5 @@
     lastTouchEnd = now;
   }, false);
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e4cada861d724cd',t:'MTc3NDkzMjA1MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
-          </html>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e5102d3c2cce142',t:'MTc3NDk3NzQ4My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ </html>
