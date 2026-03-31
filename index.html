@@ -1,25 +1,18 @@
 <!doctype html>
 <html lang="pt-BR" class="h-full">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#0f1923" />
-  <meta name="description" content="Guia de estudo do sistema esquelético para Educação Física com anotações, fotos, vídeos, arquivos e instalação como app PWA." />
-
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Guia Esquelético" />
-
-  <link rel="icon" type="image/png" href="./icons/icon-192.png" />
-  <link rel="apple-touch-icon" href="./icons/icon-192.png" />
-  <link rel="manifest" href="./manifest.json" />
-
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0f1923">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Guia Esquelético">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png"><rect fill='%230f1923' width='192' height='192'/><text x='96' y='130' font-size='80' font-weight='700' text-anchor='middle' fill='%23c8964a' font-family='serif'>💀</text></svg>">
+  <link rel="manifest" href="manifest.json"><rect fill='%230f1923' width='192' height='192'/><text x='96' y='130' font-size='80' font-weight='700' text-anchor='middle' fill='%23c8964a' font-family='serif'>💀</text></svg>}]}">
   <title>Guia de Estudo – Sistema Esquelético</title>
-
-  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
-
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&amp;family=DM+Sans:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #0f1923;
@@ -31,8 +24,6 @@
       --text-muted: #8a9bb0;
       --border: #2a3d52;
       --highlight: #c8964a22;
-      --danger: #e06c75;
-      --success: #4ade80;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -45,9 +36,15 @@
       scroll-behavior: smooth;
     }
 
-    body { overflow-x: hidden; }
-    h1, h2, h3, h4 { font-family: 'Crimson Pro', serif; }
+    body {
+      overflow-x: hidden;
+    }
 
+    h1, h2, h3, h4 {
+      font-family: 'Crimson Pro', serif;
+    }
+
+    /* ── Header ── */
     .site-header {
       background: linear-gradient(135deg, #0a1520 0%, #162030 50%, #0f1923 100%);
       border-bottom: 2px solid var(--accent);
@@ -55,7 +52,6 @@
       position: relative;
       overflow: hidden;
     }
-
     .site-header::before {
       content: '';
       position: absolute;
@@ -63,7 +59,6 @@
       background: radial-gradient(ellipse at top right, #c8964a18 0%, transparent 60%);
       pointer-events: none;
     }
-
     .header-badge {
       display: inline-block;
       background: var(--accent);
@@ -77,15 +72,15 @@
       margin-bottom: 0.75rem;
     }
 
+    /* ── Navigation sidebar ── */
     .nav-sidebar {
       position: sticky;
       top: 1rem;
-      max-height: calc(100vh - 2rem);
+      max-height: calc(100% - 2rem);
       overflow-y: auto;
       scrollbar-width: thin;
       scrollbar-color: var(--border) transparent;
     }
-
     .nav-sidebar::-webkit-scrollbar { width: 4px; }
     .nav-sidebar::-webkit-scrollbar-track { background: transparent; }
     .nav-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
@@ -103,19 +98,18 @@
       border-left: 2px solid transparent;
       text-decoration: none;
     }
-
     .nav-link:hover {
       background: var(--surface2);
       color: var(--text);
       border-left-color: var(--accent2);
     }
-
     .nav-link.active {
       background: var(--highlight);
       color: var(--accent);
       border-left-color: var(--accent);
     }
 
+    /* ── Section cards ── */
     .section-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -124,10 +118,10 @@
       margin-bottom: 1.5rem;
       transition: border-color 0.2s;
     }
-
     .section-card:hover { border-color: var(--accent2); }
 
     .section-title {
+      font-family: 'Crimson Pro', serif;
       font-size: 1.6rem;
       font-weight: 600;
       color: var(--accent);
@@ -140,6 +134,7 @@
     }
 
     .subsection-title {
+      font-family: 'Crimson Pro', serif;
       font-size: 1.15rem;
       font-weight: 600;
       color: var(--accent2);
@@ -149,6 +144,7 @@
       gap: 0.5rem;
     }
 
+    /* ── Definition boxes ── */
     .def-box {
       background: var(--surface2);
       border-left: 3px solid var(--accent);
@@ -156,28 +152,26 @@
       padding: 1rem 1.25rem;
       margin: 0.75rem 0;
     }
-
     .def-box .term {
+      font-family: 'Crimson Pro', serif;
       font-size: 1.05rem;
       font-weight: 700;
       color: var(--accent);
       margin-bottom: 0.3rem;
-      font-family: 'Crimson Pro', serif;
     }
-
     .def-box p {
       font-size: 0.88rem;
       color: var(--text-muted);
       line-height: 1.6;
     }
 
+    /* ── Bone structure grid ── */
     .bone-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 0.5rem;
       margin: 0.5rem 0;
     }
-
     .bone-item {
       background: var(--surface2);
       border: 1px solid var(--border);
@@ -190,7 +184,6 @@
       gap: 0.4rem;
       transition: all 0.15s;
     }
-
     .bone-item::before {
       content: '';
       width: 5px;
@@ -199,12 +192,12 @@
       background: var(--accent2);
       flex-shrink: 0;
     }
-
     .bone-item:hover {
       border-color: var(--accent2);
       color: var(--accent2);
     }
 
+    /* ── Notes textarea ── */
     .notes-area {
       width: 100%;
       background: var(--surface2);
@@ -219,14 +212,13 @@
       transition: border-color 0.2s;
       line-height: 1.6;
     }
-
     .notes-area:focus {
       outline: none;
       border-color: var(--accent);
     }
-
     .notes-area::placeholder { color: var(--text-muted); }
 
+    /* ── Buttons ── */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -240,13 +232,11 @@
       border: 1px solid transparent;
       font-family: 'DM Sans', sans-serif;
     }
-
     .btn-primary {
       background: var(--accent);
       color: #0f1923;
       border-color: var(--accent);
     }
-
     .btn-primary:hover { background: #d8a65a; }
 
     .btn-secondary {
@@ -254,17 +244,23 @@
       color: var(--accent2);
       border-color: var(--accent2);
     }
-
     .btn-secondary:hover { background: #5ba4cf1a; }
 
     .btn-danger {
       background: transparent;
-      color: var(--danger);
-      border-color: var(--danger);
+      color: #e06c75;
+      border-color: #e06c75;
     }
-
     .btn-danger:hover { background: #e06c7520; }
 
+    .btn-outline {
+      background: transparent;
+      color: var(--text-muted);
+      border-color: var(--border);
+    }
+    .btn-outline:hover { color: var(--text); border-color: var(--text-muted); }
+
+    /* ── Toast ── */
     #toast {
       position: fixed;
       bottom: 1.5rem;
@@ -280,27 +276,34 @@
       transform: translateY(10px);
       transition: all 0.3s;
       pointer-events: none;
-      max-width: 320px;
     }
-
     #toast.show { opacity: 1; transform: translateY(0); }
 
+    /* ── Print ── */
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white; color: black; }
+      .section-card { break-inside: avoid; border: 1px solid #ccc; }
+      .bone-item { border: 1px solid #ccc; }
+      .notes-area { border: 1px solid #ccc; background: #f9f9f9; color: black; }
+    }
+
+    /* ── Scroll indicator ── */
     .scroll-progress {
       position: fixed;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       height: 3px;
       background: linear-gradient(90deg, var(--accent), var(--accent2));
       z-index: 1000;
       transition: width 0.1s;
     }
 
+    /* ── Layout ── */
     .page-wrapper {
       min-height: 100%;
       display: flex;
       flex-direction: column;
     }
-
     .content-grid {
       display: grid;
       grid-template-columns: 220px 1fr;
@@ -308,7 +311,20 @@
       padding: 1.5rem;
       flex: 1;
     }
+    @media (max-width: 768px) {
+      .content-grid { grid-template-columns: 1fr; }
+      .nav-sidebar { display: none; }
+    }
 
+    /* ── Anatomy illustration placeholder ── */
+    .anatomy-svg {
+      width: 100%;
+      max-width: 280px;
+      margin: 0 auto;
+      display: block;
+    }
+
+    /* Badge for bone count */
     .count-badge {
       display: inline-block;
       background: var(--surface2);
@@ -322,6 +338,7 @@
       vertical-align: middle;
     }
 
+    /* Highlight region tag */
     .region-tag {
       display: inline-flex;
       align-items: center;
@@ -333,19 +350,10 @@
       letter-spacing: 0.05em;
       text-transform: uppercase;
     }
+    .tag-axial { background: #c8964a22; color: var(--accent); border: 1px solid #c8964a44; }
+    .tag-appendicular { background: #5ba4cf22; color: var(--accent2); border: 1px solid #5ba4cf44; }
 
-    .tag-axial {
-      background: #c8964a22;
-      color: var(--accent);
-      border: 1px solid #c8964a44;
-    }
-
-    .tag-appendicular {
-      background: #5ba4cf22;
-      color: var(--accent2);
-      border: 1px solid #5ba4cf44;
-    }
-
+    /* Epiphysis diagram */
     .bone-diagram {
       background: var(--surface2);
       border-radius: 10px;
@@ -354,6 +362,21 @@
       border: 1px solid var(--border);
     }
 
+    .label-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: var(--highlight);
+      border: 1px solid var(--accent);
+      border-radius: 5px;
+      padding: 0.15rem 0.5rem;
+      font-size: 0.75rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin: 0.1rem;
+    }
+
+    /* Media buttons */
     .media-button {
       display: inline-flex;
       align-items: center;
@@ -364,21 +387,21 @@
       font-weight: 500;
       cursor: pointer;
       transition: all 0.2s;
-      border: 1px solid var(--accent2);
+      border: 1px solid transparent;
       background: var(--surface2);
       color: var(--accent2);
+      border-color: var(--accent2);
     }
-
     .media-button:hover { background: #5ba4cf1a; }
-    .media-button:active { transform: scale(0.98); }
+    .media-button:active { transform: scale(0.95); }
 
+    /* Media gallery */
     .media-gallery {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
       gap: 0.5rem;
       margin-top: 0.75rem;
     }
-
     .media-item {
       position: relative;
       border-radius: 8px;
@@ -389,50 +412,45 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-
     .media-item:hover { border-color: var(--accent2); }
-
-    .media-item img,
-    .media-item video {
+    .media-item img, .media-item video {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
-
     .media-delete {
       position: absolute;
       top: 4px;
       right: 4px;
-      background: rgba(224, 108, 117, 0.95);
+      background: rgba(224, 108, 117, 0.9);
       color: white;
       border: none;
-      border-radius: 4px;
-      width: 24px;
-      height: 24px;
+      border-radius: 3px;
+      width: 22px;
+      height: 22px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       opacity: 0;
       transition: opacity 0.2s;
+      font-size: 12px;
       padding: 0;
     }
-
     .media-item:hover .media-delete { opacity: 1; }
 
+    /* Modal */
     .modal {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(15, 25, 35, 0.92);
+      background: rgba(15, 25, 35, 0.9);
       z-index: 9998;
       align-items: center;
       justify-content: center;
       padding: 1rem;
     }
-
     .modal.show { display: flex; }
-
     .modal-content {
       background: var(--surface);
       border-radius: 12px;
@@ -441,14 +459,11 @@
       overflow: auto;
       border: 1px solid var(--border);
     }
-
-    .modal-content img,
-    .modal-content video {
+    .modal-content img, .modal-content video {
       width: 100%;
       height: auto;
       display: block;
     }
-
     .modal-close {
       position: absolute;
       top: 1rem;
@@ -466,624 +481,715 @@
       justify-content: center;
     }
 
-    .file-thumb {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      padding: 0.5rem;
-      text-align: center;
-      flex-direction: column;
-      gap: 0.35rem;
-    }
-
-    .print-header { display: none; }
-
-    @media (max-width: 768px) {
-      .content-grid { grid-template-columns: 1fr; }
-      .nav-sidebar { display: none; }
-    }
-
     @media print {
-      .no-print,
-      .media-gallery,
-      .media-button,
-      #toast,
-      #scroll-bar,
-      #media-modal { display: none !important; }
-
-      .print-header { display: block !important; padding: 1rem; }
-
-      body {
-        background: white;
-        color: black;
-      }
-
-      .section-card {
-        break-inside: avoid;
-        border: 1px solid #ccc;
-        background: white;
-      }
-
-      .bone-item,
-      .notes-area {
-        border: 1px solid #ccc;
-        background: #f9f9f9;
-        color: black;
-      }
+      .no-print, .media-gallery { display: none !important; }
     }
   </style>
-</head>
-<body>
+  <style>body { box-sizing: border-box; }</style>
+ </head>
+ <body>
   <div id="scroll-bar" class="scroll-progress no-print" style="width:0%"></div>
   <div id="toast"></div>
-
-  <div id="media-modal" class="modal">
-    <button class="modal-close" type="button" onclick="closeMediaModal()">✕</button>
-    <div class="modal-content" id="modal-content-area"></div>
-  </div>
-
-  <input type="file" id="camera-input" accept="image/*" capture="environment" hidden />
-  <input type="file" id="video-input" accept="video/*" capture="environment" hidden />
-  <input type="file" id="file-input" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.png,.jpg,.jpeg,.webp,.mp4,.mov,.mp3,.wav" hidden />
-
-  <div class="page-wrapper">
-    <header class="site-header no-print">
-      <div class="max-w-6xl mx-auto relative z-10">
-        <div class="header-badge">Anatomia Humana · Guia de Estudo</div>
-
-        <h1 id="guide-title-el" style="font-size:2.2rem;font-weight:700;color:#e8dfd0;margin-bottom:0.25rem;">
-          Sistema Esquelético
-        </h1>
-        <p id="course-name-el" style="font-size:0.9rem;color:#c8964a;font-weight:500;">
-          Educação Física · Universidade Estadual de Maringá
-        </p>
-        <p id="professor-name-el" style="font-size:0.82rem;color:#8a9bb0;margin-top:0.2rem;">
-          Profª Dra. Cláudia Pinheiro
-        </p>
-
-        <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:1.25rem;">
-          <button class="btn btn-primary" type="button" onclick="saveNotes()">
-            <i data-lucide="save" style="width:15px;height:15px;"></i>
-            Salvar Anotações
-          </button>
-
-          <button class="btn btn-secondary" type="button" onclick="window.print()">
-            <i data-lucide="printer" style="width:15px;height:15px;"></i>
-            Imprimir / PDF
-          </button>
-
-          <button class="btn btn-danger" type="button" onclick="clearNotes(this)">
-            <i data-lucide="trash-2" style="width:15px;height:15px;"></i>
-            Limpar Anotações
-          </button>
-
-          <button class="btn" id="install-btn" type="button" style="background:var(--surface2);color:#4ade80;border-color:#4ade80;" onclick="installPWA()">
-            <i data-lucide="download" style="width:15px;height:15px;"></i>
-            Instalar App
-          </button>
+  <div id="media-modal" class="modal"><button class="modal-close" onclick="closeMediaModal()">✕</button>
+   <div class="modal-content" id="modal-content-area"></div>
+  </div><input type="file" id="camera-input" accept="image/*" capture="environment" style="display:none;" onchange="handleCameraCapture(event)"> <input type="file" id="video-input" accept="video/*" capture="environment" style="display:none;" onchange="handleVideoCapture(event)"> <input type="file" id="file-input" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.png,.jpg,.jpeg,.webp,.mp4,.mov,.mp3,.wav" style="display:none;" onchange="handleFileUpload(event)">
+  <div class="page-wrapper"><!-- ── Header ── -->
+   <header class="site-header no-print">
+    <div class="max-w-6xl mx-auto relative z-10">
+     <div class="header-badge">
+      Anatomia Humana · Guia de Estudo
+     </div>
+     <h1 id="guide-title-el" style="font-family:'Crimson Pro',serif;font-size:2.2rem;font-weight:700;color:#e8dfd0;margin-bottom:0.25rem;">Sistema Esquelético</h1>
+     <p id="course-name-el" style="font-size:0.9rem;color:#c8964a;font-weight:500;">Educação Física · Universidade Estadual de Maringá</p>
+     <p id="professor-name-el" style="font-size:0.82rem;color:#8a9bb0;margin-top:0.2rem;">Profª Dra. Cláudia Pinheiro</p><!-- Action buttons -->
+     <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:1.25rem;"><button class="btn btn-primary" onclick="saveNotes()"> <i data-lucide="save" style="width:15px;height:15px;"></i> Salvar Anotações </button> <button class="btn btn-secondary" onclick="window.print()"> <i data-lucide="printer" style="width:15px;height:15px;"></i> Imprimir / PDF </button> <button class="btn btn-danger" onclick="clearNotes()"> <i data-lucide="trash-2" style="width:15px;height:15px;"></i> Limpar Anotações </button> <button class="btn" style="background:var(--surface2);color:#4ade80;border-color:#4ade80;" onclick="installPWA()"> <i data-lucide="download" style="width:15px;height:15px;"></i> Instalar App </button>
+     </div>
+    </div>
+   </header><!-- Print-only header -->
+   <div style="display:none;" class="print-header">
+    <h1 style="font-size:1.8rem;text-align:center;">Sistema Esquelético – Guia de Estudo</h1>
+    <p style="text-align:center;">Educação Física · UEM · Profª Dra. Cláudia Pinheiro</p>
+   </div>
+   <div class="content-grid"><!-- ── Sidebar Navigation ── -->
+    <aside class="no-print">
+     <nav class="nav-sidebar" aria-label="Navegação do guia">
+      <p style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);padding:0.5rem 0.75rem;margin-bottom:0.25rem;">Conteúdo</p><a class="nav-link" href="#sec-intro"> <i data-lucide="book-open" style="width:13px;height:13px;"></i> Introdução </a> <a class="nav-link" href="#sec-partes"> <i data-lucide="layers" style="width:13px;height:13px;"></i> Partes do Osso </a> <a class="nav-link" href="#sec-sup"> <i data-lucide="arrow-up" style="width:13px;height:13px;"></i> Membro Superior </a> <a class="nav-link" href="#sec-inf"> <i data-lucide="arrow-down" style="width:13px;height:13px;"></i> Membro Inferior </a> <a class="nav-link" href="#sec-cranio"> <i data-lucide="circle" style="width:13px;height:13px;"></i> Crânio </a> <a class="nav-link" href="#sec-aplicacao"> <i data-lucide="activity" style="width:13px;height:13px;"></i> Aplicação Prática </a> <a class="nav-link" href="#sec-notes"> <i data-lucide="pencil" style="width:13px;height:13px;"></i> Minhas Anotações </a> <!-- Mini diagram -->
+      <div style="margin-top:1.5rem;padding:1rem;background:var(--surface2);border-radius:10px;border:1px solid var(--border);">
+       <p style="font-size:0.72rem;color:var(--text-muted);text-align:center;margin-bottom:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;">Divisão Esqueletal</p>
+       <div style="display:flex;flex-direction:column;gap:0.4rem;">
+        <div class="region-tag tag-axial"><i data-lucide="minus" style="width:11px;height:11px;"></i> Axial
         </div>
+        <p style="font-size:0.7rem;color:var(--text-muted);padding-left:0.3rem;">Crânio · Coluna · Costelas · Esterno</p>
+        <div class="region-tag tag-appendicular" style="margin-top:0.3rem;"><i data-lucide="minus" style="width:11px;height:11px;"></i> Apendicular
+        </div>
+        <p style="font-size:0.7rem;color:var(--text-muted);padding-left:0.3rem;">Membros superiores e inferiores + cinturas</p>
+       </div>
+      </div><!-- Stats -->
+      <div style="margin-top:1rem;padding:1rem;background:var(--surface2);border-radius:10px;border:1px solid var(--border);text-align:center;">
+       <p style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.08em;">Ossos no adulto</p>
+       <p style="font-family:'Crimson Pro',serif;font-size:2.5rem;font-weight:700;color:var(--accent);">206</p>
+       <p style="font-size:0.68rem;color:var(--text-muted);">no esqueleto humano</p>
       </div>
-    </header>
-
-    <div class="print-header">
-      <h1 style="font-size:1.8rem;text-align:center;">Sistema Esquelético – Guia de Estudo</h1>
-      <p style="text-align:center;">Educação Física · UEM · Profª Dra. Cláudia Pinheiro</p>
-    </div>
-
-    <div class="content-grid">
-      <aside class="no-print">
-        <nav class="nav-sidebar" aria-label="Navegação do guia">
-          <p style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);padding:0.5rem 0.75rem;margin-bottom:0.25rem;">
-            Conteúdo
-          </p>
-
-          <a class="nav-link" href="#sec-intro"><i data-lucide="book-open" style="width:13px;height:13px;"></i> Introdução</a>
-          <a class="nav-link" href="#sec-partes"><i data-lucide="layers" style="width:13px;height:13px;"></i> Partes do Osso</a>
-          <a class="nav-link" href="#sec-sup"><i data-lucide="arrow-up" style="width:13px;height:13px;"></i> Membro Superior</a>
-          <a class="nav-link" href="#sec-inf"><i data-lucide="arrow-down" style="width:13px;height:13px;"></i> Membro Inferior</a>
-          <a class="nav-link" href="#sec-cranio"><i data-lucide="circle" style="width:13px;height:13px;"></i> Crânio</a>
-          <a class="nav-link" href="#sec-aplicacao"><i data-lucide="activity" style="width:13px;height:13px;"></i> Aplicação Prática</a>
-          <a class="nav-link" href="#sec-notes"><i data-lucide="pencil" style="width:13px;height:13px;"></i> Minhas Anotações</a>
-
-          <div style="margin-top:1.5rem;padding:1rem;background:var(--surface2);border-radius:10px;border:1px solid var(--border);">
-            <p style="font-size:0.72rem;color:var(--text-muted);text-align:center;margin-bottom:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;">
-              Divisão Esqueletal
-            </p>
-            <div style="display:flex;flex-direction:column;gap:0.4rem;">
-              <div class="region-tag tag-axial"><i data-lucide="minus" style="width:11px;height:11px;"></i> Axial</div>
-              <p style="font-size:0.7rem;color:var(--text-muted);padding-left:0.3rem;">Crânio · Coluna · Costelas · Esterno</p>
-              <div class="region-tag tag-appendicular" style="margin-top:0.3rem;"><i data-lucide="minus" style="width:11px;height:11px;"></i> Apendicular</div>
-              <p style="font-size:0.7rem;color:var(--text-muted);padding-left:0.3rem;">Membros superiores e inferiores + cinturas</p>
-            </div>
+     </nav>
+    </aside><!-- ── Main Content ── -->
+    <main><!-- ── INTRODUÇÃO ── -->
+     <section id="sec-intro" class="section-card">
+      <h2 class="section-title"><i data-lucide="book-open" style="width:22px;height:22px;color:var(--accent);"></i> Sistema Esquelético – Introdução</h2>
+      <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.7;margin-bottom:1rem;">O sistema esquelético é formado pelo conjunto de ossos, cartilagens e ligamentos, totalizando <strong style="color:var(--text);">206 ossos</strong> no adulto. Ele é dividido em duas grandes partes: <span class="region-tag tag-axial">Axial</span> e <span class="region-tag tag-appendicular">Apendicular</span>.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+       <div class="def-box">
+        <div class="term">
+         🦷 Esqueleto Axial
+        </div>
+        <p>Forma o <strong>eixo longitudinal</strong> do corpo. Inclui o <strong>crânio</strong>, a <strong>coluna vertebral</strong>, o <strong>esterno</strong> e as <strong>costelas</strong>. Protege órgãos vitais como o encéfalo, medula espinal e vísceras torácicas. Composto por <strong>80 ossos</strong>.</p>
+       </div>
+       <div class="def-box" style="border-left-color:var(--accent2);">
+        <div class="term" style="color:var(--accent2);">
+         🦾 Esqueleto Apendicular
+        </div>
+        <p>Corresponde aos <strong>membros superiores e inferiores</strong>, além das cinturas <strong>escapular</strong> (escápula e clavícula) e <strong>pélvica</strong> (ossos do quadril). Responsável pela <strong>locomoção e manipulação</strong>. Composto por <strong>126 ossos</strong>.</p>
+       </div>
+      </div><label for="notes-intro" style="font-size:0.78rem;font-weight:600;color:var(--text-muted);display:block;margin-bottom:0.3rem;text-transform:uppercase;letter-spacing:0.08em;"> <i data-lucide="pencil" style="width:12px;height:12px;"></i> Minhas anotações — Introdução </label> <textarea id="notes-intro" class="notes-area" placeholder="Escreva aqui suas anotações sobre a introdução do sistema esquelético..."></textarea> <!-- Media section -->
+      <div style="margin-top:1rem;padding:1rem;background:var(--surface2);border-radius:10px;border:1px solid var(--border);">
+       <p style="font-size:0.78rem;font-weight:600;color:var(--accent2);margin-bottom:0.75rem;"><i data-lucide="image" style="width:14px;height:14px;display:inline;margin-right:0.3rem;"></i> Mídia</p>
+       <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.75rem;"><button class="media-button" onclick="capturePhoto('notes-intro')"><i data-lucide="camera" style="width:13px;height:13px;"></i> Foto</button> <button class="media-button" onclick="captureVideo('notes-intro')"><i data-lucide="video" style="width:13px;height:13px;"></i> Vídeo</button> <button class="media-button" onclick="uploadFile('notes-intro')"><i data-lucide="file-plus" style="width:13px;height:13px;"></i> Arquivo</button>
+       </div>
+       <div id="media-gallery-notes-intro" class="media-gallery"></div>
+      </div>
+     </section><!-- ── PARTES DO OSSO ── -->
+     <section id="sec-partes" class="section-card">
+      <h2 class="section-title"><i data-lucide="layers" style="width:22px;height:22px;color:var(--accent);"></i> Partes do Osso Longo</h2>
+      <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.7;margin-bottom:1rem;">Os ossos longos (como o fêmur e o úmero) possuem regiões anatômicas bem definidas, essenciais para entender o crescimento ósseo e a anatomia funcional.</p><!-- Visual diagram of bone -->
+      <div class="bone-diagram">
+       <div style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;"><!-- SVG Bone illustration -->
+        <svg width="90" height="260" viewbox="0 0 90 260" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;"><!-- Epiphysis proximal --> <ellipse cx="45" cy="28" rx="32" ry="24" fill="#c8964a33" stroke="#c8964a" stroke-width="1.5" /> <text x="45" y="32" text-anchor="middle" fill="#c8964a" font-size="9" font-family="DM Sans">
+          Epífise
+         </text> <!-- Cartilagem epifisial proximal --> <rect x="20" y="50" width="50" height="8" rx="2" fill="#5ba4cf44" stroke="#5ba4cf" stroke-width="1" /> <text x="45" y="57" text-anchor="middle" fill="#5ba4cf" font-size="7" font-family="DM Sans">
+          Cart. Epifisial
+         </text> <!-- Metafise proximal --> <path d="M20 58 L15 80 L75 80 L70 58 Z" fill="#c8964a1a" stroke="#c8964a88" stroke-width="1" /> <text x="45" y="74" text-anchor="middle" fill="#c8964a88" font-size="7.5" font-family="DM Sans">
+          Metáfise
+         </text> <!-- Diafise --> <rect x="15" y="80" width="60" height="100" rx="2" fill="#1e2d3d" stroke="#2a3d52" stroke-width="1.5" /> <text x="45" y="134" text-anchor="middle" fill="#8a9bb0" font-size="9" font-family="DM Sans">
+          Diáfise
+         </text> <!-- Canal medular --> <rect x="30" y="92" width="30" height="76" rx="2" fill="#162030" stroke="#2a3d5288" stroke-width="1" stroke-dasharray="3,2" /> <text x="45" y="134" text-anchor="middle" fill="#2a3d52" font-size="7" font-family="DM Sans"></text> <!-- Metafise distal --> <path d="M15 180 L20 202 L70 202 L75 180 Z" fill="#c8964a1a" stroke="#c8964a88" stroke-width="1" /> <text x="45" y="196" text-anchor="middle" fill="#c8964a88" font-size="7.5" font-family="DM Sans">
+          Metáfise
+         </text> <!-- Linha epifisial distal --> <rect x="20" y="202" width="50" height="5" rx="2" fill="#e06c7544" stroke="#e06c75" stroke-width="1" /> <text x="45" y="207" text-anchor="middle" fill="#e06c75" font-size="6" font-family="DM Sans">
+          L. Epifisial
+         </text> <!-- Epiphysis distal --> <ellipse cx="45" cy="232" rx="32" ry="24" fill="#c8964a33" stroke="#c8964a" stroke-width="1.5" /> <text x="45" y="236" text-anchor="middle" fill="#c8964a" font-size="9" font-family="DM Sans">
+          Epífise
+         </text>
+        </svg><!-- Definitions -->
+        <div style="flex:1;min-width:220px;">
+         <div class="def-box" style="margin-bottom:0.6rem;">
+          <div class="term">
+           Diáfise
           </div>
-
-          <div style="margin-top:1rem;padding:1rem;background:var(--surface2);border-radius:10px;border:1px solid var(--border);text-align:center;">
-            <p style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.08em;">
-              Ossos no adulto
-            </p>
-            <p style="font-family:'Crimson Pro',serif;font-size:2.5rem;font-weight:700;color:var(--accent);">206</p>
-            <p style="font-size:0.68rem;color:var(--text-muted);">no esqueleto humano</p>
+          <p>Corpo ou <strong>porção cilíndrica central</strong> do osso longo. Formada por osso compacto com canal medular interno contendo medula óssea amarela no adulto.</p>
+         </div>
+         <div class="def-box" style="margin-bottom:0.6rem;">
+          <div class="term">
+           Epífise
           </div>
-        </nav>
-      </aside>
-
-      <main>
-        <section id="sec-intro" class="section-card">
-          <h2 class="section-title">
-            <i data-lucide="book-open" style="width:22px;height:22px;color:var(--accent);"></i>
-            Sistema Esquelético – Introdução
-          </h2>
-
-          <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.7;margin-bottom:1rem;">
-            O sistema esquelético é formado pelo conjunto de ossos, cartilagens e ligamentos, totalizando
-            <strong style="color:var(--text);">206 ossos</strong> no adulto. Ele é dividido em duas grandes partes:
-            <span class="region-tag tag-axial">Axial</span> e
-            <span class="region-tag tag-appendicular">Apendicular</span>.
-          </p>
-
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
-            <div class="def-box">
-              <div class="term">🦷 Esqueleto Axial</div>
-              <p>
-                Forma o <strong>eixo longitudinal</strong> do corpo. Inclui o <strong>crânio</strong>, a
-                <strong>coluna vertebral</strong>, o <strong>esterno</strong> e as <strong>costelas</strong>.
-                Protege órgãos vitais como o encéfalo, medula espinal e vísceras torácicas. Composto por
-                <strong>80 ossos</strong>.
-              </p>
-            </div>
-
-            <div class="def-box" style="border-left-color:var(--accent2);">
-              <div class="term" style="color:var(--accent2);">🦾 Esqueleto Apendicular</div>
-              <p>
-                Corresponde aos <strong>membros superiores e inferiores</strong>, além das cinturas
-                <strong>escapular</strong> e <strong>pélvica</strong>. Responsável pela
-                <strong>locomoção e manipulação</strong>. Composto por <strong>126 ossos</strong>.
-              </p>
-            </div>
+          <p>Extremidades <strong>proximal e distal</strong> do osso longo. Compostas principalmente por osso esponjoso com cobertura de cartilagem articular. Participam das articulações.</p>
+         </div>
+         <div class="def-box" style="border-left-color:var(--accent2);margin-bottom:0.6rem;">
+          <div class="term" style="color:var(--accent2);">
+           Metáfise
           </div>
-
-          <label for="notes-intro" style="font-size:0.78rem;font-weight:600;color:var(--text-muted);display:block;margin-bottom:0.3rem;text-transform:uppercase;letter-spacing:0.08em;">
-            <i data-lucide="pencil" style="width:12px;height:12px;"></i>
-            Minhas anotações — Introdução
-          </label>
-          <textarea id="notes-intro" class="notes-area" placeholder="Escreva aqui suas anotações sobre a introdução do sistema esquelético..."></textarea>
-
-          <div style="margin-top:1rem;padding:1rem;background:var(--surface2);border-radius:10px;border:1px solid var(--border);">
-            <p style="font-size:0.78rem;font-weight:600;color:var(--accent2);margin-bottom:0.75rem;">
-              <i data-lucide="image" style="width:14px;height:14px;display:inline;margin-right:0.3rem;"></i>
-              Mídia
-            </p>
-            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.75rem;">
-              <button class="media-button" type="button" onclick="capturePhoto('notes-intro')"><i data-lucide="camera" style="width:13px;height:13px;"></i> Foto</button>
-              <button class="media-button" type="button" onclick="captureVideo('notes-intro')"><i data-lucide="video" style="width:13px;height:13px;"></i> Vídeo</button>
-              <button class="media-button" type="button" onclick="uploadFile('notes-intro')"><i data-lucide="file-plus" style="width:13px;height:13px;"></i> Arquivo</button>
-            </div>
-            <div id="media-gallery-notes-intro" class="media-gallery"></div>
+          <p>Região de <strong>transição</strong> entre a diáfise e a epífise. É a zona de crescimento em comprimento nos ossos em desenvolvimento. Contém a cartilagem epifisial.</p>
+         </div>
+         <div class="def-box" style="border-left-color:var(--accent2);margin-bottom:0.6rem;">
+          <div class="term" style="color:var(--accent2);">
+           Cartilagem Epifisial
           </div>
-        </section>
-
-        <section id="sec-partes" class="section-card">
-          <h2 class="section-title">
-            <i data-lucide="layers" style="width:22px;height:22px;color:var(--accent);"></i>
-            Partes do Osso Longo
-          </h2>
-
-          <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.7;margin-bottom:1rem;">
-            Os ossos longos possuem regiões anatômicas bem definidas, essenciais para entender o crescimento ósseo
-            e a anatomia funcional.
-          </p>
-
-          <div class="bone-diagram">
-            <div style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;">
-              <svg width="90" height="260" viewBox="0 0 90 260" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
-                <ellipse cx="45" cy="28" rx="32" ry="24" fill="#c8964a33" stroke="#c8964a" stroke-width="1.5" />
-                <text x="45" y="32" text-anchor="middle" fill="#c8964a" font-size="9" font-family="DM Sans">Epífise</text>
-
-                <rect x="20" y="50" width="50" height="8" rx="2" fill="#5ba4cf44" stroke="#5ba4cf" stroke-width="1" />
-                <text x="45" y="57" text-anchor="middle" fill="#5ba4cf" font-size="7" font-family="DM Sans">Cart. Epifisial</text>
-
-                <path d="M20 58 L15 80 L75 80 L70 58 Z" fill="#c8964a1a" stroke="#c8964a88" stroke-width="1" />
-                <text x="45" y="74" text-anchor="middle" fill="#c8964a88" font-size="7.5" font-family="DM Sans">Metáfise</text>
-
-                <rect x="15" y="80" width="60" height="100" rx="2" fill="#1e2d3d" stroke="#2a3d52" stroke-width="1.5" />
-                <text x="45" y="134" text-anchor="middle" fill="#8a9bb0" font-size="9" font-family="DM Sans">Diáfise</text>
-
-                <rect x="30" y="92" width="30" height="76" rx="2" fill="#162030" stroke="#2a3d5288" stroke-width="1" stroke-dasharray="3,2" />
-
-                <path d="M15 180 L20 202 L70 202 L75 180 Z" fill="#c8964a1a" stroke="#c8964a88" stroke-width="1" />
-                <text x="45" y="196" text-anchor="middle" fill="#c8964a88" font-size="7.5" font-family="DM Sans">Metáfise</text>
-
-                <rect x="20" y="202" width="50" height="5" rx="2" fill="#e06c7544" stroke="#e06c75" stroke-width="1" />
-                <text x="45" y="207" text-anchor="middle" fill="#e06c75" font-size="6" font-family="DM Sans">L. Epifisial</text>
-
-                <ellipse cx="45" cy="232" rx="32" ry="24" fill="#c8964a33" stroke="#c8964a" stroke-width="1.5" />
-                <text x="45" y="236" text-anchor="middle" fill="#c8964a" font-size="9" font-family="DM Sans">Epífise</text>
-              </svg>
-
-              <div style="flex:1;min-width:220px;">
-                <div class="def-box" style="margin-bottom:0.6rem;">
-                  <div class="term">Diáfise</div>
-                  <p>Corpo ou porção cilíndrica central do osso longo.</p>
-                </div>
-                <div class="def-box" style="margin-bottom:0.6rem;">
-                  <div class="term">Epífise</div>
-                  <p>Extremidades proximal e distal do osso longo.</p>
-                </div>
-                <div class="def-box" style="border-left-color:var(--accent2);margin-bottom:0.6rem;">
-                  <div class="term" style="color:var(--accent2);">Metáfise</div>
-                  <p>Região de transição entre a diáfise e a epífise.</p>
-                </div>
-                <div class="def-box" style="border-left-color:var(--accent2);margin-bottom:0.6rem;">
-                  <div class="term" style="color:var(--accent2);">Cartilagem Epifisial</div>
-                  <p>Placa de crescimento responsável pelo crescimento longitudinal.</p>
-                </div>
-                <div class="def-box" style="border-left-color:#e06c75;">
-                  <div class="term" style="color:#e06c75;">Linha Epifisial</div>
-                  <p>Marca a fusão entre epífise e diáfise após a maturidade esquelética.</p>
-                </div>
-              </div>
-            </div>
+          <p>Também chamada de <strong>placa de crescimento</strong>. Presente em ossos em crescimento (crianças e adolescentes). Local de proliferação celular responsável pelo <strong>crescimento longitudinal</strong>.</p>
+         </div>
+         <div class="def-box" style="border-left-color:#e06c75;">
+          <div class="term" style="color:#e06c75;">
+           Linha Epifisial
           </div>
-
-          <label for="notes-partes" style="font-size:0.78rem;font-weight:600;color:var(--text-muted);display:block;margin:1rem 0 0.3rem;text-transform:uppercase;letter-spacing:0.08em;">
-            <i data-lucide="pencil" style="width:12px;height:12px;"></i>
-            Minhas anotações — Partes do osso
-          </label>
-          <textarea id="notes-partes" class="notes-area" placeholder="Descreva as diferenças entre as regiões ósseas, exemplos clínicos..."></textarea>
-
-          <div style="margin-top:1rem;padding:1rem;background:var(--surface2);border-radius:10px;border:1px solid var(--border);">
-            <p style="font-size:0.78rem;font-weight:600;color:var(--accent2);margin-bottom:0.75rem;">
-              <i data-lucide="image" style="width:14px;height:14px;display:inline;margin-right:0.3rem;"></i>
-              Mídia
-            </p>
-            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.75rem;">
-              <button class="media-button" type="button" onclick="capturePhoto('notes-partes')"><i data-lucide="camera" style="width:13px;height:13px;"></i> Foto</button>
-              <button class="media-button" type="button" onclick="captureVideo('notes-partes')"><i data-lucide="video" style="width:13px;height:13px;"></i> Vídeo</button>
-              <button class="media-button" type="button" onclick="uploadFile('notes-partes')"><i data-lucide="file-plus" style="width:13px;height:13px;"></i> Arquivo</button>
-            </div>
-            <div id="media-gallery-notes-partes" class="media-gallery"></div>
+          <p>Estrutura que <strong>substitui a cartilagem epifisial</strong> após a maturidade esqueletal. Marca a fusão entre a epífise e a diáfise, indicando o <strong>fim do crescimento</strong> em comprimento.</p>
+         </div>
+        </div>
+       </div>
+      </div><label for="notes-partes" style="font-size:0.78rem;font-weight:600;color:var(--text-muted);display:block;margin:1rem 0 0.3rem;text-transform:uppercase;letter-spacing:0.08em;"> <i data-lucide="pencil" style="width:12px;height:12px;"></i> Minhas anotações — Partes do osso </label> <textarea id="notes-partes" class="notes-area" placeholder="Descreva as diferenças entre as regiões ósseas, exemplos clínicos..."></textarea> <!-- Media section -->
+      <div style="margin-top:1rem;padding:1rem;background:var(--surface2);border-radius:10px;border:1px solid var(--border);">
+       <p style="font-size:0.78rem;font-weight:600;color:var(--accent2);margin-bottom:0.75rem;"><i data-lucide="image" style="width:14px;height:14px;display:inline;margin-right:0.3rem;"></i> Mídia</p>
+       <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.75rem;"><button class="media-button" onclick="capturePhoto('notes-partes')"><i data-lucide="camera" style="width:13px;height:13px;"></i> Foto</button> <button class="media-button" onclick="captureVideo('notes-partes')"><i data-lucide="video" style="width:13px;height:13px;"></i> Vídeo</button> <button class="media-button" onclick="uploadFile('notes-partes')"><i data-lucide="file-plus" style="width:13px;height:13px;"></i> Arquivo</button>
+       </div>
+       <div id="media-gallery-notes-partes" class="media-gallery"></div>
+      </div>
+     </section><!-- ── MEMBRO SUPERIOR ── -->
+     <section id="sec-sup" class="section-card">
+      <h2 class="section-title"><i data-lucide="arrow-up" style="width:22px;height:22px;color:var(--accent);"></i> Membro Superior <span class="region-tag tag-appendicular">Apendicular</span></h2><!-- ESCÁPULA -->
+      <div>
+       <h3 class="subsection-title"><i data-lucide="minus" style="width:16px;height:16px;"></i> Escápula <span class="count-badge">9 estruturas</span></h3>
+       <div class="bone-grid">
+        <div class="bone-item">
+         Espinha da escápula
+        </div>
+        <div class="bone-item">
+         Acrômio
+        </div>
+        <div class="bone-item">
+         Processo coracoide
+        </div>
+        <div class="bone-item">
+         Fossa supraespinal
+        </div>
+        <div class="bone-item">
+         Fossa infraespinal
+        </div>
+        <div class="bone-item">
+         Margem medial
+        </div>
+        <div class="bone-item">
+         Margem lateral
+        </div>
+        <div class="bone-item">
+         Incisura da escápula
+        </div>
+       </div>
+      </div><!-- CLAVÍCULA -->
+      <div>
+       <h3 class="subsection-title"><i data-lucide="minus" style="width:16px;height:16px;"></i> Clavícula <span class="count-badge">3 estruturas</span></h3>
+       <div class="bone-grid">
+        <div class="bone-item">
+         Extremidade esternal
+        </div>
+        <div class="bone-item">
+         Corpo da clavícula
+        </div>
+        <div class="bone-item">
+         Extremidade acromial
+        </div>
+        <div class="bone-item">
+         Tubérculo conoide
+        </div>
+       </div>
+      </div><!-- ÚMERO -->
+      <div>
+       <h3 class="subsection-title"><i data-lucide="minus" style="width:16px;height:16px;"></i> Úmero <span class="count-badge">11 estruturas</span></h3>
+       <div class="bone-grid">
+        <div class="bone-item">
+         Cabeça do úmero
+        </div>
+        <div class="bone-item">
+         Tubérculo maior
+        </div>
+        <div class="bone-item">
+         Tubérculo menor
+        </div>
+        <div class="bone-item">
+         Sulco intertubercular
+        </div>
+        <div class="bone-item">
+         Corpo do úmero
+        </div>
+        <div class="bone-item">
+         Tróclea
+        </div>
+        <div class="bone-item">
+         Capítulo
+        </div>
+        <div class="bone-item">
+         Fossa coronoide
+        </div>
+        <div class="bone-item">
+         Fossa do olécrano
+        </div>
+        <div class="bone-item">
+         Sulco do nervo radial
+        </div>
+       </div>
+      </div><!-- RÁDIO -->
+      <div>
+       <h3 class="subsection-title"><i data-lucide="minus" style="width:16px;height:16px;"></i> Rádio <span class="count-badge">5 estruturas</span></h3>
+       <div class="bone-grid">
+        <div class="bone-item">
+         Cabeça do rádio
+        </div>
+        <div class="bone-item">
+         Corpo do rádio
+        </div>
+        <div class="bone-item">
+         Tuberosidade do rádio
+        </div>
+        <div class="bone-item">
+         Processo estiloide do rádio
+        </div>
+       </div>
+      </div><!-- ULNA -->
+      <div>
+       <h3 class="subsection-title"><i data-lucide="minus" style="width:16px;height:16px;"></i> Ulna <span class="count-badge">7 estruturas</span></h3>
+       <div class="bone-grid">
+        <div class="bone-item">
+         Olécrano
+        </div>
+        <div class="bone-item">
+         Processo coronoide
+        </div>
+        <div class="bone-item">
+         Incisura radial
+        </div>
+        <div class="bone-item">
+         Incisura troclear
+        </div>
+        <div class="bone-item">
+         Corpo da ulna
+        </div>
+        <div class="bone-item">
+         Cabeça da ulna
+        </div>
+        <div class="bone-item">
+         Tuberosidade da ulna
+        </div>
+       </div>
+      </div><!-- OSSOS DO CARPO -->
+      <div>
+       <h3 class="subsection-title"><i data-lucide="minus" style="width:16px;height:16px;"></i> Ossos do Carpo <span class="count-badge">8 ossos</span></h3>
+       <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:0.5rem;">Mnemônico: <span style="color:var(--accent);font-weight:600;">"Ele Sempre Para Para Ter Trabalho Convincente Há"</span> (proximal → distal, lateral → medial)</p>
+       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.75rem;">
+        <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;border:1px solid var(--border);">
+         <p style="font-size:0.72rem;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem;">Fileira Proximal</p>
+         <div class="bone-grid" style="grid-template-columns:1fr;">
+          <div class="bone-item">
+           Escafoide
           </div>
-        </section>
-
-        <section id="sec-sup" class="section-card">
-          <h2 class="section-title">
-            <i data-lucide="arrow-up" style="width:22px;height:22px;color:var(--accent);"></i>
-            Membro Superior
-            <span class="region-tag tag-appendicular">Apendicular</span>
-          </h2>
-
-          <div>
-            <h3 class="subsection-title"><i data-lucide="minus" style="width:16px;height:16px;"></i> Escápula <span class="count-badge">8 estruturas</span></h3>
-            <div class="bone-grid">
-              <div class="bone-item">Espinha da escápula</div>
-              <div class="bone-item">Acrômio</div>
-              <div class="bone-item">Processo coracoide</div>
-              <div class="bone-item">Fossa supraespinal</div>
-              <div class="bone-item">Fossa infraespinal</div>
-              <div class="bone-item">Margem medial</div>
-              <div class="bone-item">Margem lateral</div>
-              <div class="bone-item">Incisura da escápula</div>
-            </div>
+          <div class="bone-item">
+           Semilunar
           </div>
-
-          <div>
-            <h3 class="subsection-title"><i data-lucide="minus" style="width:16px;height:16px;"></i> Clavícula <span class="count-badge">4 estruturas</span></h3>
-            <div class="bone-grid">
-              <div class="bone-item">Extremidade esternal</div>
-              <div class="bone-item">Corpo da clavícula</div>
-              <div class="bone-item">Extremidade acromial</div>
-              <div class="bone-item">Tubérculo conoide</div>
-            </div>
+          <div class="bone-item">
+           Piramidal
           </div>
-
-          <div>
-            <h3 class="subsection-title"><i data-lucide="minus" style="width:16px;height:16px;"></i> Úmero <span class="count-badge">10 estruturas</span></h3>
-            <div class="bone-grid">
-              <div class="bone-item">Cabeça do úmero</div>
-              <div class="bone-item">Tubérculo maior</div>
-              <div class="bone-item">Tubérculo menor</div>
-              <div class="bone-item">Sulco intertubercular</div>
-              <div class="bone-item">Corpo do úmero</div>
-              <div class="bone-item">Tróclea</div>
-              <div class="bone-item">Capítulo</div>
-              <div class="bone-item">Fossa coronoide</div>
-              <div class="bone-item">Fossa do olécrano</div>
-              <div class="bone-item">Sulco do nervo radial</div>
-            </div>
+          <div class="bone-item">
+           Pisiforme
           </div>
-
-          <div>
-            <h3 class="subsection-title"><i data-lucide="minus" style="width:16px;height:16px;"></i> Rádio <span class="count-badge">4 estruturas</span></h3>
-            <div class="bone-grid">
-              <div class="bone-item">Cabeça do rádio</div>
-              <div class="bone-item">Corpo do rádio</div>
-              <div class="bone-item">Tuberosidade do rádio</div>
-              <div class="bone-item">Processo estiloide do rádio</div>
-            </div>
+         </div>
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;border:1px solid var(--border);">
+         <p style="font-size:0.72rem;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem;">Fileira Distal</p>
+         <div class="bone-grid" style="grid-template-columns:1fr;">
+          <div class="bone-item">
+           Trapézio
           </div>
-
-          <div>
-            <h3 class="subsection-title"><i data-lucide="minus" style="width:16px;height:16px;"></i> Ulna <span class="count-badge">7 estruturas</span></h3>
-            <div class="bone-grid">
-              <div class="bone-item">Olécrano</div>
-              <div class="bone-item">Processo coronoide</div>
-              <div class="bone-item">Incisura radial</div>
-              <div class="bone-item">Incisura troclear</div>
-              <div class="bone-item">Corpo da ulna</div>
-              <div class="bone-item">Cabeça da ulna</div>
-              <div class="bone-item">Tuberosidade da ulna</div>
-            </div>
+          <div class="bone-item">
+           Trapezoide
           </div>
-
-          <label for="notes-sup" style="font-size:0.78rem;font-weight:600;color:var(--text-muted);display:block;margin:1rem 0 0.3rem;text-transform:uppercase;letter-spacing:0.08em;">
-            <i data-lucide="pencil" style="width:12px;height:12px;"></i>
-            Minhas anotações — Membro Superior
-          </label>
-          <textarea id="notes-sup" class="notes-area" placeholder="Anote referências de palpação, pontos de reparo, importância clínica..."></textarea>
-
-          <div style="margin-top:1rem;padding:1rem;background:var(--surface2);border-radius:10px;border:1px solid var(--border);">
-            <p style="font-size:0.78rem;font-weight:600;color:var(--accent2);margin-bottom:0.75rem;">
-              <i data-lucide="image" style="width:14px;height:14px;display:inline;margin-right:0.3rem;"></i>
-              Mídia
-            </p>
-            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.75rem;">
-              <button class="media-button" type="button" onclick="capturePhoto('notes-sup')"><i data-lucide="camera" style="width:13px;height:13px;"></i> Foto</button>
-              <button class="media-button" type="button" onclick="captureVideo('notes-sup')"><i data-lucide="video" style="width:13px;height:13px;"></i> Vídeo</button>
-              <button class="media-button" type="button" onclick="uploadFile('notes-sup')"><i data-lucide="file-plus" style="width:13px;height:13px;"></i> Arquivo</button>
-            </div>
-            <div id="media-gallery-notes-sup" class="media-gallery"></div>
+          <div class="bone-item">
+           Capitato
           </div>
-        </section>
-
-        <section id="sec-inf" class="section-card">
-          <h2 class="section-title">
-            <i data-lucide="arrow-down" style="width:22px;height:22px;color:var(--accent);"></i>
-            Membro Inferior
-            <span class="region-tag tag-appendicular">Apendicular</span>
-          </h2>
-
-          <div>
-            <h3 class="subsection-title"><i data-lucide="minus" style="width:16px;height:16px;"></i> Osso do Quadril — Acetábulo</h3>
-            <div class="bone-grid">
-              <div class="bone-item">Acetábulo</div>
-              <div class="bone-item">Fossa do acetábulo</div>
-            </div>
+          <div class="bone-item">
+           Hamato
           </div>
-
-          <div>
-            <h3 class="subsection-title"><i data-lucide="minus" style="width:16px;height:16px;"></i> Fêmur <span class="count-badge">11 estruturas</span></h3>
-            <div class="bone-grid">
-              <div class="bone-item">Cabeça do fêmur</div>
-              <div class="bone-item">Fóvea da cabeça do fêmur</div>
-              <div class="bone-item">Colo do fêmur</div>
-              <div class="bone-item">Trocânter maior</div>
-              <div class="bone-item">Trocânter menor</div>
-              <div class="bone-item">Linha intertrocantérica</div>
-              <div class="bone-item">Crista intertrocantérica</div>
-              <div class="bone-item">Corpo do fêmur</div>
-              <div class="bone-item">Côndilo medial</div>
-              <div class="bone-item">Côndilo lateral</div>
-              <div class="bone-item">Face patelar</div>
-            </div>
+         </div>
+        </div>
+       </div>
+      </div><!-- METACARPO E FALANGES -->
+      <div>
+       <h3 class="subsection-title"><i data-lucide="minus" style="width:16px;height:16px;"></i> Metacarpo e Falanges</h3>
+       <div class="bone-grid">
+        <div class="bone-item">
+         Metacarpais I ao V
+        </div>
+        <div class="bone-item">
+         Falange proximal
+        </div>
+        <div class="bone-item">
+         Falange média
+        </div>
+        <div class="bone-item">
+         Falange distal
+        </div>
+       </div>
+      </div><label for="notes-sup" style="font-size:0.78rem;font-weight:600;color:var(--text-muted);display:block;margin:1rem 0 0.3rem;text-transform:uppercase;letter-spacing:0.08em;"> <i data-lucide="pencil" style="width:12px;height:12px;"></i> Minhas anotações — Membro Superior </label> <textarea id="notes-sup" class="notes-area" placeholder="Anote referências de palpação, pontos de reparo, importância clínica..."></textarea> <!-- Media section -->
+      <div style="margin-top:1rem;padding:1rem;background:var(--surface2);border-radius:10px;border:1px solid var(--border);">
+       <p style="font-size:0.78rem;font-weight:600;color:var(--accent2);margin-bottom:0.75rem;"><i data-lucide="image" style="width:14px;height:14px;display:inline;margin-right:0.3rem;"></i> Mídia</p>
+       <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.75rem;"><button class="media-button" onclick="capturePhoto('notes-sup')"><i data-lucide="camera" style="width:13px;height:13px;"></i> Foto</button> <button class="media-button" onclick="captureVideo('notes-sup')"><i data-lucide="video" style="width:13px;height:13px;"></i> Vídeo</button> <button class="media-button" onclick="uploadFile('notes-sup')"><i data-lucide="file-plus" style="width:13px;height:13px;"></i> Arquivo</button>
+       </div>
+       <div id="media-gallery-notes-sup" class="media-gallery"></div>
+      </div>
+     </section><!-- ── MEMBRO INFERIOR ── -->
+     <section id="sec-inf" class="section-card">
+      <h2 class="section-title"><i data-lucide="arrow-down" style="width:22px;height:22px;color:var(--accent);"></i> Membro Inferior <span class="region-tag tag-appendicular">Apendicular</span></h2><!-- OSSO DO QUADRIL -->
+      <div>
+       <h3 class="subsection-title"><i data-lucide="minus" style="width:16px;height:16px;"></i> Osso do Quadril — Acetábulo</h3>
+       <div class="bone-grid">
+        <div class="bone-item">
+         Acetábulo
+        </div>
+        <div class="bone-item">
+         Fossa do acetábulo
+        </div>
+       </div>
+       <h3 class="subsection-title" style="margin-top:0.75rem;"><i data-lucide="chevron-right" style="width:14px;height:14px;"></i> Ílio <span class="count-badge">6 estruturas</span></h3>
+       <div class="bone-grid">
+        <div class="bone-item">
+         Crista ilíaca
+        </div>
+        <div class="bone-item">
+         EIAS (Espinha ilíaca antero-superior)
+        </div>
+        <div class="bone-item">
+         EIAI (Espinha ilíaca antero-inferior)
+        </div>
+        <div class="bone-item">
+         EIPS (Espinha ilíaca postero-superior)
+        </div>
+        <div class="bone-item">
+         EIPI (Espinha ilíaca postero-inferior)
+        </div>
+        <div class="bone-item">
+         Face auricular
+        </div>
+       </div>
+       <h3 class="subsection-title" style="margin-top:0.75rem;"><i data-lucide="chevron-right" style="width:14px;height:14px;"></i> Ísquio <span class="count-badge">6 estruturas</span></h3>
+       <div class="bone-grid">
+        <div class="bone-item">
+         Túber isquiático
+        </div>
+        <div class="bone-item">
+         Espinha isquiática
+        </div>
+        <div class="bone-item">
+         Ramo do ísquio
+        </div>
+        <div class="bone-item">
+         Corpo do ísquio
+        </div>
+        <div class="bone-item">
+         Incisura isquiática maior
+        </div>
+        <div class="bone-item">
+         Incisura isquiática menor
+        </div>
+       </div>
+       <h3 class="subsection-title" style="margin-top:0.75rem;"><i data-lucide="chevron-right" style="width:14px;height:14px;"></i> Púbis <span class="count-badge">4 estruturas</span></h3>
+       <div class="bone-grid">
+        <div class="bone-item">
+         Corpo do púbis
+        </div>
+        <div class="bone-item">
+         Face sinfisial
+        </div>
+        <div class="bone-item">
+         Ramo superior do púbis
+        </div>
+        <div class="bone-item">
+         Ramo inferior do púbis
+        </div>
+       </div>
+      </div><!-- FÊMUR -->
+      <div>
+       <h3 class="subsection-title"><i data-lucide="minus" style="width:16px;height:16px;"></i> Fêmur <span class="count-badge">11 estruturas</span></h3>
+       <div class="bone-grid">
+        <div class="bone-item">
+         Cabeça do fêmur
+        </div>
+        <div class="bone-item">
+         Fóvea da cabeça do fêmur
+        </div>
+        <div class="bone-item">
+         Colo do fêmur
+        </div>
+        <div class="bone-item">
+         Trocânter maior
+        </div>
+        <div class="bone-item">
+         Trocânter menor
+        </div>
+        <div class="bone-item">
+         Linha intertrocantérica
+        </div>
+        <div class="bone-item">
+         Crista intertrocantérica
+        </div>
+        <div class="bone-item">
+         Corpo do fêmur
+        </div>
+        <div class="bone-item">
+         Côndilo medial
+        </div>
+        <div class="bone-item">
+         Côndilo lateral
+        </div>
+        <div class="bone-item">
+         Face patelar
+        </div>
+       </div>
+      </div><!-- PATELA -->
+      <div>
+       <h3 class="subsection-title"><i data-lucide="minus" style="width:16px;height:16px;"></i> Patela <span class="count-badge">3 estruturas</span></h3>
+       <div class="bone-grid">
+        <div class="bone-item">
+         Face articular
+        </div>
+        <div class="bone-item">
+         Ápice
+        </div>
+        <div class="bone-item">
+         Base
+        </div>
+       </div>
+      </div><!-- TÍBIA -->
+      <div>
+       <h3 class="subsection-title"><i data-lucide="minus" style="width:16px;height:16px;"></i> Tíbia <span class="count-badge">7 estruturas</span></h3>
+       <div class="bone-grid">
+        <div class="bone-item">
+         Côndilo lateral
+        </div>
+        <div class="bone-item">
+         Côndilo medial
+        </div>
+        <div class="bone-item">
+         Eminência intercondilar
+        </div>
+        <div class="bone-item">
+         Tubérculos intercondilares
+        </div>
+        <div class="bone-item">
+         Tuberosidade da tíbia
+        </div>
+        <div class="bone-item">
+         Corpo da tíbia
+        </div>
+        <div class="bone-item">
+         Maléolo medial
+        </div>
+        <div class="bone-item">
+         Margem interóssea
+        </div>
+       </div>
+      </div><!-- FÍBULA -->
+      <div>
+       <h3 class="subsection-title"><i data-lucide="minus" style="width:16px;height:16px;"></i> Fíbula <span class="count-badge">3 estruturas</span></h3>
+       <div class="bone-grid">
+        <div class="bone-item">
+         Cabeça da fíbula
+        </div>
+        <div class="bone-item">
+         Corpo da fíbula
+        </div>
+        <div class="bone-item">
+         Maléolo lateral
+        </div>
+       </div>
+      </div><!-- PÉ -->
+      <div>
+       <h3 class="subsection-title"><i data-lucide="minus" style="width:16px;height:16px;"></i> Ossos do Pé</h3>
+       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem;margin-bottom:0.5rem;">
+        <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;border:1px solid var(--border);">
+         <p style="font-size:0.72rem;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem;">Tarso (7)</p>
+         <div class="bone-grid" style="grid-template-columns:1fr;">
+          <div class="bone-item">
+           Tálus
           </div>
-
-          <div>
-            <h3 class="subsection-title"><i data-lucide="minus" style="width:16px;height:16px;"></i> Tíbia <span class="count-badge">8 estruturas</span></h3>
-            <div class="bone-grid">
-              <div class="bone-item">Côndilo lateral</div>
-              <div class="bone-item">Côndilo medial</div>
-              <div class="bone-item">Eminência intercondilar</div>
-              <div class="bone-item">Tubérculos intercondilares</div>
-              <div class="bone-item">Tuberosidade da tíbia</div>
-              <div class="bone-item">Corpo da tíbia</div>
-              <div class="bone-item">Maléolo medial</div>
-              <div class="bone-item">Margem interóssea</div>
-            </div>
+          <div class="bone-item">
+           Calcâneo
           </div>
-
-          <div>
-            <h3 class="subsection-title"><i data-lucide="minus" style="width:16px;height:16px;"></i> Fíbula <span class="count-badge">3 estruturas</span></h3>
-            <div class="bone-grid">
-              <div class="bone-item">Cabeça da fíbula</div>
-              <div class="bone-item">Corpo da fíbula</div>
-              <div class="bone-item">Maléolo lateral</div>
-            </div>
+          <div class="bone-item">
+           Navicular
           </div>
-
-          <label for="notes-inf" style="font-size:0.78rem;font-weight:600;color:var(--text-muted);display:block;margin:1rem 0 0.3rem;text-transform:uppercase;letter-spacing:0.08em;">
-            <i data-lucide="pencil" style="width:12px;height:12px;"></i>
-            Minhas anotações — Membro Inferior
-          </label>
-          <textarea id="notes-inf" class="notes-area" placeholder="Anote sobre pontos de reparo, estruturas palpáveis, curiosidades clínicas..."></textarea>
-
-          <div style="margin-top:1rem;padding:1rem;background:var(--surface2);border-radius:10px;border:1px solid var(--border);">
-            <p style="font-size:0.78rem;font-weight:600;color:var(--accent2);margin-bottom:0.75rem;">
-              <i data-lucide="image" style="width:14px;height:14px;display:inline;margin-right:0.3rem;"></i>
-              Mídia
-            </p>
-            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.75rem;">
-              <button class="media-button" type="button" onclick="capturePhoto('notes-inf')"><i data-lucide="camera" style="width:13px;height:13px;"></i> Foto</button>
-              <button class="media-button" type="button" onclick="captureVideo('notes-inf')"><i data-lucide="video" style="width:13px;height:13px;"></i> Vídeo</button>
-              <button class="media-button" type="button" onclick="uploadFile('notes-inf')"><i data-lucide="file-plus" style="width:13px;height:13px;"></i> Arquivo</button>
-            </div>
-            <div id="media-gallery-notes-inf" class="media-gallery"></div>
+          <div class="bone-item">
+           Cuboide
           </div>
-        </section>
-
-        <section id="sec-cranio" class="section-card">
-          <h2 class="section-title">
-            <i data-lucide="circle" style="width:22px;height:22px;color:var(--accent);"></i>
-            Crânio
-            <span class="region-tag tag-axial">Axial</span>
-          </h2>
-
-          <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.7;margin-bottom:1rem;">
-            O crânio é dividido em <strong style="color:var(--text);">neurocrânio</strong> e
-            <strong style="color:var(--text);">viscerocrânio</strong>.
-          </p>
-
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
-            <div style="background:var(--surface2);border-radius:10px;padding:1rem;border:1px solid var(--border);">
-              <h3 style="font-size:1.1rem;color:var(--accent);margin-bottom:0.75rem;display:flex;align-items:center;gap:0.4rem;">
-                <i data-lucide="shield" style="width:15px;height:15px;"></i>
-                Neurocrânio
-              </h3>
-              <div class="bone-grid" style="grid-template-columns:1fr;">
-                <div class="bone-item">Frontal</div>
-                <div class="bone-item">Parietais</div>
-                <div class="bone-item">Temporais</div>
-                <div class="bone-item">Occipital</div>
-                <div class="bone-item">Esfenoide</div>
-                <div class="bone-item">Etmoide</div>
-              </div>
-            </div>
-
-            <div style="background:var(--surface2);border-radius:10px;padding:1rem;border:1px solid var(--border);">
-              <h3 style="font-size:1.1rem;color:var(--accent2);margin-bottom:0.75rem;display:flex;align-items:center;gap:0.4rem;">
-                <i data-lucide="smile" style="width:15px;height:15px;"></i>
-                Viscerocrânio
-              </h3>
-              <div class="bone-grid" style="grid-template-columns:1fr;">
-                <div class="bone-item">Nasais</div>
-                <div class="bone-item">Maxilas</div>
-                <div class="bone-item">Zigomáticos</div>
-                <div class="bone-item">Lacrimais</div>
-                <div class="bone-item">Palatinos</div>
-                <div class="bone-item">Conchas nasais inferiores</div>
-                <div class="bone-item">Vômer</div>
-                <div class="bone-item">Mandíbula</div>
-              </div>
-            </div>
+          <div class="bone-item">
+           Cuneiforme medial
           </div>
-
-          <label for="notes-cranio" style="font-size:0.78rem;font-weight:600;color:var(--text-muted);display:block;margin:1rem 0 0.3rem;text-transform:uppercase;letter-spacing:0.08em;">
-            <i data-lucide="pencil" style="width:12px;height:12px;"></i>
-            Minhas anotações — Crânio
-          </label>
-          <textarea id="notes-cranio" class="notes-area" placeholder="Anote sobre suturas cranianas, fontanelas, estruturas de passagem..."></textarea>
-
-          <div style="margin-top:1rem;padding:1rem;background:var(--surface2);border-radius:10px;border:1px solid var(--border);">
-            <p style="font-size:0.78rem;font-weight:600;color:var(--accent2);margin-bottom:0.75rem;">
-              <i data-lucide="image" style="width:14px;height:14px;display:inline;margin-right:0.3rem;"></i>
-              Mídia
-            </p>
-            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.75rem;">
-              <button class="media-button" type="button" onclick="capturePhoto('notes-cranio')"><i data-lucide="camera" style="width:13px;height:13px;"></i> Foto</button>
-              <button class="media-button" type="button" onclick="captureVideo('notes-cranio')"><i data-lucide="video" style="width:13px;height:13px;"></i> Vídeo</button>
-              <button class="media-button" type="button" onclick="uploadFile('notes-cranio')"><i data-lucide="file-plus" style="width:13px;height:13px;"></i> Arquivo</button>
-            </div>
-            <div id="media-gallery-notes-cranio" class="media-gallery"></div>
+          <div class="bone-item">
+           Cuneiforme intermédio
           </div>
-        </section>
-
-        <section id="sec-aplicacao" class="section-card">
-          <h2 class="section-title">
-            <i data-lucide="activity" style="width:22px;height:22px;color:var(--accent);"></i>
-            Aplicação na Educação Física
-          </h2>
-
-          <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.7;margin-bottom:1rem;">
-            O conhecimento detalhado do sistema esquelético é fundamental na avaliação postural,
-            prescrição de exercícios e prevenção de lesões.
-          </p>
-
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
-            <div class="def-box">
-              <div class="term">📋 Avaliação Postural</div>
-              <p>Identificação de pontos de reparo ósseos para análise postural.</p>
-            </div>
-            <div class="def-box" style="border-left-color:var(--accent2);">
-              <div class="term" style="color:var(--accent2);">🏋️ Prescrição de Exercícios</div>
-              <p>Prescrição respeitando limites anatômicos e estruturas articulares.</p>
-            </div>
+          <div class="bone-item">
+           Cuneiforme lateral
           </div>
-
-          <label for="notes-aplicacao" style="font-size:0.78rem;font-weight:600;color:var(--text-muted);display:block;margin:1rem 0 0.3rem;text-transform:uppercase;letter-spacing:0.08em;">
-            <i data-lucide="pencil" style="width:12px;height:12px;"></i>
-            Minhas anotações — Aplicação prática
-          </label>
-          <textarea id="notes-aplicacao" class="notes-area" placeholder="Anote exemplos práticos e estratégias de avaliação..."></textarea>
-
-          <div style="margin-top:1rem;padding:1rem;background:var(--surface2);border-radius:10px;border:1px solid var(--border);">
-            <p style="font-size:0.78rem;font-weight:600;color:var(--accent2);margin-bottom:0.75rem;">
-              <i data-lucide="image" style="width:14px;height:14px;display:inline;margin-right:0.3rem;"></i>
-              Mídia
-            </p>
-            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.75rem;">
-              <button class="media-button" type="button" onclick="capturePhoto('notes-aplicacao')"><i data-lucide="camera" style="width:13px;height:13px;"></i> Foto</button>
-              <button class="media-button" type="button" onclick="captureVideo('notes-aplicacao')"><i data-lucide="video" style="width:13px;height:13px;"></i> Vídeo</button>
-              <button class="media-button" type="button" onclick="uploadFile('notes-aplicacao')"><i data-lucide="file-plus" style="width:13px;height:13px;"></i> Arquivo</button>
-            </div>
-            <div id="media-gallery-notes-aplicacao" class="media-gallery"></div>
+         </div>
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;border:1px solid var(--border);">
+         <p style="font-size:0.72rem;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem;">Metatarso (5)</p>
+         <div class="bone-grid" style="grid-template-columns:1fr;">
+          <div class="bone-item">
+           Metatarsais I ao V
           </div>
-        </section>
-
-        <section id="sec-notes" class="section-card">
-          <h2 class="section-title">
-            <i data-lucide="pencil" style="width:22px;height:22px;color:var(--accent);"></i>
-            Anotações Gerais
-          </h2>
-
-          <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem;">
-            Use este espaço para anotações livres, dúvidas, resumos adicionais ou esquemas pessoais.
-          </p>
-
-          <textarea id="notes-general" class="notes-area" style="min-height:180px;" placeholder="Escreva aqui suas anotações gerais..."></textarea>
-
-          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.9rem 0 0.75rem;">
-            <button class="media-button" type="button" onclick="capturePhoto('notes-general')"><i data-lucide="camera" style="width:13px;height:13px;"></i> Foto</button>
-            <button class="media-button" type="button" onclick="captureVideo('notes-general')"><i data-lucide="video" style="width:13px;height:13px;"></i> Vídeo</button>
-            <button class="media-button" type="button" onclick="uploadFile('notes-general')"><i data-lucide="file-plus" style="width:13px;height:13px;"></i> Arquivo</button>
+         </div>
+        </div>
+        <div style="background:var(--surface2);border-radius:8px;padding:0.75rem;border:1px solid var(--border);">
+         <p style="font-size:0.72rem;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem;">Falanges</p>
+         <div class="bone-grid" style="grid-template-columns:1fr;">
+          <div class="bone-item">
+           Falange proximal
           </div>
-
-          <div id="media-gallery-notes-general" class="media-gallery"></div>
-
-          <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:1rem;">
-            <button class="btn btn-primary" type="button" onclick="saveNotes()">
-              <i data-lucide="save" style="width:15px;height:15px;"></i>
-              Salvar Anotações
-            </button>
-
-            <button class="btn btn-secondary" type="button" onclick="window.print()">
-              <i data-lucide="printer" style="width:15px;height:15px;"></i>
-              Imprimir / PDF
-            </button>
-
-            <button class="btn btn-danger" type="button" onclick="clearNotes(this)">
-              <i data-lucide="trash-2" style="width:15px;height:15px;"></i>
-              Limpar Anotações
-            </button>
+          <div class="bone-item">
+           Falange média
           </div>
-        </section>
-
-        <footer style="text-align:center;padding:1.5rem;border-top:1px solid var(--border);margin-top:1rem;">
-          <p style="font-size:0.78rem;color:var(--text-muted);">
-            <strong style="color:var(--text);" id="footer-professor">Profª Dra. Cláudia Pinheiro</strong> ·
-            <span id="footer-course">Educação Física</span> ·
-            <span id="footer-university">Universidade Estadual de Maringá</span>
-          </p>
-          <p style="font-size:0.72rem;color:var(--text-muted);margin-top:0.3rem;">
-            Guia de Estudo – Sistema Esquelético · Anatomia Humana
-          </p>
-        </footer>
-      </main>
-    </div>
-  </div>
-
+          <div class="bone-item">
+           Falange distal
+          </div>
+         </div>
+        </div>
+       </div>
+      </div><label for="notes-inf" style="font-size:0.78rem;font-weight:600;color:var(--text-muted);display:block;margin:1rem 0 0.3rem;text-transform:uppercase;letter-spacing:0.08em;"> <i data-lucide="pencil" style="width:12px;height:12px;"></i> Minhas anotações — Membro Inferior </label> <textarea id="notes-inf" class="notes-area" placeholder="Anote sobre pontos de reparo, estruturas palpáveis, curiosidades clínicas..."></textarea> <!-- Media section -->
+      <div style="margin-top:1rem;padding:1rem;background:var(--surface2);border-radius:10px;border:1px solid var(--border);">
+       <p style="font-size:0.78rem;font-weight:600;color:var(--accent2);margin-bottom:0.75rem;"><i data-lucide="image" style="width:14px;height:14px;display:inline;margin-right:0.3rem;"></i> Mídia</p>
+       <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.75rem;"><button class="media-button" onclick="capturePhoto('notes-inf')"><i data-lucide="camera" style="width:13px;height:13px;"></i> Foto</button> <button class="media-button" onclick="captureVideo('notes-inf')"><i data-lucide="video" style="width:13px;height:13px;"></i> Vídeo</button> <button class="media-button" onclick="uploadFile('notes-inf')"><i data-lucide="file-plus" style="width:13px;height:13px;"></i> Arquivo</button>
+       </div>
+       <div id="media-gallery-notes-inf" class="media-gallery"></div>
+      </div>
+     </section><!-- ── CRÂNIO ── -->
+     <section id="sec-cranio" class="section-card">
+      <h2 class="section-title"><i data-lucide="circle" style="width:22px;height:22px;color:var(--accent);"></i> Crânio <span class="region-tag tag-axial">Axial</span></h2>
+      <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.7;margin-bottom:1rem;">O crânio é dividido em <strong style="color:var(--text);">neurocrânio</strong> (proteção do encéfalo) e <strong style="color:var(--text);">viscerocrânio</strong> (esqueleto da face).</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;"><!-- NEUROCRÂNIO -->
+       <div style="background:var(--surface2);border-radius:10px;padding:1rem;border:1px solid var(--border);">
+        <h3 style="font-family:'Crimson Pro',serif;font-size:1.1rem;color:var(--accent);margin-bottom:0.75rem;display:flex;align-items:center;gap:0.4rem;"><i data-lucide="shield" style="width:15px;height:15px;"></i> Neurocrânio <span class="count-badge">8 ossos</span></h3>
+        <div class="bone-grid" style="grid-template-columns:1fr;">
+         <div class="bone-item">
+          Frontal (1)
+         </div>
+         <div class="bone-item">
+          Parietais (2)
+         </div>
+         <div class="bone-item">
+          Temporais (2)
+         </div>
+         <div class="bone-item">
+          Occipital (1)
+         </div>
+         <div class="bone-item">
+          Esfenoide (1)
+         </div>
+         <div class="bone-item">
+          Etmoide (1)
+         </div>
+        </div>
+       </div><!-- VISCEROCRÂNIO -->
+       <div style="background:var(--surface2);border-radius:10px;padding:1rem;border:1px solid var(--border);">
+        <h3 style="font-family:'Crimson Pro',serif;font-size:1.1rem;color:var(--accent2);margin-bottom:0.75rem;display:flex;align-items:center;gap:0.4rem;"><i data-lucide="smile" style="width:15px;height:15px;"></i> Viscerocrânio <span class="count-badge">15 ossos</span></h3>
+        <div class="bone-grid" style="grid-template-columns:1fr;">
+         <div class="bone-item">
+          Nasais (2)
+         </div>
+         <div class="bone-item">
+          Maxilas (2)
+         </div>
+         <div class="bone-item">
+          Zigomáticos (2)
+         </div>
+         <div class="bone-item">
+          Lacrimais (2)
+         </div>
+         <div class="bone-item">
+          Palatinos (2)
+         </div>
+         <div class="bone-item">
+          Conchas Nasais Inferiores (2)
+         </div>
+         <div class="bone-item">
+          Vômer (1)
+         </div>
+         <div class="bone-item">
+          Mandíbula (1)
+         </div>
+        </div>
+       </div>
+      </div><label for="notes-cranio" style="font-size:0.78rem;font-weight:600;color:var(--text-muted);display:block;margin:1rem 0 0.3rem;text-transform:uppercase;letter-spacing:0.08em;"> <i data-lucide="pencil" style="width:12px;height:12px;"></i> Minhas anotações — Crânio </label> <textarea id="notes-cranio" class="notes-area" placeholder="Anote sobre suturas cranianas, fontanelas, estruturas de passagem de nervos e vasos..."></textarea> <!-- Media section -->
+      <div style="margin-top:1rem;padding:1rem;background:var(--surface2);border-radius:10px;border:1px solid var(--border);">
+       <p style="font-size:0.78rem;font-weight:600;color:var(--accent2);margin-bottom:0.75rem;"><i data-lucide="image" style="width:14px;height:14px;display:inline;margin-right:0.3rem;"></i> Mídia</p>
+       <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.75rem;"><button class="media-button" onclick="capturePhoto('notes-cranio')"><i data-lucide="camera" style="width:13px;height:13px;"></i> Foto</button> <button class="media-button" onclick="captureVideo('notes-cranio')"><i data-lucide="video" style="width:13px;height:13px;"></i> Vídeo</button> <button class="media-button" onclick="uploadFile('notes-cranio')"><i data-lucide="file-plus" style="width:13px;height:13px;"></i> Arquivo</button>
+       </div>
+       <div id="media-gallery-notes-cranio" class="media-gallery"></div>
+      </div>
+     </section><!-- ── APLICAÇÃO NA EDUCAÇÃO FÍSICA ── -->
+     <section id="sec-aplicacao" class="section-card">
+      <h2 class="section-title"><i data-lucide="activity" style="width:22px;height:22px;color:var(--accent);"></i> Aplicação na Educação Física</h2>
+      <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.7;margin-bottom:1rem;">O conhecimento detalhado do sistema esquelético é fundamental para profissionais de Educação Física na avaliação postural, prescrição de exercícios e prevenção de lesões.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+       <div class="def-box">
+        <div class="term">
+         📋 Avaliação Postural
+        </div>
+        <p>A identificação de pontos de reparo ósseos (EIAS, EIPI, maléolos, espinhas ilíacas) permite a avaliação de desalinhamentos posturais (cifose, lordose, escoliose), fundamentais para prescrever exercícios corretivos.</p>
+       </div>
+       <div class="def-box" style="border-left-color:var(--accent2);">
+        <div class="term" style="color:var(--accent2);">
+         🏋️ Prescrição de Exercícios
+        </div>
+        <p>Compreender as estruturas ósseas e articulações (ex: côndilo do fêmur, acetábulo) permite prescrever exercícios respeitando os limites anatômicos e evitando movimentos danosos às articulações.</p>
+       </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+       <div class="def-box">
+        <div class="term">
+         ⚠️ Prevenção de Lesões
+        </div>
+        <p>O conhecimento de estruturas vulneráveis (cartilagem epifisial em adolescentes, maléolos laterais, olécrano) orienta estratégias para evitar impactos e sobrecargas inadequadas em diferentes fases.</p>
+       </div>
+       <div class="def-box" style="border-left-color:var(--accent2);">
+        <div class="term" style="color:var(--accent2);">
+         🔍 Análise Funcional
+        </div>
+        <p>A anatomia óssea permite análise biomecânica de movimentos: identificar bloqueios articulares, encurtamentos musculares relacionados e adaptações compensatórias no padrão motor.</p>
+       </div>
+      </div>
+      <div style="background:var(--surface2);border-radius:10px;padding:1rem;border:1px solid var(--border);margin-top:1rem;">
+       <p style="font-size:0.82rem;font-weight:600;color:var(--accent);margin-bottom:0.75rem;"><i data-lucide="lightbulb" style="width:14px;height:14px;display:inline;margin-right:0.3rem;"></i> Dicas Clínicas para Profissionais de EF:</p>
+       <ul style="list-style:none;font-size:0.82rem;color:var(--text-muted);line-height:1.8;">
+        <li><span style="color:var(--accent);">▸</span> Palpar a EIAS e EIPI para determinar a inclinação pélvica em posição ortostática</li>
+        <li><span style="color:var(--accent);">▸</span> Utilizar o acrômio como referência para detectar desvios de ombro (protração/retração)</li>
+        <li><span style="color:var(--accent);">▸</span> Avaliar o maléolo lateral para detectar tornozelos invertidos ou evertidos</li>
+        <li><span style="color:var(--accent);">▸</span> Em adolescentes, respeitar as cartilagens epifisiais, evitando sobrecarga em crescimento</li>
+        <li><span style="color:var(--accent);">▸</span> Monitorar assimetrias no posicionamento dos trocânteres maiores (indica desigualdade nos membros)</li>
+        <li><span style="color:var(--accent);">▸</span> Usar a crista ilíaca como referência para avaliar escoliose e cifose</li>
+       </ul>
+      </div><label for="notes-aplicacao" style="font-size:0.78rem;font-weight:600;color:var(--text-muted);display:block;margin:1rem 0 0.3rem;text-transform:uppercase;letter-spacing:0.08em;"> <i data-lucide="pencil" style="width:12px;height:12px;"></i> Minhas anotações — Aplicação prática </label> <textarea id="notes-aplicacao" class="notes-area" placeholder="Anote exemplos práticos, casos clínicos que vivenciou, estratégias de avaliação pessoais..."></textarea> <!-- Media section -->
+      <div style="margin-top:1rem;padding:1rem;background:var(--surface2);border-radius:10px;border:1px solid var(--border);">
+       <p style="font-size:0.78rem;font-weight:600;color:var(--accent2);margin-bottom:0.75rem;"><i data-lucide="image" style="width:14px;height:14px;display:inline;margin-right:0.3rem;"></i> Mídia</p>
+       <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.75rem;"><button class="media-button" onclick="capturePhoto('notes-aplicacao')"><i data-lucide="camera" style="width:13px;height:13px;"></i> Foto</button> <button class="media-button" onclick="captureVideo('notes-aplicacao')"><i data-lucide="video" style="width:13px;height:13px;"></i> Vídeo</button> <button class="media-button" onclick="uploadFile('notes-aplicacao')"><i data-lucide="file-plus" style="width:13px;height:13px;"></i> Arquivo</button>
+       </div>
+       <div id="media-gallery-notes-aplicacao" class="media-gallery"></div>
+      </div>
+     </section><!-- ── ANOTAÇÕES GERAIS ── -->
+     <section id="sec-notes" class="section-card">
+      <h2 class="section-title"><i data-lucide="pencil" style="width:22px;height:22px;color:var(--accent);"></i> Anotações Gerais</h2>
+      <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem;">Use este espaço para anotações livres, dúvidas, resumos adicionais ou esquemas pessoais.</p><label for="notes-general" class="sr-only">Anotações gerais</label> <textarea id="notes-general" class="notes-area" style="min-height:180px;" placeholder="Escreva aqui suas anotações gerais, dúvidas para tirar com a professora, esquemas pessoais..."></textarea>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin:0.9rem 0 0.75rem;"><button class="media-button" onclick="capturePhoto('notes-general')"><i data-lucide="camera" style="width:13px;height:13px;"></i> Foto</button> <button class="media-button" onclick="captureVideo('notes-general')"><i data-lucide="video" style="width:13px;height:13px;"></i> Vídeo</button> <button class="media-button" onclick="uploadFile('notes-general')"><i data-lucide="file-plus" style="width:13px;height:13px;"></i> Arquivo</button></div>
+      <div id="media-gallery-notes-general" class="media-gallery"></div> <!-- Action buttons bottom -->
+      <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-top:1rem;"><button class="btn btn-primary" onclick="saveNotes()"> <i data-lucide="save" style="width:15px;height:15px;"></i> Salvar Anotações </button> <button class="btn btn-secondary" onclick="window.print()"> <i data-lucide="printer" style="width:15px;height:15px;"></i> Imprimir / PDF </button> <button class="btn btn-danger" onclick="clearNotes()"> <i data-lucide="trash-2" style="width:15px;height:15px;"></i> Limpar Anotações </button>
+      </div>
+     </section><!-- ── FOOTER ── -->
+     <footer style="text-align:center;padding:1.5rem;border-top:1px solid var(--border);margin-top:1rem;">
+      <p style="font-size:0.78rem;color:var(--text-muted);"><strong style="color:var(--text);" id="footer-professor">Profª Dra. Cláudia Pinheiro</strong> · <span id="footer-course">Educação Física</span> · <span id="footer-university">Universidade Estadual de Maringá</span></p>
+      <p style="font-size:0.72rem;color:var(--text-muted);margin-top:0.3rem;">Guia de Estudo – Sistema Esquelético · Anatomia Humana</p>
+     </footer>
+    </main>
+   </div><!-- end content-grid -->
+  </div><!-- end page-wrapper -->
   <script>
+    // ── Lucide icons ──
     lucide.createIcons();
 
-    const NOTE_IDS = [
-      'notes-intro',
-      'notes-partes',
-      'notes-sup',
-      'notes-inf',
-      'notes-cranio',
-      'notes-aplicacao',
-      'notes-general'
-    ];
+    // ── Scroll progress bar ──
+    window.addEventListener('scroll', () => {
+      const el = document.getElementById('scroll-bar');
+      if (!el) return;
+      const scrolled = document.documentElement.scrollTop;
+      const total = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      el.style.width = total > 0 ? (scrolled / total * 100) + '%' : '0%';
+    });
 
+    // ── Active nav highlight ──
+    const sections = document.querySelectorAll('section[id], div[id^="sec-"]');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(l => l.classList.remove('active'));
+          const link = document.querySelector('.nav-link[href="#' + entry.target.id + '"]');
+          if (link) link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    document.querySelectorAll('section[id]').forEach(s => observer.observe(s));
+
+    // ── Toast helper ──
     function showToast(msg, color) {
       const t = document.getElementById('toast');
       t.textContent = msg;
@@ -1092,25 +1198,8 @@
       setTimeout(() => t.classList.remove('show'), 2800);
     }
 
-    window.addEventListener('scroll', () => {
-      const el = document.getElementById('scroll-bar');
-      const scrolled = document.documentElement.scrollTop || document.body.scrollTop;
-      const total = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      el.style.width = total > 0 ? ((scrolled / total) * 100) + '%' : '0%';
-    });
-
-    const navLinks = document.querySelectorAll('.nav-link');
-    const sectionObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          navLinks.forEach(l => l.classList.remove('active'));
-          const link = document.querySelector('.nav-link[href="#' + entry.target.id + '"]');
-          if (link) link.classList.add('active');
-        }
-      });
-    }, { rootMargin: '-30% 0px -55% 0px' });
-
-    document.querySelectorAll('section[id]').forEach(section => sectionObserver.observe(section));
+    // ── Save notes to localStorage ──
+    const NOTE_IDS = ['notes-intro','notes-partes','notes-sup','notes-inf','notes-cranio','notes-general'];
 
     function saveNotes() {
       NOTE_IDS.forEach(id => {
@@ -1128,320 +1217,298 @@
       });
     }
 
-    function clearNotes(buttonEl) {
-      if (!buttonEl) return;
+    // Update NOTE_IDS to include new aplicacao field
+    NOTE_IDS.push('notes-aplicacao');
 
-      if (buttonEl.dataset.confirm === 'true') {
+    function clearNotes() {
+      const btn = event.currentTarget;
+      if (btn.dataset.confirm === 'true') {
         NOTE_IDS.forEach(id => {
           const el = document.getElementById(id);
           if (el) el.value = '';
           localStorage.removeItem('guia_esq_' + id);
         });
-
-        buttonEl.dataset.confirm = 'false';
-        buttonEl.innerHTML = '<i data-lucide="trash-2" style="width:15px;height:15px;"></i> Limpar Anotações';
+        btn.dataset.confirm = 'false';
+        btn.innerHTML = '<i data-lucide="trash-2" style="width:15px;height:15px;"></i> Limpar Anotações';
         lucide.createIcons();
-        showToast('🗑 Todas as anotações foram apagadas.', 'var(--danger)');
-        return;
-      }
-
-      buttonEl.dataset.confirm = 'true';
-      buttonEl.innerHTML = '<i data-lucide="alert-triangle" style="width:15px;height:15px;"></i> Confirmar limpeza?';
-      lucide.createIcons();
-
-      setTimeout(() => {
-        if (buttonEl.dataset.confirm === 'true') {
-          buttonEl.dataset.confirm = 'false';
-          buttonEl.innerHTML = '<i data-lucide="trash-2" style="width:15px;height:15px;"></i> Limpar Anotações';
-          lucide.createIcons();
-        }
-      }, 3500);
-    }
-
-    let allMediaData = [];
-
-    function mediaStorageKey() {
-      return 'guiaEsqueleticoMediaV2';
-    }
-
-    function loadMediaStorage() {
-      try {
-        allMediaData = JSON.parse(localStorage.getItem(mediaStorageKey()) || '[]');
-      } catch (e) {
-        allMediaData = [];
-      }
-      renderAllMediaGalleries();
-    }
-
-    function persistMediaStorage() {
-      try {
-        localStorage.setItem(mediaStorageKey(), JSON.stringify(allMediaData));
-        return true;
-      } catch (e) {
-        showToast('❌ Espaço insuficiente para salvar mais arquivos', 'var(--danger)');
-        return false;
-      }
-    }
-
-    function buildMediaRecord(sectionId, fileName, fileType, base64Data) {
-      return {
-        id: 'm_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
-        section_id: sectionId,
-        file_name: fileName,
-        file_type: fileType,
-        created_at: new Date().toISOString(),
-        data_url: base64Data
-      };
-    }
-
-    function capturePhoto(sectionId) {
-      const input = document.getElementById('camera-input');
-      input.dataset.sectionId = sectionId;
-      input.click();
-    }
-
-    function captureVideo(sectionId) {
-      const input = document.getElementById('video-input');
-      input.dataset.sectionId = sectionId;
-      input.click();
-    }
-
-    function uploadFile(sectionId) {
-      const input = document.getElementById('file-input');
-      input.dataset.sectionId = sectionId;
-      input.click();
-    }
-
-    function fileToBase64(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = () => reject(new Error('Falha ao ler arquivo'));
-        reader.readAsDataURL(file);
-      });
-    }
-
-    function validateFileSize(file) {
-      const maxMb = file.type.startsWith('video/') ? 25 : 6;
-      const sizeMb = file.size / (1024 * 1024);
-      if (sizeMb > maxMb) {
-        showToast('❌ ' + file.name + ' excede ' + maxMb + ' MB', 'var(--danger)');
-        return false;
-      }
-      return true;
-    }
-
-    async function handleGenericUpload(event, forcedType = null) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      if (!validateFileSize(file)) {
-        event.target.value = '';
-        return;
-      }
-
-      const sectionId = event.target.dataset.sectionId || 'notes-intro';
-
-      try {
-        const base64 = await fileToBase64(file);
-        const fileType = forcedType || (
-          file.type.startsWith('image/') ? 'image' :
-          file.type.startsWith('video/') ? 'video' : 'file'
-        );
-
-        saveMedia(sectionId, file.name, fileType, base64);
-      } catch (error) {
-        showToast('❌ Não foi possível carregar o arquivo', 'var(--danger)');
-      }
-
-      event.target.value = '';
-    }
-
-    document.getElementById('camera-input').addEventListener('change', (e) => handleGenericUpload(e, 'image'));
-    document.getElementById('video-input').addEventListener('change', (e) => handleGenericUpload(e, 'video'));
-    document.getElementById('file-input').addEventListener('change', (e) => handleGenericUpload(e));
-
-    function saveMedia(sectionId, fileName, fileType, base64Data) {
-      const mediaRecord = buildMediaRecord(sectionId, fileName, fileType, base64Data);
-      allMediaData.unshift(mediaRecord);
-
-      if (persistMediaStorage()) {
-        renderAllMediaGalleries();
-        showToast('✓ Mídia adicionada!', 'var(--accent)');
+        showToast('🗑 Todas as anotações foram apagadas.', '#e06c75');
       } else {
-        allMediaData.shift();
+        btn.dataset.confirm = 'true';
+        btn.innerHTML = '<i data-lucide="alert-triangle" style="width:15px;height:15px;"></i> Confirmar limpeza?';
+        lucide.createIcons();
+        setTimeout(() => {
+          if (btn.dataset.confirm === 'true') {
+            btn.dataset.confirm = 'false';
+            btn.innerHTML = '<i data-lucide="trash-2" style="width:15px;height:15px;"></i> Limpar Anotações';
+            lucide.createIcons();
+          }
+        }, 3500);
       }
     }
 
-    function deleteMedia(mediaId) {
-      allMediaData = allMediaData.filter(m => m.id !== mediaId);
-      if (persistMediaStorage()) {
-        renderAllMediaGalleries();
-        showToast('✓ Mídia removida', 'var(--accent)');
-      }
+    // Load on start
+    loadNotes();
+
+    
+// ── Armazenamento local de mídias (sem SDK) ──
+let allMediaData = [];
+
+function mediaStorageKey() {
+  return 'guiaEsqueleticoMediaV1';
+}
+
+function loadMediaStorage() {
+  try {
+    allMediaData = JSON.parse(localStorage.getItem(mediaStorageKey()) || '[]');
+  } catch (e) {
+    allMediaData = [];
+  }
+  renderAllMediaGalleries();
+}
+
+function persistMediaStorage() {
+  try {
+    localStorage.setItem(mediaStorageKey(), JSON.stringify(allMediaData));
+    return true;
+  } catch (e) {
+    showToast('❌ Espaço insuficiente no celular para salvar mais arquivos', '#e06c75');
+    return false;
+  }
+}
+
+function buildMediaRecord(sectionId, fileName, fileType, base64Data) {
+  return {
+    __backendId: 'm_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+    section_id: sectionId,
+    file_name: fileName,
+    file_type: fileType,
+    file_size: (base64Data.length / 1024).toFixed(1) + ' KB',
+    created_at: new Date().toISOString(),
+    note_text: base64Data
+  };
+}
+
+function getCurrentSectionId() {
+  const sections = document.querySelectorAll('section[id]');
+  const scrollTop = document.documentElement.scrollTop;
+  let currentSection = 'notes-intro';
+  sections.forEach(s => {
+    if (s.offsetTop <= scrollTop + 100) {
+      currentSection = s.id.replace('sec-', 'notes-');
+    }
+  });
+  return currentSection;
+}
+
+function capturePhoto(sectionId) {
+  const input = document.getElementById('camera-input');
+  input.dataset.sectionId = sectionId || getCurrentSectionId();
+  input.click();
+}
+
+function captureVideo(sectionId) {
+  const input = document.getElementById('video-input');
+  input.dataset.sectionId = sectionId || getCurrentSectionId();
+  input.click();
+}
+
+function uploadFile(sectionId) {
+  const input = document.getElementById('file-input');
+  input.dataset.sectionId = sectionId || getCurrentSectionId();
+  input.click();
+}
+
+function fileToBase64(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.readAsDataURL(file);
+  });
+}
+
+function validateFileSize(file) {
+  const maxMb = file.type.startsWith('video/') ? 25 : 6;
+  const sizeMb = file.size / (1024 * 1024);
+  if (sizeMb > maxMb) {
+    showToast(`❌ ${file.name} excede ${maxMb} MB`, '#e06c75');
+    return false;
+  }
+  return true;
+}
+
+async function handleCameraCapture(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (!validateFileSize(file)) {
+    event.target.value = '';
+    return;
+  }
+  const sectionId = event.target.dataset.sectionId || 'notes-intro';
+  const base64 = await fileToBase64(file);
+  saveMedia(sectionId, file.name, 'image', base64);
+  event.target.value = '';
+}
+
+async function handleVideoCapture(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (!validateFileSize(file)) {
+    event.target.value = '';
+    return;
+  }
+  const sectionId = event.target.dataset.sectionId || 'notes-intro';
+  const base64 = await fileToBase64(file);
+  saveMedia(sectionId, file.name, 'video', base64);
+  event.target.value = '';
+}
+
+async function handleFileUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (!validateFileSize(file)) {
+    event.target.value = '';
+    return;
+  }
+  const sectionId = event.target.dataset.sectionId || 'notes-intro';
+  const base64 = await fileToBase64(file);
+  const fileType = file.type.startsWith('image/') ? 'image' : file.type.startsWith('video/') ? 'video' : 'file';
+  saveMedia(sectionId, file.name, fileType, base64);
+  event.target.value = '';
+}
+
+function saveMedia(sectionId, fileName, fileType, base64Data) {
+  const mediaRecord = buildMediaRecord(sectionId, fileName, fileType, base64Data);
+  allMediaData.unshift(mediaRecord);
+  if (persistMediaStorage()) {
+    renderAllMediaGalleries();
+    showToast('✓ Mídia adicionada!', 'var(--accent)');
+  } else {
+    allMediaData.shift();
+  }
+}
+
+function deleteMedia(mediaId) {
+  allMediaData = allMediaData.filter(m => m.__backendId !== mediaId);
+  if (persistMediaStorage()) {
+    renderAllMediaGalleries();
+    showToast('✓ Mídia removida', 'var(--accent)');
+  }
+}
+
+function renderAllMediaGalleries() {
+  const sections = ['notes-intro', 'notes-partes', 'notes-sup', 'notes-inf', 'notes-cranio', 'notes-aplicacao', 'notes-general'];
+  sections.forEach(section => renderMediaGallery(section));
+}
+
+function renderMediaGallery(sectionId) {
+  const galleryId = 'media-gallery-' + sectionId;
+  const gallery = document.getElementById(galleryId);
+  if (!gallery) return;
+
+  const mediaForSection = allMediaData.filter(m => m.section_id === sectionId);
+  gallery.innerHTML = '';
+
+  mediaForSection.forEach(media => {
+    const item = document.createElement('div');
+    item.className = 'media-item';
+    item.dataset.mediaId = media.__backendId;
+
+    if (media.file_type === 'image') {
+      item.innerHTML = `
+        <img src="${media.note_text}" alt="${media.file_name}" onclick="openMediaModal('${media.note_text}', '${media.file_type}')">
+        <button class="media-delete" onclick="deleteMedia('${media.__backendId}'); event.stopPropagation();"><i data-lucide="trash-2" style="width:12px;height:12px;"></i></button>
+      `;
+    } else if (media.file_type === 'video') {
+      item.innerHTML = `
+        <video onclick="openMediaModal('${media.note_text}', '${media.file_type}')"><source src="${media.note_text}"></video>
+        <button class="media-delete" onclick="deleteMedia('${media.__backendId}'); event.stopPropagation();"><i data-lucide="trash-2" style="width:12px;height:12px;"></i></button>
+      `;
+    } else {
+      item.innerHTML = `
+        <div style="display:flex;align-items:center;justify-content:center;height:100%;background:var(--surface2);padding:0.5rem;text-align:center;flex-direction:column;gap:0.35rem;">
+          <i data-lucide="file" style="width:28px;height:28px;color:var(--accent2);"></i>
+          <span style="font-size:0.68rem;line-height:1.2;color:var(--text-muted);word-break:break-word;">${media.file_name}</span>
+        </div>
+        <button class="media-delete" onclick="deleteMedia('${media.__backendId}'); event.stopPropagation();"><i data-lucide="trash-2" style="width:12px;height:12px;"></i></button>
+      `;
+      item.onclick = () => window.open(media.note_text, '_blank');
     }
 
-    function escapeHtml(text) {
-      return text
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#039;');
-    }
+    gallery.appendChild(item);
+  });
 
-    function renderAllMediaGalleries() {
-      NOTE_IDS.forEach(section => renderMediaGallery(section));
-    }
+  lucide.createIcons();
+}
 
-    function renderMediaGallery(sectionId) {
-      const gallery = document.getElementById('media-gallery-' + sectionId);
-      if (!gallery) return;
+function openMediaModal(src, type) {
+  const modal = document.getElementById('media-modal');
+  const content = document.getElementById('modal-content-area');
 
-      const mediaForSection = allMediaData.filter(m => m.section_id === sectionId);
-      gallery.innerHTML = '';
+  if (type === 'image') {
+    content.innerHTML = `<img src="${src}" alt="Media">`;
+  } else if (type === 'video') {
+    content.innerHTML = `<video controls style="width:100%;"><source src="${src}"></video>`;
+  }
 
-      mediaForSection.forEach(media => {
-        const item = document.createElement('div');
-        item.className = 'media-item';
+  modal.classList.add('show');
+}
 
-        const safeName = escapeHtml(media.file_name);
+function closeMediaModal() {
+  document.getElementById('media-modal').classList.remove('show');
+}
 
-        if (media.file_type === 'image') {
-          item.innerHTML = `
-            <img src="${media.data_url}" alt="${safeName}">
-            <button class="media-delete" type="button" aria-label="Excluir mídia">
-              <i data-lucide="trash-2" style="width:12px;height:12px;"></i>
-            </button>
-          `;
-          item.querySelector('img').addEventListener('click', () => openMediaModal(media.data_url, 'image'));
-        } else if (media.file_type === 'video') {
-          item.innerHTML = `
-            <video muted playsinline preload="metadata">
-              <source src="${media.data_url}">
-            </video>
-            <button class="media-delete" type="button" aria-label="Excluir mídia">
-              <i data-lucide="trash-2" style="width:12px;height:12px;"></i>
-            </button>
-          `;
-          item.querySelector('video').addEventListener('click', () => openMediaModal(media.data_url, 'video'));
-        } else {
-          item.innerHTML = `
-            <div class="file-thumb">
-              <i data-lucide="file" style="width:28px;height:28px;color:var(--accent2);"></i>
-              <span style="font-size:0.68rem;line-height:1.2;color:var(--text-muted);word-break:break-word;">${safeName}</span>
-            </div>
-            <button class="media-delete" type="button" aria-label="Excluir arquivo">
-              <i data-lucide="trash-2" style="width:12px;height:12px;"></i>
-            </button>
-          `;
-          item.addEventListener('click', (ev) => {
-            if (ev.target.closest('.media-delete')) return;
-            window.open(media.data_url, '_blank');
-          });
-        }
+// Install PWA button
 
-        item.querySelector('.media-delete').addEventListener('click', (ev) => {
-          ev.stopPropagation();
-          deleteMedia(media.id);
-        });
-
-        gallery.appendChild(item);
-      });
-
-      lucide.createIcons();
-    }
-
-    function openMediaModal(src, type) {
-      const modal = document.getElementById('media-modal');
-      const content = document.getElementById('modal-content-area');
-
-      if (type === 'image') {
-        content.innerHTML = '<img src="' + src + '" alt="Mídia">';
-      } else if (type === 'video') {
-        content.innerHTML = '<video controls autoplay style="width:100%;"><source src="' + src + '"></video>';
-      }
-
-      modal.classList.add('show');
-    }
-
-    function closeMediaModal() {
-      const modal = document.getElementById('media-modal');
-      const content = document.getElementById('modal-content-area');
-      modal.classList.remove('show');
-      content.innerHTML = '';
-    }
-
-    document.getElementById('media-modal').addEventListener('click', (e) => {
-      if (e.target.id === 'media-modal') closeMediaModal();
-    });
-
-    let deferredPrompt = null;
-    const installBtn = document.getElementById('install-btn');
-
+    let deferredPrompt;
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      installBtn.style.display = 'inline-flex';
     });
 
     async function installPWA() {
-      if (!deferredPrompt) {
-        showToast('💾 Instalação não disponível agora', 'var(--accent2)');
-        return;
-      }
-
-      deferredPrompt.prompt();
-      const choice = await deferredPrompt.userChoice;
-
-      if (choice.outcome === 'accepted') {
-        showToast('✓ App instalado com sucesso!', 'var(--success)');
-      } else {
-        showToast('Instalação cancelada', 'var(--accent2)');
-      }
-
-      deferredPrompt = null;
-    }
-
-    window.addEventListener('appinstalled', () => {
-      showToast('✓ App instalado com sucesso!', 'var(--success)');
-      deferredPrompt = null;
-    });
-
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', async () => {
-        try {
-          await navigator.serviceWorker.register('./service-worker.js');
-        } catch (error) {
-          console.error('SW erro:', error);
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          showToast('✓ App instalado com sucesso!', 'var(--accent)');
         }
-      });
+        deferredPrompt = null;
+      } else {
+        showToast('💾 App já está instalado ou não disponível', 'var(--accent2)');
+      }
     }
 
-    (function applyStaticBranding() {
-      const prof = 'Profª Dra. Cláudia Pinheiro';
-      const course = 'Educação Física';
-      const uni = 'Universidade Estadual de Maringá';
-      const title = 'Sistema Esquelético';
+    // Register Service Worker for PWA
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js').catch(() => {});
+    }
 
-      const profEl = document.getElementById('professor-name-el');
-      const courseEl = document.getElementById('course-name-el');
-      const titleEl = document.getElementById('guide-title-el');
-      const footerProf = document.getElementById('footer-professor');
-      const footerCourse = document.getElementById('footer-course');
-      const footerUni = document.getElementById('footer-university');
-
-      if (profEl) profEl.textContent = prof;
-      if (courseEl) courseEl.textContent = course + ' · ' + uni;
-      if (titleEl) titleEl.textContent = title;
-      if (footerProf) footerProf.textContent = prof;
-      if (footerCourse) footerCourse.textContent = course;
-      if (footerUni) footerUni.textContent = uni;
-    })();
-
-    loadNotes();
+    // Carregar mídias salvas localmente
     loadMediaStorage();
-    lucide.createIcons();
-  </script>
-</body>
-            </html>
+
+    
+  // Ajustes finais sem SDK externo
+  (function applyStaticBranding() {
+    const prof = 'Profª Dra. Cláudia Pinheiro';
+    const course = 'Educação Física';
+    const uni = 'Universidade Estadual de Maringá';
+    const title = 'Sistema Esquelético';
+
+    const profEl = document.getElementById('professor-name-el');
+    const courseEl = document.getElementById('course-name-el');
+    const titleEl = document.getElementById('guide-title-el');
+    const footerProf = document.getElementById('footer-professor');
+    const footerCourse = document.getElementById('footer-course');
+    const footerUni = document.getElementById('footer-university');
+
+    if (profEl) profEl.textContent = prof;
+    if (courseEl) courseEl.textContent = course + ' · ' + uni;
+    if (titleEl) titleEl.textContent = title;
+    if (footerProf) footerProf.textContent = prof;
+    if (footerCourse) footerCourse.textContent = course;
+    if (footerUni) footerUni.textContent = uni;
+  })();
+</script>
+
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e1fcac6f4e600ee',t:'MTc3NDQ2MTM4NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
