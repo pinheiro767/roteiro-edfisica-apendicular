@@ -2,1014 +2,1763 @@
 <html lang="pt-BR" class="h-full">
  <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0, user-scalable=yes">
-  <meta name="theme-color" content="#0f1923">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Guia Esquelético">
-  <link rel="icon" type="image/png" sizes="192x192" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%230f1923' width='192' height='192'/><text x='50%' y='50%' font-size='120' fill='%23c8964a' text-anchor='middle' dominant-baseline='middle' font-family='serif' font-weight='bold'>Ⓢ</text></svg>">
-  <title>Guia de Estudo – Sistema Esquelético</title>
-  <link rel="manifest" href="./manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anatomia Óssea</title>
+  <script src="/_sdk/element_sdk.js"></script>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&amp;family=DM+Sans:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&amp;family=DM+Sans:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
   <style>
-    :root { 
-      --bg: #0f1923; 
-      --surface: #162030; 
-      --surface2: #1e2d3d; 
-      --accent: #c8964a; 
-      --accent2: #5ba4cf; 
-      --text: #e8dfd0; 
-      --text-muted: #8a9bb0; 
-      --border: #2a3d52; 
-      --highlight: #c8964a22; 
-    }
-    
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    
-    html, body { 
-      height: 100%; 
-      background: var(--bg); 
-      color: var(--text); 
-      font-family: 'DM Sans', sans-serif; 
-      scroll-behavior: smooth; 
-      overflow-x: hidden;
-      -webkit-user-select: none;
-      -webkit-touch-callout: none;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-    
-    input, textarea, button { -webkit-user-select: text; -webkit-touch-callout: default; }
-    
-    h1, h2, h3, h4 { font-family: 'Crimson Pro', serif; }
-    
-    .site-header { 
-      background: linear-gradient(135deg, #0a1520 0%, #162030 50%, #0f1923 100%); 
-      border-bottom: 2px solid var(--accent); 
-      padding: max(1rem, env(safe-area-inset-top)) 1rem 1rem;
-      position: relative; 
-      overflow: hidden; 
-    }
-    
-    .header-badge { 
-      display: inline-block; 
-      background: var(--accent); 
-      color: #0f1923; 
-      font-size: 0.65rem; 
-      font-weight: 700; 
-      letter-spacing: 0.1em; 
-      text-transform: uppercase; 
-      padding: 0.25rem 0.65rem; 
-      border-radius: 2px; 
-      margin-bottom: 0.5rem; 
-    }
-    
-    .nav-sidebar { 
-      position: sticky; 
-      top: 1rem; 
-      max-height: calc(100% - 2rem); 
-      overflow-y: auto; 
-      scrollbar-width: thin; 
-      scrollbar-color: var(--border) transparent; 
-      -webkit-overflow-scrolling: touch;
-    }
-    
-    .nav-link { 
-      display: flex; 
-      align-items: center; 
-      gap: 0.5rem; 
-      padding: 0.65rem 0.75rem; 
-      border-radius: 6px; 
-      font-size: 0.75rem; 
-      color: var(--text-muted); 
-      cursor: pointer; 
-      transition: all 0.2s; 
-      border-left: 2px solid transparent; 
-      text-decoration: none;
-      -webkit-tap-highlight-color: transparent;
-      min-height: 44px;
-      display: flex;
-      align-items: center;
-    }
-    
-    .nav-link:active { background: var(--surface2); }
-    .nav-link:hover { background: var(--surface2); color: var(--text); border-left-color: var(--accent2); }
-    .nav-link.active { background: var(--highlight); color: var(--accent); border-left-color: var(--accent); }
-    
-    .section-card { 
-      background: var(--surface); 
-      border: 1px solid var(--border); 
-      border-radius: 12px; 
-      padding: 1.25rem; 
-      margin-bottom: 1.25rem; 
-      transition: border-color 0.2s; 
-    }
-    
-    .section-card:hover { border-color: var(--accent2); }
-    
-    .section-title { 
-      font-family: 'Crimson Pro', serif; 
-      font-size: clamp(1.3rem, 5vw, 1.6rem); 
-      font-weight: 600; 
-      color: var(--accent); 
-      border-bottom: 1px solid var(--border); 
-      padding-bottom: 0.6rem; 
-      margin-bottom: 1rem; 
-      display: flex; 
-      align-items: center; 
-      gap: 0.5rem;
-      word-break: break-word;
-    }
-    
-    .subsection-title { 
-      font-family: 'Crimson Pro', serif; 
-      font-size: clamp(1rem, 4vw, 1.15rem); 
-      font-weight: 600; 
-      color: var(--accent2); 
-      margin: 1rem 0 0.5rem; 
-      display: flex; 
-      align-items: center; 
-      gap: 0.5rem;
-      word-break: break-word;
-    }
-    
-    .def-box { 
-      background: var(--surface2); 
-      border-left: 3px solid var(--accent); 
-      border-radius: 0 8px 8px 0; 
-      padding: 0.75rem 1rem; 
-      margin: 0.75rem 0; 
-    }
-    
-    .def-box .term { 
-      font-family: 'Crimson Pro', serif; 
-      font-size: clamp(0.9rem, 3vw, 1.05rem); 
-      font-weight: 700; 
-      color: var(--accent); 
-      margin-bottom: 0.3rem; 
-      word-break: break-word;
-    }
-    
-    .def-box p { 
-      font-size: 0.8rem; 
-      color: var(--text-muted); 
-      line-height: 1.5; 
-      word-break: break-word;
-    }
-    
-    .bone-grid { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fill, minmax(min(130px, 100%), 1fr)); 
-      gap: 0.5rem; 
-      margin: 0.75rem 0;
-    }
-    
-    @media (max-width: 480px) {
-      .bone-grid {
-        grid-template-columns: repeat(auto-fill, minmax(min(100px, 100%), 1fr));
-      }
-    }
-    
-    .bone-item { 
-      background: var(--surface2); 
-      border: 1px solid var(--border); 
-      border-radius: 6px; 
-      padding: 0.5rem 0.65rem; 
-      font-size: 0.75rem; 
-      color: var(--text); 
-      display: flex; 
-      align-items: center; 
-      gap: 0.4rem; 
-      transition: all 0.15s;
-      min-height: 36px;
-      -webkit-tap-highlight-color: transparent;
-      word-break: break-word;
-    }
-    
-    .bone-item::before { 
-      content: ''; 
-      width: 5px; 
-      height: 5px; 
-      border-radius: 50%; 
-      background: var(--accent2); 
-      flex-shrink: 0; 
-    }
-    
-    .bone-item:active { border-color: var(--accent2); color: var(--accent2); }
-    
-    .notes-area { 
-      width: 100%; 
-      background: var(--surface2); 
-      border: 1px solid var(--border); 
-      border-radius: 8px; 
-      color: var(--text); 
-      font-family: 'DM Sans', sans-serif; 
-      font-size: 0.85rem; 
-      padding: 0.75rem; 
-      resize: vertical; 
-      min-height: 100px; 
-      transition: border-color 0.2s; 
-      line-height: 1.6;
-      -webkit-appearance: none;
-      appearance: none;
-    }
-    
-    .notes-area:focus { 
-      outline: none; 
-      border-color: var(--accent); 
-    }
-    
-    .btn { 
-      display: inline-flex; 
-      align-items: center; 
-      justify-content: center;
-      gap: 0.45rem; 
-      padding: 0.65rem 1rem; 
-      border-radius: 7px; 
-      font-size: 0.75rem; 
-      font-weight: 500; 
-      cursor: pointer; 
-      transition: all 0.2s; 
-      border: 1px solid transparent; 
-      font-family: 'DM Sans', sans-serif;
-      -webkit-tap-highlight-color: transparent;
-      min-height: 44px;
-      min-width: 44px;
-    }
-    
-    .btn-primary { background: var(--accent); color: #0f1923; border-color: var(--accent); }
-    .btn-primary:active { opacity: 0.85; }
-    
-    .btn-secondary { background: transparent; color: var(--accent2); border-color: var(--accent2); }
-    .btn-secondary:active { opacity: 0.7; }
-    
-    .btn-danger { background: transparent; color: #e06c75; border-color: #e06c75; }
-    .btn-danger:active { opacity: 0.7; }
-    
-    #toast { 
-      position: fixed; 
-      bottom: max(1.5rem, env(safe-area-inset-bottom)); 
-      right: 1rem; 
-      left: 1rem;
-      background: #2a3d52; 
-      border: 1px solid var(--accent); 
-      color: var(--text); 
-      padding: 1rem; 
-      border-radius: 8px; 
-      font-size: 0.8rem; 
-      z-index: 9999; 
-      opacity: 0; 
-      transform: translateY(10px); 
-      transition: all 0.3s; 
-      pointer-events: none;
-      max-width: 90vw;
-      margin: 0 auto;
-    }
-    
-    #toast.show { opacity: 1; transform: translateY(0); }
-    
-    .scroll-progress { 
-      position: fixed; 
-      top: 0; 
-      left: 0; 
-      height: 3px; 
-      background: linear-gradient(90deg, var(--accent), var(--accent2)); 
-      z-index: 1000; 
-      transition: width 0.1s; 
-    }
-    
-    .page-wrapper { 
-      min-height: 100%; 
-      display: flex; 
-      flex-direction: column; 
-    }
-    
-    .content-grid { 
-      display: grid; 
-      grid-template-columns: 1fr; 
-      gap: 1rem; 
-      padding: 1rem; 
-      flex: 1;
-      padding-bottom: max(1rem, env(safe-area-inset-bottom));
-    }
-    
-    @media (min-width: 769px) { 
-      .content-grid { 
-        grid-template-columns: 220px 1fr; 
-        gap: 1.5rem; 
-        padding: 1.5rem;
-      } 
-    }
-    
-    @media (max-width: 768px) { 
-      .nav-sidebar { 
-        position: relative;
-        top: 0;
-        max-height: none;
-        display: flex;
-        gap: 0.5rem;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        margin-bottom: 1rem;
-        padding-bottom: 0.5rem;
-      }
-      
-      .nav-link {
-        white-space: nowrap;
-        flex-shrink: 0;
-      }
-      
-      .site-header {
-        padding: max(0.75rem, env(safe-area-inset-top)) 0.75rem 0.75rem;
-      }
-      
-      .site-header h1 {
-        font-size: clamp(1.5rem, 6vw, 2rem);
-        margin-bottom: 0.5rem;
-      }
-      
-      .section-card {
-        padding: 1rem;
-        margin-bottom: 1rem;
-        border-radius: 10px;
-      }
-    }
-    
-    .media-controls {
-      display: flex;
-      gap: 0.5rem;
-      margin: 0.75rem 0;
-      flex-wrap: wrap;
-    }
-    
-    .count-badge { 
-      display: inline-block; 
-      background: var(--surface2); 
-      color: var(--accent2); 
-      font-size: 0.65rem; 
-      font-weight: 600; 
-      padding: 0.15rem 0.5rem; 
-      border-radius: 99px; 
-      border: 1px solid var(--accent2); 
-      margin-left: 0.5rem; 
-      vertical-align: middle; 
-    }
-    
-    .region-tag { 
-      display: inline-flex; 
-      align-items: center; 
-      gap: 0.3rem; 
-      font-size: 0.65rem; 
-      padding: 0.2rem 0.5rem; 
-      border-radius: 99px; 
-      font-weight: 600; 
-      letter-spacing: 0.05em; 
-      text-transform: uppercase; 
-    }
-    
-    .tag-axial { background: #c8964a22; color: var(--accent); border: 1px solid #c8964a44; }
-    .tag-appendicular { background: #5ba4cf22; color: var(--accent2); border: 1px solid #5ba4cf44; }
-    
-    .media-button { 
-      display: inline-flex; 
-      align-items: center; 
-      justify-content: center;
-      gap: 0.35rem; 
-      padding: 0.55rem 0.85rem; 
-      border-radius: 6px; 
-      font-size: 0.7rem; 
-      font-weight: 500; 
-      cursor: pointer; 
-      transition: all 0.2s; 
-      background: var(--surface2); 
-      color: var(--accent2); 
-      border: 1px solid var(--accent2);
-      -webkit-tap-highlight-color: transparent;
-      min-height: 40px;
-    }
-    
-    .media-button:active { opacity: 0.7; }
-    
-    .media-gallery { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fill, minmax(min(90px, 100%), 1fr)); 
-      gap: 0.5rem; 
-      margin-top: 0.75rem;
-    }
-    
-    .media-item { 
-      position: relative; 
-      border-radius: 8px; 
-      overflow: hidden; 
-      border: 1px solid var(--border); 
-      background: var(--surface2); 
-      aspect-ratio: 1; 
-      cursor: pointer;
-      -webkit-touch-callout: none;
-    }
-    
-    .media-item img, .media-item video { 
-      width: 100%; 
-      height: 100%; 
-      object-fit: cover; 
-      display: block;
-    }
-    
-    .media-delete { 
-      position: absolute; 
-      top: 3px; 
-      right: 3px; 
-      background: rgba(224, 108, 117, 0.95); 
-      color: white; 
-      border: none; 
-      border-radius: 3px; 
-      width: 28px; 
-      height: 28px; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      cursor: pointer; 
-      font-size: 14px;
-      -webkit-tap-highlight-color: transparent;
-      min-width: 44px;
-      min-height: 44px;
-      width: 44px;
-      height: 44px;
-    }
-    
-    .modal { 
-      display: none; 
-      position: fixed; 
-      inset: 0; 
-      background: rgba(15, 25, 35, 0.95); 
-      z-index: 9998; 
-      align-items: center; 
-      justify-content: center; 
-      padding: 1rem;
-      top: 0;
-      left: 0;
-    }
-    
-    .modal.show { display: flex; }
-    
-    .modal-content { 
-      background: var(--surface); 
-      border-radius: 12px; 
-      max-width: 95vw; 
-      max-height: 85vh; 
-      overflow: auto; 
-      border: 1px solid var(--border);
-      -webkit-overflow-scrolling: touch;
-    }
-    
-    .modal-content img, .modal-content video {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-    
-    .modal-close { 
-      position: absolute; 
-      top: 1rem; 
-      right: 1rem; 
-      background: var(--accent); 
-      color: #0f1923; 
-      border: none; 
-      border-radius: 50%; 
-      width: 48px; 
-      height: 48px; 
-      cursor: pointer; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center;
-      -webkit-tap-highlight-color: transparent;
-      min-width: 48px;
-      min-height: 48px;
-      font-size: 24px;
-      z-index: 10000;
-    }
-    
-    header > div {
-      max-width: 100%;
-    }
-    
-    @media print { 
-      body { background: white; color: black; font-size: 11px; }
-      html { margin: 0; padding: 0; }
-      .page-wrapper { margin: 0; padding: 0; }
-      .site-header { padding: 1rem; margin-bottom: 1rem; border-bottom: 2px solid #ccc; }
-      .site-header h1 { font-size: 1.8rem; margin: 0.5rem 0; }
-      .site-header p { font-size: 0.9rem; margin: 0.2rem 0; }
-      .content-grid { display: block !important; padding: 1rem; gap: 0; }
-      .nav-sidebar { display: none; }
-      .section-card { page-break-inside: auto; padding: 0.8rem; margin: 1rem 0; border: 1px solid #333; }
-      .section-title { font-size: 1.3rem; margin: 0.5rem 0; padding: 0.5rem 0; border-bottom: 2px solid #333; color: #000; }
-      .subsection-title { font-size: 1.1rem; margin: 0.5rem 0 0.3rem; color: #333; }
-      .bone-grid { gap: 0.5rem; margin: 0.8rem 0; }
-      .bone-item { padding: 0.4rem 0.6rem; font-size: 0.9rem; min-height: auto; background: #f5f5f5; border: 1px solid #ddd; color: #000; }
-      .def-box { padding: 0.8rem; margin: 0.6rem 0; background: #f9f9f9; border-left: 3px solid #333; color: #000; }
-      .def-box .term { font-size: 1rem; margin: 0 0 0.3rem; color: #000; }
-      .def-box p { font-size: 0.9rem; margin: 0; color: #333; }
-      .notes-area { display: block; width: 100%; min-height: 80px; border: 1px solid #ddd; padding: 0.5rem; margin: 0.5rem 0; background: white; color: black; }
-      .media-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 0.5rem; margin: 0.5rem 0; }
-      .media-item { border: 1px solid #ddd; border-radius: 4px; }
-      .media-delete { display: none; }
-      #sec-intro > div { grid-template-columns: 1fr 1fr !important; gap: 1rem; margin: 1rem 0; }
-      #sec-intro > div > div { padding: 0.8rem; min-height: auto; background: #f9f9f9; border: 1px solid #ddd; }
-      #sec-intro > div > div p { font-size: 0.95rem; margin: 0.3rem 0; color: #000; }
-      #sec-intro > div > div ul { padding: 0 0 0 1.5rem; margin: 0.3rem 0; font-size: 0.9rem; line-height: 1.5; color: #333; }
-      #sec-intro > div > div li { margin: 0.2rem 0; }
+    :root {
+      --bg: #0e1117;
+      --surface: #181d27;
+      --card: #1f2635;
+      --border: #2a3247;
+      --accent: #4f8ef7;
+      --accent2: #6ec6a0;
+      --accent3: #f7a84f;
+      --text: #e8eaf0;
+      --muted: #7a85a0;
     }
 
-    /* Garantir safe areas em notch devices */
-    @supports (padding: max(0px)) {
-      body {
-        padding-left: max(0, env(safe-area-inset-left));
-        padding-right: max(0, env(safe-area-inset-right));
-      }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body, .app-root {
+      height: 100%;
+      width: 100%;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    .app-root {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      height: 100%;
+    }
+
+    /* Header */
+    .app-header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 20px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .header-content { display: flex; align-items: center; gap: 12px; }
+
+    .header-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--accent), #7b5df7);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .header-text h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 18px;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    .header-text p { font-size: 11px; color: var(--muted); margin-top: 1px; }
+
+    .stat-chips { display: flex; gap: 8px; }
+
+    .chip {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .chip span { color: var(--accent); font-weight: 600; }
+
+    /* Search */
+    .search-bar {
+      padding: 10px 16px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .search-wrap { position: relative; }
+
+    .search-wrap input {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 12px 8px 36px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-wrap input::placeholder { color: var(--muted); }
+    .search-wrap input:focus { border-color: var(--accent); }
+
+    .search-icon {
+      position: absolute; left: 10px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted); pointer-events: none;
+    }
+
+    .search-clear {
+      position: absolute; right: 10px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted); cursor: pointer;
+      background: none; border: none; padding: 2px;
+      display: none;
+    }
+
+    .search-clear:hover { color: var(--text); }
+
+    /* Body layout */
+    .body-layout {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 210px;
+      flex-shrink: 0;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      padding: 8px;
+    }
+
+    .sidebar::-webkit-scrollbar { width: 3px; }
+    .sidebar::-webkit-scrollbar-track { background: transparent; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .sidebar-section-label {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 10px 8px 4px;
+    }
+
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s;
+      color: var(--muted);
+      font-size: 12.5px;
+      border: 1px solid transparent;
+      margin-bottom: 1px;
+    }
+
+    .sidebar-item:hover { background: var(--card); color: var(--text); }
+
+    .sidebar-item.active {
+      background: var(--card);
+      color: var(--accent);
+      border-color: var(--border);
+    }
+
+    .sidebar-item .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--border);
+      flex-shrink: 0;
+    }
+
+    .sidebar-item.active .dot { background: var(--accent); }
+
+    /* Main content */
+    .main-content {
+      flex: 1;
+      overflow-y: auto;
+      min-width: 0;
+      padding: 20px;
+      background: var(--bg);
+    }
+
+    .main-content::-webkit-scrollbar { width: 4px; }
+    .main-content::-webkit-scrollbar-track { background: transparent; }
+    .main-content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    /* Cards */
+    .bone-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 14px;
+    }
+
+    .bone-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bone-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), #7b5df7);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .bone-card:hover { border-color: var(--accent); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(79,142,247,0.12); }
+    .bone-card:hover::before { opacity: 1; }
+
+    .bone-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .bone-card-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 20px;
+    }
+
+    .bone-card-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .bone-card-latin {
+      font-size: 11px;
+      color: var(--muted);
+      font-style: italic;
+      margin-top: 2px;
+    }
+
+    .bone-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 10px;
+    }
+
+    .tag {
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: 500;
+    }
+
+    .tag-blue { background: rgba(79,142,247,0.12); color: #7fb3ff; border: 1px solid rgba(79,142,247,0.2); }
+    .tag-green { background: rgba(110,198,160,0.12); color: #8fdbb8; border: 1px solid rgba(110,198,160,0.2); }
+    .tag-orange { background: rgba(247,168,79,0.12); color: #ffca7f; border: 1px solid rgba(247,168,79,0.2); }
+    .tag-purple { background: rgba(123,93,247,0.12); color: #b09dff; border: 1px solid rgba(123,93,247,0.2); }
+
+    .bone-card-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+      margin-top: 8px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Detail panel */
+    .detail-panel {
+      width: 360px;
+      flex-shrink: 0;
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      overflow-y: auto;
+      display: none;
+    }
+
+    .detail-panel.open { display: flex; flex-direction: column; }
+
+    .detail-panel::-webkit-scrollbar { width: 3px; }
+    .detail-panel::-webkit-scrollbar-track { background: transparent; }
+    .detail-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .detail-header {
+      padding: 16px 18px 14px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--surface);
+      z-index: 1;
+    }
+
+    .detail-close {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 4px 8px;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 12px;
+      width: fit-content;
+      transition: all 0.15s;
+    }
+
+    .detail-close:hover { color: var(--text); border-color: var(--accent); }
+
+    .detail-bone-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    .detail-bone-latin {
+      font-size: 12px;
+      color: var(--muted);
+      font-style: italic;
+      margin-top: 3px;
+    }
+
+    .detail-body { padding: 16px 18px; flex: 1; }
+
+    .detail-section {
+      margin-bottom: 18px;
+    }
+
+    .detail-section-title {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .detail-section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .detail-text {
+      font-size: 12.5px;
+      color: #c5c9d6;
+      line-height: 1.65;
+    }
+
+    .detail-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .detail-list li {
+      font-size: 12px;
+      color: #c5c9d6;
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+      line-height: 1.5;
+    }
+
+    .detail-list li::before {
+      content: '›';
+      color: var(--accent);
+      font-size: 14px;
+      flex-shrink: 0;
+      margin-top: -1px;
+    }
+
+    .detail-alert {
+      background: rgba(247,168,79,0.08);
+      border: 1px solid rgba(247,168,79,0.25);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 12px;
+      color: #ffca7f;
+      line-height: 1.55;
+      display: flex;
+      gap: 8px;
+    }
+
+    .detail-alert-icon { flex-shrink: 0; margin-top: 1px; }
+
+    .detail-info {
+      background: rgba(79,142,247,0.07);
+      border: 1px solid rgba(79,142,247,0.2);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 12px;
+      color: #93b8f7;
+      line-height: 1.55;
+      display: flex;
+      gap: 8px;
+    }
+
+    .count-badge {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .count-badge .label { font-size: 11px; color: var(--muted); }
+    .count-badge .value { font-size: 16px; font-weight: 600; color: var(--accent); font-family: 'DM Serif Display', serif; }
+
+    /* Section view header */
+    .section-header {
+      margin-bottom: 16px;
+    }
+
+    .section-header h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      color: var(--text);
+    }
+
+    .section-header p {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+
+    .empty-state .icon { font-size: 40px; margin-bottom: 12px; opacity: 0.5; }
+    .empty-state h3 { font-size: 16px; color: var(--text); margin-bottom: 6px; }
+    .empty-state p { font-size: 13px; }
+
+    /* Region pill nav */
+    .region-pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      padding: 10px 16px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .region-pill {
+      font-size: 11px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      background: var(--card);
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .region-pill:hover { color: var(--text); border-color: var(--accent); }
+    .region-pill.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+    /* Palpation highlight */
+    .palpation-spot {
+      background: rgba(110,198,160,0.08);
+      border: 1px solid rgba(110,198,160,0.2);
+      border-radius: 8px;
+      padding: 8px 12px;
+      margin-bottom: 6px;
+    }
+
+    .palpation-spot .spot-name { font-size: 12px; font-weight: 600; color: #8fdbb8; margin-bottom: 2px; }
+    .palpation-spot .spot-desc { font-size: 11.5px; color: #a0c8b8; line-height: 1.5; }
+
+    /* Fracture risk */
+    .fracture-item {
+      background: rgba(247,79,100,0.07);
+      border: 1px solid rgba(247,79,100,0.2);
+      border-radius: 8px;
+      padding: 8px 12px;
+      margin-bottom: 6px;
+      font-size: 12px;
+      color: #f79fb0;
+      line-height: 1.5;
+    }
+
+    .fracture-item strong { color: #ff8fa3; display: block; margin-bottom: 2px; font-size: 11.5px; }
+
+    /* Scrollbar for main content */
+    .main-content::-webkit-scrollbar { width: 4px; }
+
+    /* Animation */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .bone-card { animation: fadeInUp 0.25s ease both; }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .detail-panel.open { animation: slideIn 0.2s ease both; }
+
+    /* Media section */
+    .media-section {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .media-button {
+      flex: 1;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: all 0.15s;
+    }
+
+    .media-button:hover {
+      border-color: var(--accent);
+      color: var(--text);
+      background: rgba(79,142,247,0.08);
+    }
+
+    .media-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .media-item {
+      position: relative;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      overflow: hidden;
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .media-item img,
+    .media-item video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .media-item-remove {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 20px;
+      height: 20px;
+      background: rgba(0,0,0,0.6);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      cursor: pointer;
+      font-size: 12px;
+      border: none;
+      transition: background 0.15s;
+    }
+
+    .media-item-remove:hover {
+      background: rgba(0,0,0,0.8);
+    }
+
+    .file-input-hidden {
+      display: none;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 600px) {
+      .sidebar { width: 0; display: none; }
+      .detail-panel { width: 100%; position: absolute; top: 0; left: 0; height: 100%; z-index: 10; }
+      .stat-chips { display: none; }
     }
   </style>
   <style>body { box-sizing: border-box; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
-  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
  </head>
  <body>
-  <div id="scroll-bar" class="scroll-progress no-print" style="width:0%"></div>
-  <div id="toast"></div>
-  <div id="media-modal" class="modal">
-   <button class="modal-close" onclick="closeMediaModal()">✕</button>
-   <div class="modal-content" id="modal-content-area"></div>
-  </div><input type="file" id="camera-input" accept="image/*" capture="environment" style="display:none;" onchange="handleFile(event, 'image')"> <input type="file" id="video-input" accept="video/*" capture="environment" style="display:none;" onchange="handleFile(event, 'video')"> <input type="file" id="file-input" accept="*/*" style="display:none;" onchange="handleFile(event, 'file')">
-  <div class="page-wrapper">
-   <header class="site-header no-print">
-    <div style="position: relative; z-index: 10;">
-     <div class="header-badge">
-      Anatomia Humana · Guia de Estudo
+  <div class="app-root" id="appRoot">
+   <!-- Header -->
+   <header class="app-header">
+    <div class="header-content">
+     <div class="header-icon">
+      <svg width="20" height="20" viewbox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+       <path d="M9 12H3a9 9 0 009 9V15M15 12h6a9 9 0 01-9 9V15M9 12V3a9 9 0 019 9H15M9 12H3a9 9 0 019-9V9" />
+      </svg>
      </div>
-     <h1 id="guide-title-el" style="font-size:clamp(1.5rem, 6vw, 2.2rem);font-weight:700;color:#e8dfd0;margin-bottom:0.25rem;word-break:break-word;">Sistema Esquelético</h1>
-     <p id="course-name-el" style="font-size:clamp(0.75rem, 2.5vw, 0.9rem);color:#c8964a;font-weight:500;word-break:break-word;">Educação Física · Universidade Estadual de Maringá</p>
-     <p id="professor-name-el" style="font-size:clamp(0.7rem, 2vw, 0.82rem);color:#8a9bb0;margin-top:0.2rem;word-break:break-word;">Profª Dra. Cláudia Pinheiro</p>
-     <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:1rem;"><button class="btn btn-primary" onclick="saveTextNotes()"><i data-lucide="save" style="width:16px;height:16px;"></i> <span style="display: inline;">Salvar</span></button> <button class="btn btn-secondary" onclick="window.print()"><i data-lucide="printer" style="width:16px;height:16px;"></i> <span style="display: inline;">PDF</span></button> <button class="btn" style="background:var(--surface2);color:#4ade80;border-color:#4ade80;" onclick="installPWA()"><i data-lucide="download" style="width:16px;height:16px;"></i> <span style="display: inline;">App</span></button>
+     <div class="header-text">
+      <h1 id="appTitle">Anatomia Óssea</h1>
+      <p id="appSubtitle">Guia Interativo de Estruturas Ósseas</p>
      </div>
     </div>
-   </header>
-   <div class="content-grid">
-    <aside class="no-print">
-     <nav class="nav-sidebar">
-      <p style="font-size:0.65rem;font-weight:700;color:var(--text-muted);padding:0.5rem 0.75rem;">CONTEÚDO</p><a class="nav-link" href="#sec-intro"><i data-lucide="book-open" style="width:13px;height:13px;"></i> <span style="display:none;">Introdução</span></a> <a class="nav-link" href="#sec-partes"><i data-lucide="layers" style="width:13px;height:13px;"></i> <span style="display:none;">Partes</span></a> <a class="nav-link" href="#sec-sup"><i data-lucide="arrow-up" style="width:13px;height:13px;"></i> <span style="display:none;">Superior</span></a> <a class="nav-link" href="#sec-inf"><i data-lucide="arrow-down" style="width:13px;height:13px;"></i> <span style="display:none;">Inferior</span></a> <a class="nav-link" href="#sec-cranio"><i data-lucide="circle" style="width:13px;height:13px;"></i> <span style="display:none;">Crânio</span></a> <a class="nav-link" href="#sec-aplicacao"><i data-lucide="activity" style="width:13px;height:13px;"></i> <span style="display:none;">Prática</span></a> <a class="nav-link" href="#sec-notes"><i data-lucide="pencil" style="width:13px;height:13px;"></i> <span style="display:none;">Notas</span></a>
-      <div style="margin-top:1rem;padding:1rem;background:var(--surface2);border-radius:10px;text-align:center;white-space:nowrap;">
-       <p style="font-size:0.65rem;color:var(--text-muted);">OSSOS</p>
-       <p style="font-family:'Crimson Pro',serif;font-size:2rem;font-weight:700;color:var(--accent);">206</p>
+    <div class="stat-chips">
+     <div class="chip"><span id="totalBones">32</span> estruturas
+     </div>
+     <div class="chip"><span>8</span> regiões
+     </div><button onclick="exportToPDF()" style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:6px 12px;color:var(--muted);cursor:pointer;font-size:11px;display:flex;align-items:center;gap:6px;transition:all 0.15s;font-weight:500;white-space:nowrap;" onmouseover="this.style.borderColor=getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();this.style.color=getComputedStyle(document.documentElement).getPropertyValue('--text').trim();" onmouseout="this.style.borderColor=getComputedStyle(document.documentElement).getPropertyValue('--border').trim();this.style.color=getComputedStyle(document.documentElement).getPropertyValue('--muted').trim();"> <i data-lucide="download" style="width:12px;height:12px;"></i> PDF </button>
+    </div>
+   </header><!-- Search -->
+   <div class="search-bar">
+    <div class="search-wrap">
+     <i data-lucide="search" class="search-icon" style="width:14px;height:14px;"></i> <input type="text" id="searchInput" placeholder="Buscar osso, região, estrutura..." autocomplete="off"> <button class="search-clear" id="searchClear" onclick="clearSearch()"> <i data-lucide="x" style="width:12px;height:12px;"></i> </button>
+    </div>
+   </div><!-- Region pills -->
+   <div class="region-pills" id="regionPills">
+    <button class="region-pill active" onclick="filterRegion('all', this)">Todos</button> <button class="region-pill" onclick="filterRegion('craneo', this)">Crânio</button> <button class="region-pill" onclick="filterRegion('coluna', this)">Coluna</button> <button class="region-pill" onclick="filterRegion('torax', this)">Tórax</button> <button class="region-pill" onclick="filterRegion('membros_sup', this)">Membro Superior</button> <button class="region-pill" onclick="filterRegion('pelve', this)">Pelve</button> <button class="region-pill" onclick="filterRegion('membros_inf', this)">Membro Inferior</button> <button class="region-pill" onclick="filterRegion('mao', this)">Mão</button> <button class="region-pill" onclick="filterRegion('pe', this)">Pé</button>
+   </div><!-- Body -->
+   <div class="body-layout">
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+     <div class="sidebar-section-label">
+      Regiões
+     </div>
+     <div class="sidebar-item active" onclick="selectSidebarItem(this,'all')">
+      <div class="dot"></div> Todos os Ossos
+     </div>
+     <div class="sidebar-item" onclick="selectSidebarItem(this,'craneo')">
+      <div class="dot"></div> Crânio &amp; Face
+     </div>
+     <div class="sidebar-item" onclick="selectSidebarItem(this,'coluna')">
+      <div class="dot"></div> Coluna Vertebral
+     </div>
+     <div class="sidebar-item" onclick="selectSidebarItem(this,'torax')">
+      <div class="dot"></div> Tórax
+     </div>
+     <div class="sidebar-item" onclick="selectSidebarItem(this,'membros_sup')">
+      <div class="dot"></div> Membro Superior
+     </div>
+     <div class="sidebar-item" onclick="selectSidebarItem(this,'pelve')">
+      <div class="dot"></div> Pelve
+     </div>
+     <div class="sidebar-item" onclick="selectSidebarItem(this,'membros_inf')">
+      <div class="dot"></div> Membro Inferior
+     </div>
+     <div class="sidebar-item" onclick="selectSidebarItem(this,'mao')">
+      <div class="dot"></div> Mão
+     </div>
+     <div class="sidebar-item" onclick="selectSidebarItem(this,'pe')">
+      <div class="dot"></div> Pé
+     </div>
+     <div class="sidebar-section-label" style="margin-top:8px;">
+      Referência
+     </div>
+     <div class="sidebar-item" onclick="selectSidebarItem(this,'contagem')">
+      <div class="dot"></div> Contagem Óssea
+     </div>
+     <div class="sidebar-item" onclick="selectSidebarItem(this,'fraturas')">
+      <div class="dot"></div> Fraturas Comuns
+     </div>
+     <div class="sidebar-item" onclick="selectSidebarItem(this,'palpacao')">
+      <div class="dot"></div> Pontos de Palpação
+     </div>
+    </nav><!-- Main -->
+    <main class="main-content" id="mainContent">
+     <!-- Injected by JS -->
+    </main><!-- Detail Panel -->
+    <aside class="detail-panel" id="detailPanel">
+     <div class="detail-header">
+      <button class="detail-close" onclick="closeDetail()"> <i data-lucide="arrow-left" style="width:11px;height:11px;"></i> Voltar </button>
+      <div class="detail-bone-name" id="detailName">
+       —
       </div>
-     </nav>
+      <div class="detail-bone-latin" id="detailLatin">
+       —
+      </div>
+      <div class="bone-card-tags" id="detailTags" style="margin-top:8px;"></div>
+     </div>
+     <div class="detail-body" id="detailBody">
+     </div>
     </aside>
-    <main style="width: 100%; min-width: 0;">
-     <section id="sec-intro" class="section-card">
-      <h2 class="section-title">Introdução</h2>
-      <p style="color:var(--text-muted);font-size:0.8rem;word-break:break-word;">O sistema esquelético é dividido em <strong>Axial</strong> (80 ossos) e <strong>Apendicular</strong> (126 ossos).</p>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 1rem 0; max-width: 100%;">
-       <div style="background: #c8964a22; border: 1px solid #c8964a44; border-radius: 10px; padding: 1rem; min-height: 200px; display: flex; flex-direction: column; gap: 0.5rem;">
-        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-         <span class="region-tag tag-axial">AXIAL</span>
-        </div>
-        <p style="font-family: 'Crimson Pro', serif; font-size: 1rem; font-weight: 600; color: var(--accent); margin-bottom: 0.5rem;">80 Ossos</p>
-        <ul style="list-style: none; padding: 0; color: var(--text-muted); font-size: 0.75rem; line-height: 1.6;">
-         <li>✦ Crânio</li>
-         <li>✦ Coluna vertebral</li>
-         <li>✦ Caixa torácica</li>
-         <li>✦ Osso hioide</li>
-         <li>✦ Ossículos auditivos</li>
-         <li>✦ Esterno</li>
-        </ul>
-       </div>
-       <div style="background: #5ba4cf22; border: 1px solid #5ba4cf44; border-radius: 10px; padding: 1rem; min-height: 200px; display: flex; flex-direction: column; gap: 0.5rem;">
-        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-         <span class="region-tag tag-appendicular">APENDICULAR</span>
-        </div>
-        <p style="font-family: 'Crimson Pro', serif; font-size: 1rem; font-weight: 600; color: var(--accent2); margin-bottom: 0.5rem;">126 Ossos</p>
-        <ul style="list-style: none; padding: 0; color: var(--text-muted); font-size: 0.75rem; line-height: 1.6;">
-         <li>✦ Membros superiores</li>
-         <li>✦ Membros inferiores</li>
-         <li>✦ Cintura escapular</li>
-         <li>✦ Cintura pélvica</li>
-         <li>✦ Mãos e pés</li>
-         <li>✦ Clavículas e escápulas</li>
-        </ul>
-       </div>
-      </div>
-      <div style="background: var(--surface2); border-left: 3px solid var(--accent2); border-radius: 0 8px 8px 0; padding: 1rem; margin: 1rem 0;">
-       <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.6;"><strong style="color: var(--accent2);">Função:</strong> O esqueleto <strong>axial</strong> forma o eixo central do corpo (proteção de órgãos vitais), enquanto o <strong>apendicular</strong> permite movimento e locomoção.</p>
-      </div><textarea id="notes-intro" class="notes-area" placeholder="Anotações da introdução..."></textarea>
-      <div class="media-controls"><button class="media-button" onclick="triggerFile('camera-input', 'notes-intro')"><i data-lucide="camera" style="width:14px;height:14px;"></i> Foto</button> <button class="media-button" onclick="triggerFile('video-input', 'notes-intro')"><i data-lucide="video" style="width:14px;height:14px;"></i> Vídeo</button> <button class="media-button" onclick="triggerFile('file-input', 'notes-intro')"><i data-lucide="file-plus" style="width:14px;height:14px;"></i> Arquivo</button>
-      </div>
-      <div id="gallery-notes-intro" class="media-gallery"></div>
-     </section>
-     <section id="sec-partes" class="section-card">
-      <h2 class="section-title">Partes do Osso Longo</h2>
-      <div class="bone-grid">
-       <div class="bone-item">
-        Diáfise
-       </div>
-       <div class="bone-item">
-        Epífise
-       </div>
-       <div class="bone-item">
-        Metáfise
-       </div>
-       <div class="bone-item">
-        Cartilagem Epifisial
-       </div>
-       <div class="bone-item">
-        Linha Epifisial
-       </div>
-      </div><textarea id="notes-partes" class="notes-area" placeholder="Anotações das partes do osso..."></textarea>
-      <div class="media-controls"><button class="media-button" onclick="triggerFile('camera-input', 'notes-partes')"><i data-lucide="camera" style="width:14px;height:14px;"></i> Foto</button>
-      </div>
-      <div id="gallery-notes-partes" class="media-gallery"></div>
-     </section>
-     <section id="sec-sup" class="section-card">
-      <h2 class="section-title">Membro Superior</h2>
-      <h3 class="subsection-title">Escápula (9)</h3>
-      <div class="bone-grid">
-       <div class="bone-item">
-        Espinha da escápula
-       </div>
-       <div class="bone-item">
-        Acrômio
-       </div>
-       <div class="bone-item">
-        Processo coracoide
-       </div>
-       <div class="bone-item">
-        Fossa supraespinal
-       </div>
-       <div class="bone-item">
-        Fossa infraespinal
-       </div>
-       <div class="bone-item">
-        Margem medial
-       </div>
-       <div class="bone-item">
-        Margem lateral
-       </div>
-       <div class="bone-item">
-        Incisura da escápula
-       </div>
-      </div>
-      <h3 class="subsection-title">Clavícula (3)</h3>
-      <div class="bone-grid">
-       <div class="bone-item">
-        Extremidade esternal
-       </div>
-       <div class="bone-item">
-        Corpo da clavícula
-       </div>
-       <div class="bone-item">
-        Extremidade acromial
-       </div>
-       <div class="bone-item">
-        Tubérculo conoide
-       </div>
-      </div>
-      <h3 class="subsection-title">Úmero (11)</h3>
-      <div class="bone-grid">
-       <div class="bone-item">
-        Cabeça do úmero
-       </div>
-       <div class="bone-item">
-        Tubérculo maior
-       </div>
-       <div class="bone-item">
-        Tubérculo menor
-       </div>
-       <div class="bone-item">
-        Sulco intertubercular
-       </div>
-       <div class="bone-item">
-        Corpo do úmero
-       </div>
-       <div class="bone-item">
-        Tróclea
-       </div>
-       <div class="bone-item">
-        Capítulo
-       </div>
-       <div class="bone-item">
-        Fossa coronoide
-       </div>
-       <div class="bone-item">
-        Fossa do olécrano
-       </div>
-       <div class="bone-item">
-        Sulco do nervo radial
-       </div>
-      </div>
-      <h3 class="subsection-title">Rádio (5) &amp; Ulna (7)</h3>
-      <div class="bone-grid">
-       <div class="bone-item">
-        Cabeça do rádio
-       </div>
-       <div class="bone-item">
-        Corpo do rádio
-       </div>
-       <div class="bone-item">
-        Tuberosidade do rádio
-       </div>
-       <div class="bone-item">
-        Processo estiloide rádio
-       </div>
-       <div class="bone-item">
-        Olécrano
-       </div>
-       <div class="bone-item">
-        Processo coronoide
-       </div>
-       <div class="bone-item">
-        Incisura radial/troclear
-       </div>
-       <div class="bone-item">
-        Corpo e Cabeça da ulna
-       </div>
-      </div>
-      <h3 class="subsection-title">Mão (Carpo, Metacarpo, Falanges)</h3>
-      <div class="bone-grid">
-       <div class="bone-item">
-        Escafoide, Semilunar, Piramidal, Pisiforme
-       </div>
-       <div class="bone-item">
-        Trapézio, Trapezoide, Capitato, Hamato
-       </div>
-       <div class="bone-item">
-        Metacarpais I ao V
-       </div>
-       <div class="bone-item">
-        Falanges (Prox., Média, Distal)
-       </div>
-      </div><textarea id="notes-sup" class="notes-area" placeholder="Anotações Membro Superior..."></textarea>
-      <div class="media-controls"><button class="media-button" onclick="triggerFile('camera-input', 'notes-sup')"><i data-lucide="camera" style="width:14px;height:14px;"></i> Foto</button>
-      </div>
-      <div id="gallery-notes-sup" class="media-gallery"></div>
-     </section>
-     <section id="sec-inf" class="section-card">
-      <h2 class="section-title">Membro Inferior</h2>
-      <h3 class="subsection-title">Quadril</h3>
-      <div class="bone-grid">
-       <div class="bone-item">
-        Acetábulo e Fossa
-       </div>
-       <div class="bone-item">
-        Ílio: Crista, EIAS, EIAI, EIPS, EIPI, Face auricular
-       </div>
-       <div class="bone-item">
-        Ísquio: Túber, Espinha, Ramo, Corpo, Incisuras
-       </div>
-       <div class="bone-item">
-        Púbis: Corpo, Face sinfisial, Ramos sup/inf
-       </div>
-      </div>
-      <h3 class="subsection-title">Fêmur (11) &amp; Patela (3)</h3>
-      <div class="bone-grid">
-       <div class="bone-item">
-        Cabeça, Fóvea, Colo
-       </div>
-       <div class="bone-item">
-        Trocânteres (Maior/Menor)
-       </div>
-       <div class="bone-item">
-        Linha/Crista intertrocantérica
-       </div>
-       <div class="bone-item">
-        Corpo, Côndilos, Face patelar
-       </div>
-       <div class="bone-item">
-        Patela: Base, Ápice, Face articular
-       </div>
-      </div>
-      <h3 class="subsection-title">Tíbia (7) &amp; Fíbula (3)</h3>
-      <div class="bone-grid">
-       <div class="bone-item">
-        Tíbia: Côndilos, Eminência, Tuberosidade, Maléolo Medial
-       </div>
-       <div class="bone-item">
-        Fíbula: Cabeça, Corpo, Maléolo Lateral
-       </div>
-      </div>
-      <h3 class="subsection-title">Pé (Tarso, Metatarso, Falanges)</h3>
-      <div class="bone-grid">
-       <div class="bone-item">
-        Tálus, Calcâneo, Navicular, Cuboide, Cuneiformes(3)
-       </div>
-       <div class="bone-item">
-        Metatarsais I ao V
-       </div>
-       <div class="bone-item">
-        Falanges
-       </div>
-      </div><textarea id="notes-inf" class="notes-area" placeholder="Anotações Membro Inferior..."></textarea>
-      <div class="media-controls"><button class="media-button" onclick="triggerFile('camera-input', 'notes-inf')"><i data-lucide="camera" style="width:14px;height:14px;"></i> Foto</button>
-      </div>
-      <div id="gallery-notes-inf" class="media-gallery"></div>
-     </section>
-     <section id="sec-cranio" class="section-card">
-      <h2 class="section-title">Crânio</h2>
-      <div class="bone-grid">
-       <div class="bone-item">
-        Neuro: Frontal, Parietais, Temporais, Occipital, Esfenoide, Etmoide
-       </div>
-       <div class="bone-item">
-        Viscero: Nasais, Maxilas, Zigomáticos, Lacrimais, Palatinos, Conchas, Vômer, Mandíbula
-       </div>
-      </div><textarea id="notes-cranio" class="notes-area" placeholder="Anotações Crânio..."></textarea>
-      <div class="media-controls"><button class="media-button" onclick="triggerFile('camera-input', 'notes-cranio')"><i data-lucide="camera" style="width:14px;height:14px;"></i> Foto</button>
-      </div>
-      <div id="gallery-notes-cranio" class="media-gallery"></div>
-     </section>
-     <section id="sec-aplicacao" class="section-card">
-      <h2 class="section-title">Aplicação Prática</h2><textarea id="notes-aplicacao" class="notes-area" placeholder="Anotações Aplicação Prática..."></textarea>
-      <div class="media-controls"><button class="media-button" onclick="triggerFile('camera-input', 'notes-aplicacao')"><i data-lucide="camera" style="width:14px;height:14px;"></i> Foto</button>
-      </div>
-      <div id="gallery-notes-aplicacao" class="media-gallery"></div>
-     </section>
-     <section id="sec-notes" class="section-card">
-      <h2 class="section-title">Anotações Gerais</h2><textarea id="notes-general" class="notes-area" style="min-height:180px;" placeholder="Dúvidas e esquemas..."></textarea>
-      <div class="media-controls"><button class="media-button" onclick="triggerFile('camera-input', 'notes-general')"><i data-lucide="camera" style="width:14px;height:14px;"></i> Foto</button>
-      </div>
-      <div id="gallery-notes-general" class="media-gallery"></div>
-     </section>
-    </main>
    </div>
   </div>
   <script>
+// ─── Data ────────────────────────────────────────────────────────────────────
+const BONES = [
+  // CRÂNIO
+  {
+    id: 'frontal', name: 'Osso Frontal', latin: 'Os frontale', region: 'craneo',
+    emoji: '💀', tags: ['crânio','neurocranio','ímpar'],
+    tagStyles: ['tag-blue','tag-purple','tag-green'],
+    desc: 'Forma a fronte e o teto das órbitas oculares. Contém os seios frontais.',
+    funcao: 'Proteção do lobo frontal do cérebro e formação do teto orbital. Contém os seios frontais que ressoam a voz e aliviam o peso do crânio.',
+    ossos_relacionados: ['Parietal', 'Esfenóide', 'Etmóide', 'Zigomático', 'Lacrimal', 'Nasal', 'Maxila'],
+    acidentes: ['Escama frontal', 'Processo orbital', 'Processo zigomático', 'Forame supraorbital', 'Incisura supraorbital', 'Tuberosidades frontais', 'Eminências frontais'],
+    palpacao: [
+      { nome: 'Tuberosidade frontal', desc: 'Proeminência suave na fronte, bilateral, facilmente palpável.' },
+      { nome: 'Glabela', desc: 'Área plana entre as sobrancelhas, ponto craniométrico importante.' },
+      { nome: 'Processo zigomático', desc: 'Processo lateral que se articula com o zigomático.' }
+    ],
+    clinica: 'Fraturas do osso frontal podem causar pneumocéfalo (ar no crânio) e lesão do lobo frontal. Sinusite frontal é comum na clinica.',
+    fraturas: [{ nome: 'Fratura da mesa anterior', desc: 'Frequente em trauma facial direto, pode comunicar com seio frontal.' }],
+    count: 1
+  },
+  {
+    id: 'parietal', name: 'Osso Parietal', latin: 'Os parietale', region: 'craneo',
+    emoji: '💀', tags: ['crânio','par','calvária'],
+    tagStyles: ['tag-blue','tag-green','tag-purple'],
+    desc: 'Formam as paredes laterais e o teto da caixa craniana. Dois ossos, um de cada lado.',
+    funcao: 'Proteção das regiões parietais do cérebro. Forma a maior parte da calvária (calota craniana).',
+    ossos_relacionados: ['Frontal', 'Occipital', 'Temporal', 'Esfenóide'],
+    acidentes: ['Tuber parietal', 'Linha temporal superior', 'Linha temporal inferior', 'Forame parietal', 'Sulco do seio sagital superior', 'Sulco da artéria meníngea média'],
+    palpacao: [
+      { nome: 'Tuber parietal', desc: 'Proeminência mais lateral do parietal, palpável na região temporal.' }
+    ],
+    clinica: 'Fratura temporal do parietal pode lesar a artéria meníngea média, causando hematoma epidural.',
+    fraturas: [{ nome: 'Fratura pterional', desc: 'Região mais fina do crânio, sujeita a hematoma epidural arterial.' }],
+    count: 2
+  },
+  {
+    id: 'occipital', name: 'Osso Occipital', latin: 'Os occipitale', region: 'craneo',
+    emoji: '💀', tags: ['crânio','base','ímpar'],
+    tagStyles: ['tag-blue','tag-orange','tag-green'],
+    desc: 'Forma a parte posterior e inferior do crânio. Contém o forame magno, passagem do tronco encefálico.',
+    funcao: 'Proteção do cerebelo e tronco encefálico. O forame magno é a transição crânio-espinhal. Os côndilos occipitais articulam com o atlas (C1).',
+    ossos_relacionados: ['Parietal', 'Temporal', 'Esfenóide', 'Atlas (C1)'],
+    acidentes: ['Forame magno', 'Côndilos occipitais', 'Protuberância occipital externa (inion)', 'Protuberância occipital interna', 'Clivus', 'Processo jugular', 'Canal do hipoglosso'],
+    palpacao: [
+      { nome: 'Protuberância occipital externa', desc: 'Saliência óssea na linha média da nuca, facilmente palpável.' },
+      { nome: 'Linha nucal superior', desc: 'Crista horizontal lateral à protuberância occipital.' }
+    ],
+    clinica: 'Fraturas da base do crânio na região occipital podem causar lesão de nervos cranianos (XII). Síndrome de Chiari envolve herniação do cerebelo pelo forame magno.',
+    fraturas: [{ nome: 'Fratura occipital', desc: 'Pode envolver forame magno ou côndilos, causando instabilidade atlanto-occipital.' }],
+    count: 1
+  },
+  {
+    id: 'temporal', name: 'Osso Temporal', latin: 'Os temporale', region: 'craneo',
+    emoji: '💀', tags: ['crânio','par','complexo'],
+    tagStyles: ['tag-blue','tag-green','tag-orange'],
+    desc: 'Contém o ouvido médio e interno. Articula-se com a mandíbula através da ATM.',
+    funcao: 'Proteção do ouvido. A ATM permite mastigação. O processo mastóide serve de inserção ao músculo esternocleidomastóideo.',
+    ossos_relacionados: ['Parietal', 'Occipital', 'Esfenóide', 'Zigomático', 'Mandíbula'],
+    acidentes: ['Processo mastoide', 'Processo estiloide', 'Processo zigomático', 'Meato acústico externo', 'Fossa mandibular', 'Tubérculo articular', 'Canal carotídeo', 'Forame jugular'],
+    palpacao: [
+      { nome: 'Processo mastoide', desc: 'Proeminência posterior à orelha, inserção do ECM.' },
+      { nome: 'Arco zigomático', desc: 'Ponte óssea lateral entre temporal e zigomático.' }
+    ],
+    clinica: 'Fratura da porção petrosa pode causar perda auditiva e lesão do nervo facial (VII). Sinal de Battle (equimose retroauricular) indica fratura da base do crânio.',
+    fraturas: [{ nome: 'Fratura petrosa', desc: 'Sinal de Battle, hemotímpano, lesão do VII e VIII pares cranianos.' }],
+    count: 2
+  },
+  // COLUNA
+  {
+    id: 'atlas', name: 'Atlas (C1)', latin: 'Atlas', region: 'coluna',
+    emoji: '🦴', tags: ['cervical','anel','atípica'],
+    tagStyles: ['tag-blue','tag-orange','tag-purple'],
+    desc: 'Primeira vértebra cervical. Sem corpo vertebral, formado por dois arcos. Suporta o crânio.',
+    funcao: 'Suporte craniano, articulação atlanto-occipital que permite o movimento de "sim". Transmite o peso da cabeça à coluna.',
+    ossos_relacionados: ['Occipital', 'Áxis (C2)', 'Côndilo occipital'],
+    acidentes: ['Arco anterior', 'Arco posterior', 'Massa lateral', 'Processo transverso', 'Fóvea dentis (para processo odontóide)', 'Forame transversário'],
+    palpacao: [
+      { nome: 'Processo transverso do atlas', desc: 'Palpável entre mastoide e ângulo da mandíbula.' }
+    ],
+    clinica: 'Fratura de Jefferson: fratura em explosão dos arcos anterior e posterior por compressão axial. Risco de lesão medular.',
+    fraturas: [{ nome: 'Fratura de Jefferson', desc: 'Explosão dos arcos por compressão axial. Diagnóstico por TC.' }],
+    count: 1
+  },
+  {
+    id: 'axis', name: 'Áxis (C2)', latin: 'Axis', region: 'coluna',
+    emoji: '🦴', tags: ['cervical','dens','atípica'],
+    tagStyles: ['tag-blue','tag-orange','tag-purple'],
+    desc: 'Segunda vértebra cervical. Possui o processo odontóide (dens), pilar de rotação da cabeça.',
+    funcao: 'O processo odontóide é o pivô da rotação craniocervical ("não com a cabeça"). Liga-se ao atlas pelo ligamento transverso.',
+    ossos_relacionados: ['Atlas (C1)', 'C3'],
+    acidentes: ['Processo odontóide (dens)', 'Corpo vertebral', 'Processo espinhoso bífido', 'Processo articular', 'Forame transversário'],
+    palpacao: [
+      { nome: 'Processo espinhoso C2', desc: 'O maior processo espinhoso cervical, palpável na linha média posterior.' }
+    ],
+    clinica: 'Fratura do odontóide é grave e pode causar tetraplegia ou morte. Fratura de enforcado (Hangman): fraturas nos pedículos do áxis.',
+    fraturas: [
+      { nome: 'Fratura do odontóide', desc: 'Tipo II (base) mais instável. Alto risco de lesão medular alta.' },
+      { nome: 'Fratura de Hangman', desc: 'Fraturas bilaterais dos pedículos C2. Hiperextensão + tração.' }
+    ],
+    count: 1
+  },
+  {
+    id: 'vertebra_lombar', name: 'Vértebras Lombares', latin: 'Vertebrae lumbales', region: 'coluna',
+    emoji: '🦴', tags: ['lombar','L1-L5','carga'],
+    tagStyles: ['tag-blue','tag-green','tag-orange'],
+    desc: 'Cinco vértebras (L1-L5), as maiores da coluna. Suportam todo o peso do tronco.',
+    funcao: 'Suporte de carga, permitem flexão e extensão do tronco. L4-L5 e L5-S1 são os segmentos mais sujeitos a sobrecarga.',
+    ossos_relacionados: ['T12', 'Sacro', 'Discos intervertebrais'],
+    acidentes: ['Corpo vertebral', 'Pedículo', 'Processo transverso', 'Processo espinhoso', 'Processo articular superior e inferior', 'Forame intervertebral'],
+    palpacao: [
+      { nome: 'Processos espinhosos L4-L5', desc: 'Na linha ilíaca (linha de Tuffier), referência para punção lombar.' },
+      { nome: 'L5', desc: 'Acima do sacro, referência para avaliação lombar.' }
+    ],
+    clinica: 'Hérnia de disco lombar mais comum em L4-L5 e L5-S1. Estenose de canal, espondilolistese e fraturas por compressão são comuns.',
+    fraturas: [{ nome: 'Fratura por compressão', desc: 'Comum em osteoporose e trauma axial. L1 é a vértebra mais fraturada.' }],
+    count: 5
+  },
+  // TÓRAX
+  {
+    id: 'esterno', name: 'Esterno', latin: 'Sternum', region: 'torax',
+    emoji: '🦴', tags: ['tórax','ímpar','plano'],
+    tagStyles: ['tag-blue','tag-green','tag-orange'],
+    desc: 'Osso plano central do tórax, composto por manúbrio, corpo e processo xifóide.',
+    funcao: 'Proteção do coração e grandes vasos. Une as costelas anteriormente. Via de acesso para punção medular (biópsia de medula óssea).',
+    ossos_relacionados: ['Costelas (1-7)', 'Clavícula', 'Cartilagem costal'],
+    acidentes: ['Manúbrio', 'Ângulo de Louis (ângulo esternal)', 'Corpo do esterno', 'Processo xifóide', 'Incisura clavicular', 'Incisuras costais'],
+    palpacao: [
+      { nome: 'Ângulo de Louis', desc: 'Junção manúbrio-esternal. Nível do 2º espaço intercostal e bifurcação traqueal (T4).' },
+      { nome: 'Incisura jugular', desc: 'Depressão supraesternal, nível de T2-T3.' },
+      { nome: 'Processo xifóide', desc: 'Extremidade inferior, referência para RCP.' }
+    ],
+    clinica: 'O ângulo de Louis é referência clínica para contagem de costelas. O processo xifóide é referência para ressuscitação cardiopulmonar (RCP).',
+    fraturas: [{ nome: 'Fratura do esterno', desc: 'Trauma direto no volante. Associada a contusão miocárdica e lesão aórtica.' }],
+    count: 1
+  },
+  {
+    id: 'clavícula', name: 'Clavícula', latin: 'Clavicula', region: 'torax',
+    emoji: '🦴', tags: ['cintura escapular','par','longa'],
+    tagStyles: ['tag-blue','tag-green','tag-orange'],
+    desc: 'Único osso longo horizontal do corpo. Une o membro superior ao esqueleto axial.',
+    funcao: 'Transmite forças entre membro superior e tronco. Protege o feixe neurovascular subclavicular. Serve de inserção muscular (trapézio, deltóide, peitoral maior).',
+    ossos_relacionados: ['Esterno', 'Escápula (acrômio)', 'Primeira costela'],
+    acidentes: ['Extremidade esternal', 'Extremidade acromial', 'Corpo da clavícula', 'Sulco do músculo subclávio', 'Tubérculo conoide', 'Linha trapezoide'],
+    palpacao: [
+      { nome: 'Corpo da clavícula', desc: 'Totalmente subcutânea, palpável em todo o trajeto.' },
+      { nome: 'Articulação esternoclavicular', desc: 'Medialmente, próxima à incisura jugular.' },
+      { nome: 'Articulação acromioclavicular', desc: 'Lateralmente, palpável como degrau quando luxada.' }
+    ],
+    clinica: 'Osso mais fraturado do corpo humano! O terço médio é o local mais comum de fratura. Lesão da articulação acromioclavicular (separação do ombro) é comum em esportes.',
+    fraturas: [{ nome: 'Fratura do terço médio', desc: 'Mais comum, por trauma indireto na queda sobre o ombro ou mão estendida.' }],
+    count: 2
+  },
+  {
+    id: 'costelas', name: 'Costelas', latin: 'Costae', region: 'torax',
+    emoji: '🦴', tags: ['tórax','12 pares','plano'],
+    tagStyles: ['tag-blue','tag-green','tag-orange'],
+    desc: '12 pares de costelas: 7 verdadeiras (1-7), 3 falsas (8-10) e 2 flutuantes (11-12).',
+    funcao: 'Proteção pulmonar e cardíaca. Movimentos respiratórios (alça de balde e de bomba d\'água). Inserção de músculos respiratórios.',
+    ossos_relacionados: ['Vértebras torácicas', 'Esterno', 'Cartilagem costal'],
+    acidentes: ['Cabeça da costela', 'Colo da costela', 'Tubérculo costal', 'Corpo da costela', 'Ângulo costal', 'Sulco costal (N.V.A.)'],
+    palpacao: [
+      { nome: 'Costela 2', desc: 'Referência: articula com ângulo de Louis. Base para contagem das costelas.' },
+      { nome: 'Arco costal', desc: 'Margem inferior do gradil, palpável em toda extensão.' },
+      { nome: 'Costelas 11-12 (flutuantes)', desc: 'Palpáveis posteriormente, sem articulação anterior.' }
+    ],
+    clinica: 'Fratura de costelas em adultos causa dor pleurítica. Tórax instável (volet costal) ocorre com fratura de ≥3 costelas em 2 lugares. Risco de pneumotórax e hemotórax.',
+    fraturas: [
+      { nome: 'Fratura simples', desc: 'Dor na respiração. Pode complicar com pneumonia por hipoventilação.' },
+      { nome: 'Tórax instável', desc: '≥3 costelas, 2 focos cada. Respiração paradoxal. Emergência!' }
+    ],
+    count: 24
+  },
+  // MEMBRO SUPERIOR
+  {
+    id: 'escapula', name: 'Escápula', latin: 'Scapula', region: 'membros_sup',
+    emoji: '🦴', tags: ['cintura escapular','par','plano'],
+    tagStyles: ['tag-blue','tag-green','tag-orange'],
+    desc: 'Osso triangular plano posterior. "Omoplata". Conecta o úmero ao esqueleto axial via clavícula.',
+    funcao: 'Sustenta o ombro. A cavidade glenoidal articula com a cabeça do úmero. O acrômio protege o manguito rotador. O processo coracoide é inserção muscular.',
+    ossos_relacionados: ['Clavícula', 'Úmero', 'Costelas (indireto)'],
+    acidentes: ['Espinha da escápula', 'Acrômio', 'Processo coracoide', 'Cavidade glenoidal', 'Ângulo superior', 'Ângulo inferior', 'Borda medial', 'Fossa supraespinhal', 'Fossa infraespinhal', 'Fossa subescapular', 'Incisura escapular'],
+    palpacao: [
+      { nome: 'Espinha da escápula', desc: 'Crista horizontal posterior palpável. Nível de T3.' },
+      { nome: 'Ângulo inferior da escápula', desc: 'Nível de T7, referência para contagem vertebral.' },
+      { nome: 'Acrômio', desc: 'Processo lateral superior, referência para injeção IM deltóide.' },
+      { nome: 'Processo coracoide', desc: 'Abaixo da clavícula, 2-3 cm medial ao ombro. Sensível à palpação.' }
+    ],
+    clinica: 'Fratura da escápula indica trauma de alta energia. Síndrome do impacto do ombro envolve o acrômio. Instabilidade glenoumeral é comum em jovens atletas.',
+    fraturas: [{ nome: 'Fratura da escápula', desc: 'Alta energia, frequentemente associada a pneumotórax e fratura da clavícula.' }],
+    count: 2
+  },
+  {
+    id: 'umero', name: 'Úmero', latin: 'Humerus', region: 'membros_sup',
+    emoji: '🦴', tags: ['braço','par','longo'],
+    tagStyles: ['tag-blue','tag-green','tag-orange'],
+    desc: 'Único osso do braço. Articula proximalmente com a escápula e distalmente com rádio e ulna.',
+    funcao: 'Suporte estrutural do braço, inserção dos músculos do manguito rotador, bíceps, tríceps. A cápsula articular do ombro e cotovelo.',
+    ossos_relacionados: ['Escápula', 'Rádio', 'Ulna'],
+    acidentes: ['Cabeça do úmero', 'Tubérculo maior (troquiter)', 'Tubérculo menor (troquin)', 'Sulco intertubercular (bicipital)', 'Colo cirúrgico', 'Colo anatômico', 'Tuberosidade deltóidea', 'Sulco do nervo radial', 'Côndilo lateral', 'Epicôndilo medial', 'Epicôndilo lateral', 'Fossa olecraniana', 'Fossa coronóidea', 'Tróclea', 'Capitelo'],
+    palpacao: [
+      { nome: 'Epicôndilo medial', desc: 'Proeminência medial do cotovelo, o nervo ulnar passa posterior a ele.' },
+      { nome: 'Epicôndilo lateral', desc: 'Proeminência lateral do cotovelo, inserção dos extensores do punho.' },
+      { nome: 'Tuberosidade deltóidea', desc: 'Inserção do deltóide, face lateral do corpo.' }
+    ],
+    clinica: 'Fratura do colo cirúrgico compromete o nervo axilar. Fratura da diáfise lesa o nervo radial no sulco espiral (queda do pulso). Epicondilite lateral (cotovelo de tenista) é muito comum.',
+    fraturas: [
+      { nome: 'Fratura do colo cirúrgico', desc: 'Lesão do nervo axilar. Perda de abdução e sensibilidade no ombro.' },
+      { nome: 'Fratura diafisária', desc: 'Lesão do nervo radial: queda do pulso (wrist drop).' }
+    ],
+    count: 2
+  },
+  {
+    id: 'radio', name: 'Rádio', latin: 'Radius', region: 'membros_sup',
+    emoji: '🦴', tags: ['antebraço','par','lateral'],
+    tagStyles: ['tag-blue','tag-green','tag-orange'],
+    desc: 'Osso lateral do antebraço. A cabeça articula com o capitelo do úmero. O processo estilóide é referência clínica.',
+    funcao: 'Suporte lateral do antebraço. Durante pronação/supinação, o rádio gira em torno da ulna. Articula distalmente com o carpo (osso semilunar e escafoide).',
+    ossos_relacionados: ['Úmero', 'Ulna', 'Escafoide', 'Semilunar'],
+    acidentes: ['Cabeça do rádio', 'Colo do rádio', 'Tuberosidade do rádio', 'Corpo', 'Processo estilóide', 'Incisura ulnar', 'Tuberosidade de Lister'],
+    palpacao: [
+      { nome: 'Cabeça do rádio', desc: 'Lateral ao cotovelo, palpável com pronossupinação.' },
+      { nome: 'Processo estilóide radial', desc: 'Proeminência lateral do punho, referência clínica.' },
+      { nome: 'Tubérculo de Lister', desc: 'Dorso do rádio distal, referência para tendões extensores.' }
+    ],
+    clinica: 'Fratura de Colles (fratura distal do rádio): queda na mão estendida, deformidade "em dorso de garfo". Muito comum em idosas osteoporóticas.',
+    fraturas: [
+      { nome: 'Fratura de Colles', desc: 'Rádio distal, desvio dorsal. Queda com mão em extensão.' },
+      { nome: 'Fratura de Smith', desc: 'Rádio distal, desvio volar. Queda com mão em flexão.' }
+    ],
+    count: 2
+  },
+  {
+    id: 'ulna', name: 'Ulna', latin: 'Ulna', region: 'membros_sup',
+    emoji: '🦴', tags: ['antebraço','par','medial'],
+    tagStyles: ['tag-blue','tag-green','tag-orange'],
+    desc: 'Osso medial do antebraço. O olécrano forma a ponta do cotovelo. Principal eixo de rotação do antebraço.',
+    funcao: 'Principal estabilizador do cotovelo. O processo olécrano impede a hiperextensão. Articula com o úmero pela incisura troclear.',
+    ossos_relacionados: ['Úmero', 'Rádio', 'Semilunar', 'Triangular'],
+    acidentes: ['Olécrano', 'Processo coronóide', 'Incisura troclear (semilunar)', 'Incisura radial', 'Tuberosidade da ulna', 'Cabeça da ulna', 'Processo estilóide da ulna'],
+    palpacao: [
+      { nome: 'Olécrano', desc: 'Ponta do cotovelo, inserção do tríceps. Bursa olecraneana superficial.' },
+      { nome: 'Borda posterior da ulna', desc: 'Palpável em todo o trajeto medial do antebraço.' },
+      { nome: 'Processo estilóide ulnar', desc: 'Proeminência medial do punho.' }
+    ],
+    clinica: 'Fratura do olécrano: queda direta no cotovelo ou contração brusca do tríceps. Fratura de Monteggia: fratura da ulna com luxação da cabeça do rádio.',
+    fraturas: [
+      { nome: 'Fratura do olécrano', desc: 'Pode requerer fixação cirúrgica se deslocada.' },
+      { nome: 'Fratura de Monteggia', desc: 'Fratura ulna + luxação cabeça do rádio. Não perder a luxação!' }
+    ],
+    count: 2
+  },
+  // PELVE
+  {
+    id: 'osso_coxal', name: 'Osso Coxal', latin: 'Os coxae', region: 'pelve',
+    emoji: '🦴', tags: ['pelve','par','irregular'],
+    tagStyles: ['tag-blue','tag-green','tag-purple'],
+    desc: 'Formado pela fusão do ílio, ísquio e púbis. Com o sacro, forma o anel pélvico.',
+    funcao: 'Transmite peso da coluna para os membros inferiores. O acetábulo articula com a cabeça do fêmur. Suporte dos órgãos pélvicos e abdominais.',
+    ossos_relacionados: ['Sacro', 'Fêmur', 'Osso coxal contralateral'],
+    acidentes: ['Crista ilíaca', 'Espinha ilíaca ântero-superior (EIAS)', 'Espinha ilíaca ântero-inferior (EIAI)', 'Espinha ilíaca póstero-superior (EIPS)', 'Espinha ilíaca póstero-inferior (EIPI)', 'Acetábulo', 'Tuberosidade isquiática', 'Espinha isquiática', 'Forame obturado', 'Sínfise púbica', 'Ramo do púbis'],
+    palpacao: [
+      { nome: 'EIAS', desc: 'Espinha ilíaca ântero-superior: referência para medida do membro inferior.' },
+      { nome: 'Crista ilíaca', desc: 'Totalmente palpável, referência para punção lombar (L4).' },
+      { nome: 'Tuberosidade isquiática', desc: 'Palpável com o quadril em flexão. Inserção dos isquiotibiais.' },
+      { nome: 'Sínfise púbica', desc: 'Linha média anterior, referência para medidas obstétricas.' }
+    ],
+    clinica: 'Fratura pélvica pode causar hemorragia retroperitoneal fatal. Displasia do desenvolvimento do quadril (DDQ) é avaliada pela relação acetábulo-fêmur.',
+    fraturas: [{ nome: 'Fratura pélvica', desc: 'Alta mortalidade por hemorragia. Instabilidade do anel = cirurgia urgente.' }],
+    count: 2
+  },
+  {
+    id: 'sacro', name: 'Sacro', latin: 'Os sacrum', region: 'pelve',
+    emoji: '🦴', tags: ['coluna sacral','ímpar','fusão'],
+    tagStyles: ['tag-blue','tag-green','tag-orange'],
+    desc: 'Osso triangular formado pela fusão de 5 vértebras sacrais (S1-S5). Base da coluna vertebral.',
+    funcao: 'Transmissão do peso corporal para o anel pélvico. A articulação sacroilíaca é crucial para a estabilidade pélvica. Canal sacral contém cauda equina.',
+    ossos_relacionados: ['L5', 'Osso coxal', 'Cóccix'],
+    acidentes: ['Base do sacro', 'Ápice do sacro', 'Promontório', 'Forames sacrais anteriores e posteriores', 'Crista sacral mediana', 'Canal sacral', 'Hiato sacral', 'Cornos sacrais'],
+    palpacao: [
+      { nome: 'EIPS', desc: 'Espinhas ilíacas póstero-superiores formam covinhas acima do sacro (covinhas de Vênus). Nível de S2.' },
+      { nome: 'Hiato sacral', desc: 'Base para anestesia epidural caudal.' }
+    ],
+    clinica: 'Anestesia epidural caudal é administrada pelo hiato sacral. Fraturas do sacro são comuns em osteoporose e trauma pélvico.',
+    fraturas: [{ nome: 'Fratura do sacro', desc: 'Pode lesionar raízes S1-S4: incontinência, disfunção sexual, perda sensitiva.' }],
+    count: 1
+  },
+  // MEMBRO INFERIOR
+  {
+    id: 'femur', name: 'Fêmur', latin: 'Femur', region: 'membros_inf',
+    emoji: '🦴', tags: ['coxa','par','maior osso'],
+    tagStyles: ['tag-blue','tag-green','tag-orange'],
+    desc: 'O osso mais longo e pesado do corpo humano. Forma o quadril e o joelho.',
+    funcao: 'Suporte do peso corporal, locomoção. A cabeça femoral articula com o acetábulo (quadril). Os côndilos articúlam com a tíbia (joelho).',
+    ossos_relacionados: ['Osso coxal', 'Tíbia', 'Patela', 'Fíbula (indiretamente)'],
+    acidentes: ['Cabeça do fêmur', 'Colo do fêmur', 'Trocânter maior', 'Trocânter menor', 'Linha intertrocantérica', 'Crista intertrocantérica', 'Linha áspera', 'Côndilo medial', 'Côndilo lateral', 'Epicôndilo medial', 'Epicôndilo lateral', 'Fossa intercondilar', 'Superfície patelar'],
+    palpacao: [
+      { nome: 'Trocânter maior', desc: 'Proeminência lateral do quadril, referência para injeção IM. Bursa trocantérica.' },
+      { nome: 'Côndilo medial', desc: 'Face medial do joelho, proeminente.' },
+      { nome: 'Epicôndilo medial', desc: 'Inserção do ligamento colateral medial.' }
+    ],
+    clinica: 'Fratura do colo do fêmur em idosas é causa frequente de mortalidade. Fratura diafisária causa sangramento de 1-2L. Osteoartrite do quadril é a principal indicação de artroplastia.',
+    fraturas: [
+      { nome: 'Fratura do colo femoral', desc: 'Triângulo de Ward (região de menor densidade). Deformidade: rotação externa e encurtamento.' },
+      { nome: 'Fratura diafisária', desc: 'Alta energia. Sangramento de 1-2L. Haste intramedular.' }
+    ],
+    count: 2
+  },
+  {
+    id: 'patela', name: 'Patela', latin: 'Patella', region: 'membros_inf',
+    emoji: '🦴', tags: ['joelho','par','sesamoide'],
+    tagStyles: ['tag-blue','tag-green','tag-purple'],
+    desc: 'Maior osso sesamoide do corpo. Protege o joelho e aumenta a força do quadríceps.',
+    funcao: 'Aumenta o braço de alavanca do quadríceps em 30-50%. Protege a articulação do joelho anteriormente. Melhora o deslizamento do tendão quadricipital.',
+    ossos_relacionados: ['Fêmur (superfície patelar)', 'Tíbia (via tendão patelar)'],
+    acidentes: ['Face anterior', 'Face articular (média e lateral)', 'Base', 'Ápice'],
+    palpacao: [
+      { nome: 'Patela', desc: 'Totalmente palpável anteriormente com o joelho estendido.' },
+      { nome: 'Ápice patelar', desc: 'Inserção do tendão patelar. Sensível na tendinopatia.' }
+    ],
+    clinica: 'Fratura da patela por trauma direto ou contração brusca do quadríceps. Síndrome patelofemoral (dor anterior do joelho) é muito comum. Luxação lateral recidivante em adolescentes.',
+    fraturas: [{ nome: 'Fratura da patela', desc: 'Transversa: separação dos fragmentos com incapacidade de extensão ativa.' }],
+    count: 2
+  },
+  {
+    id: 'tibia', name: 'Tíbia', latin: 'Tibia', region: 'membros_inf',
+    emoji: '🦴', tags: ['perna','par','sustentação'],
+    tagStyles: ['tag-blue','tag-green','tag-orange'],
+    desc: 'Principal osso de sustentação da perna. Transmite o peso do fêmur para o tornozelo.',
+    funcao: 'Suporte de 85% do peso corporal na perna. Articula com fêmur (joelho), fíbula e astrágalo (tornozelo). Inserção de músculos da coxa e da perna.',
+    ossos_relacionados: ['Fêmur', 'Fíbula', 'Astrágalo', 'Patela (via tendão)'],
+    acidentes: ['Planalto tibial medial e lateral', 'Tuberosidade tibial anterior', 'Espinha tibial', 'Maléolo medial', 'Sulco do maléolo medial', 'Borda anterior (crista tibial)'],
+    palpacao: [
+      { nome: 'Crista tibial', desc: 'Borda anterior subcutânea, totalmente palpável.' },
+      { nome: 'Tuberosidade tibial', desc: 'Abaixo do joelho, inserção do tendão patelar. Doença de Osgood-Schlatter.' },
+      { nome: 'Maléolo medial', desc: 'Proeminência interna do tornozelo.' }
+    ],
+    clinica: 'Doença de Osgood-Schlatter: apofisiste da tuberosidade em adolescentes. Fratura do planalto tibial em acidente de moto. Síndrome do compartimento é emergência.',
+    fraturas: [
+      { nome: 'Fratura do planalto tibial', desc: 'Trauma em valgus + compressão. Avaliação ligamentar e vascular essencial.' },
+      { nome: 'Fratura da diáfise', desc: 'Osso com menor cobertura de tecidos moles, alta taxa de fratura aberta.' }
+    ],
+    count: 2
+  },
+  {
+    id: 'fibula', name: 'Fíbula', latin: 'Fibula', region: 'membros_inf',
+    emoji: '🦴', tags: ['perna','par','lateral'],
+    tagStyles: ['tag-blue','tag-green','tag-orange'],
+    desc: 'Osso fino lateral da perna. Não suporta peso mas é essencial para a estabilidade do tornozelo.',
+    funcao: 'Estabilidade lateral do tornozelo (maléolo lateral). Inserção de músculos peroneiros e flexores. Doador de enxerto ósseo.',
+    ossos_relacionados: ['Tíbia', 'Astrágalo'],
+    acidentes: ['Cabeça da fíbula', 'Colo da fíbula', 'Corpo', 'Maléolo lateral'],
+    palpacao: [
+      { nome: 'Cabeça da fíbula', desc: 'Lateral ao planalto tibial. O nervo fibular comum contorna o colo.' },
+      { nome: 'Maléolo lateral', desc: 'Proeminência externa do tornozelo, 1 cm mais distal que o medial.' }
+    ],
+    clinica: 'Fratura do maléolo lateral: entorse grau III ou fratura de Weber. O nervo fibular (peroneiro) comum pode ser lesado no colo da fíbula: pé caído (drop foot).',
+    fraturas: [
+      { nome: 'Fratura de Weber A/B/C', desc: 'Classificação baseada na relação com a sindesmose tibiofibular. Weber C é mais instável.' }
+    ],
+    count: 2
+  },
+  // MÃO
+  {
+    id: 'carpo', name: 'Ossos do Carpo', latin: 'Ossa carpi', region: 'mao',
+    emoji: '✋', tags: ['punho','8 ossos','curtos'],
+    tagStyles: ['tag-blue','tag-green','tag-orange'],
+    desc: '8 ossos curtos dispostos em 2 fileiras. Fileira proximal: escafoide, semilunar, piramidal, pisiforme. Fileira distal: trapézio, trapezoide, capitato, hamato.',
+    funcao: 'Flexão, extensão, desvio radial e ulnar do punho. Absorção de choques. O canal do carpo contém o nervo mediano e os tendões flexores.',
+    ossos_relacionados: ['Rádio', 'Ulna', 'Metacarpos'],
+    acidentes: ['Tubérculo do escafoide', 'Processo do hamato (hamulus)', 'Pisiforme', 'Tubérculo do trapézio'],
+    palpacao: [
+      { nome: 'Tabaqueira anatômica', desc: 'Depressão entre abdutor longo/extensor curto do polegar e extensor longo. O escafoide fica no fundo.' },
+      { nome: 'Pisiforme', desc: 'Proeminência medial do punho, sesamoide do flexor ulnar do carpo.' },
+      { nome: 'Hamato', desc: 'O processo (hamulus) palpável na eminência hipotenar.' }
+    ],
+    clinica: 'Fratura do escafoide: dor na tabaqueira anatômica após queda. Risco de necrose avascular. Síndrome do túnel do carpo: compressão do nervo mediano no canal do carpo.',
+    fraturas: [{ nome: 'Fratura do escafoide', desc: 'Mais comum do carpo. Risco de pseudoartrose e necrose do polo proximal.' }],
+    count: 16
+  },
+  {
+    id: 'metacarpos', name: 'Metacarpos', latin: 'Ossa metacarpi', region: 'mao',
+    emoji: '✋', tags: ['mão','5 ossos','longo'],
+    tagStyles: ['tag-blue','tag-green','tag-orange'],
+    desc: '5 ossos longos miniaturizados que formam o esqueleto da palma da mão.',
+    funcao: 'Suporte da palma, formam as articulações metacarpofalangianas (MCF). O 1º metacarpo tem mobilidade especial para oposição do polegar.',
+    ossos_relacionados: ['Ossos do carpo', 'Falanges proximais'],
+    acidentes: ['Cabeça do metacarpo', 'Base do metacarpo', 'Corpo'],
+    palpacao: [
+      { nome: 'Cabeças dos metacarpos', desc: 'Nós dos dedos ao apertar a mão.' },
+      { nome: 'Dorso da mão', desc: 'Corpos dos metacarpos visíveis e palpáveis.' }
+    ],
+    clinica: 'Fratura de Boxer (5º metacarpo): soco na parede ou pessoa. Deformidade em varus da cabeça. Fratura de Bennett (1º metacarpo): fratura-luxação na base.',
+    fraturas: [
+      { nome: 'Fratura de Boxer', desc: '5º metacarpo, cabeça afundada. Soco. Frequente em jovens.' },
+      { nome: 'Fratura de Bennett', desc: 'Base do 1º metacarpo, instável, frequentemente necessita fixação.' }
+    ],
+    count: 10
+  },
+  // PÉ
+  {
+    id: 'calcaneo', name: 'Calcâneo', latin: 'Calcaneus', region: 'pe',
+    emoji: '🦶', tags: ['tarso','par','maior do pé'],
+    tagStyles: ['tag-blue','tag-green','tag-orange'],
+    desc: 'O maior osso do pé. Forma o calcanhar e suporta a maior parte do peso corporal na deambulação.',
+    funcao: 'Suporte posterior do pé. Inserção do tendão de Aquiles. O sustentaculum tali suporta a cabeça do astrágalo. Absorção de impacto na marcha.',
+    ossos_relacionados: ['Astrágalo', 'Cubóide'],
+    acidentes: ['Tuberosidade do calcâneo', 'Sustentaculum tali', 'Tróclea fibular', 'Processo anterior', 'Sulco do tendão do flexor longo do hálux'],
+    palpacao: [
+      { nome: 'Tuberosidade do calcâneo', desc: 'Calcanhar, inserção do tendão de Aquiles e fáscia plantar.' },
+      { nome: 'Sustentaculum tali', desc: 'Face medial, 1 cm abaixo do maléolo medial.' }
+    ],
+    clinica: 'Fratura do calcâneo por queda de altura (axial). Síndrome do espelho contralateral. Fascite plantar: inflamação da fáscia plantar na tuberosidade.',
+    fraturas: [{ nome: 'Fratura por compressão', desc: 'Queda de altura. Bilateral em 10%. Aplanamento do ângulo de Böhler (<20°).' }],
+    count: 2
+  },
+  {
+    id: 'astragalo', name: 'Astrágalo', latin: 'Talus', region: 'pe',
+    emoji: '🦶', tags: ['tarso','par','articulado'],
+    tagStyles: ['tag-blue','tag-green','tag-orange'],
+    desc: 'Transmite todo o peso corporal do tornozelo para o pé. É o único osso do tarso sem inserções musculares.',
+    funcao: 'Elo entre tornozelo e pé. A tróclea articula com a tíbia e fíbula (articulação talocrural). Não tem inserções musculares, dependendo de ligamentos para estabilidade.',
+    ossos_relacionados: ['Tíbia', 'Fíbula', 'Calcâneo', 'Navicular'],
+    acidentes: ['Cabeça do astrágalo', 'Colo do astrágalo', 'Corpo do astrágalo', 'Tróclea (pulvinar)', 'Processo lateral', 'Processo posterior', 'Sulco do tendão do FLH'],
+    palpacao: [
+      { nome: 'Cabeça do astrágalo', desc: 'Palpável anteromedialmente ao maléolo medial com o pé em eversão.' },
+      { nome: 'Processo lateral', desc: 'Anterior ao maléolo lateral. Fratura do snowboarder.' }
+    ],
+    clinica: 'Fratura do astrágalo: risco altíssimo de necrose avascular (AVN) pelo suprimento vascular limitado. Fratura do processo lateral: comum em snowboarders.',
+    fraturas: [{ nome: 'Fratura do colo do astrágalo (Hawkins)', desc: 'Risco de AVN proporcional ao deslocamento. Classificação de Hawkins I-IV.' }],
+    count: 2
+  },
+  {
+    id: 'metatarsos', name: 'Metatarsos', latin: 'Ossa metatarsi', region: 'pe',
+    emoji: '🦶', tags: ['pé','5 ossos','longo'],
+    tagStyles: ['tag-blue','tag-green','tag-orange'],
+    desc: '5 ossos longos que formam o metatarso. O 1º é o mais robusto; o 5º tem importância clínica especial.',
+    funcao: 'Formam o arco transverso do pé. Cabeças dos metatarsos formam os apoios anteriores da marcha. O 1º metatarso suporta 2x o peso dos demais.',
+    ossos_relacionados: ['Tarso (cuneiformes e cubóide)', 'Falanges dos artelhos'],
+    acidentes: ['Base do 5º metatarso', 'Tuberosidade do 5º metatarso', 'Cabeças metatarsais'],
+    palpacao: [
+      { nome: 'Tuberosidade do 5º metatarso', desc: 'Proeminência lateral do bordo externo do pé.' },
+      { nome: 'Cabeças metatarsais', desc: 'Palpáveis na planta do pé, referência para metatarsalgias.' }
+    ],
+    clinica: 'Fratura por estresse (marcha): 2º e 3º metatarsos mais comuns. Fratura de Jones (5º metatarso): zona II, risco de pseudoartrose. Neuroma de Morton entre 3º e 4º metatarsos.',
+    fraturas: [
+      { nome: 'Fratura de Jones', desc: 'Base do 5º metatarso, zona II. Risco de pseudoartrose. Diferente da fratura do dançarino (zona I).' },
+      { nome: 'Fratura de estresse', desc: '2º e 3º MT mais comuns. Dor progressiva sem trauma específico.' }
+    ],
+    count: 10
+  }
+];
+
+// ─── State ────────────────────────────────────────────────────────────────────
+let currentRegion = 'all';
+let searchQuery = '';
+let selectedBone = null;
+let boneMedia = {}; // Store media for each bone: { [boneId]: [{ type: 'image'|'video', data: dataURL }] }
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  lucide.createIcons();
+  renderMain();
+
+  // Search
+  const searchInput = document.getElementById('searchInput');
+  searchInput.addEventListener('input', (e) => {
+    searchQuery = e.target.value.trim().toLowerCase();
+    document.getElementById('searchClear').style.display = searchQuery ? 'block' : 'none';
+    closeDetail();
+    renderMain();
+  });
+
+  // Load media from localStorage
+  const savedMedia = localStorage.getItem('boneMedia');
+  if (savedMedia) {
+    try {
+      boneMedia = JSON.parse(savedMedia);
+    } catch (e) {
+      console.error('Failed to load media:', e);
+    }
+  }
+
+  // SDK
+  if (window.elementSdk) {
+    const defaultConfig = {
+      app_title: 'Anatomia Óssea',
+      app_subtitle: 'Guia Interativo de Estruturas Ósseas',
+      background_color: '#0e1117',
+      surface_color: '#181d27',
+      text_color: '#e8eaf0',
+      accent_color: '#4f8ef7',
+      muted_color: '#7a85a0'
+    };
+
+    window.elementSdk.init({
+      defaultConfig,
+      onConfigChange: async (config) => {
+        document.getElementById('appTitle').textContent = config.app_title || defaultConfig.app_title;
+        document.getElementById('appSubtitle').textContent = config.app_subtitle || defaultConfig.app_subtitle;
+
+        const bg = config.background_color || defaultConfig.background_color;
+        const surf = config.surface_color || defaultConfig.surface_color;
+        const txt = config.text_color || defaultConfig.text_color;
+        const acc = config.accent_color || defaultConfig.accent_color;
+        const mut = config.muted_color || defaultConfig.muted_color;
+
+        document.documentElement.style.setProperty('--bg', bg);
+        document.documentElement.style.setProperty('--surface', surf);
+        document.documentElement.style.setProperty('--text', txt);
+        document.documentElement.style.setProperty('--accent', acc);
+        document.documentElement.style.setProperty('--muted', mut);
+        document.body.style.background = bg;
+      },
+      mapToCapabilities: (config) => ({
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); }
+          },
+          {
+            get: () => config.surface_color || defaultConfig.surface_color,
+            set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); }
+          },
+          {
+            get: () => config.accent_color || defaultConfig.accent_color,
+            set: (v) => { config.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); }
+          },
+          {
+            get: () => config.muted_color || defaultConfig.muted_color,
+            set: (v) => { config.muted_color = v; window.elementSdk.setConfig({ muted_color: v }); }
+          }
+        ],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      }),
+      mapToEditPanelValues: (config) => new Map([
+        ['app_title', config.app_title || defaultConfig.app_title],
+        ['app_subtitle', config.app_subtitle || defaultConfig.app_subtitle]
+      ])
+    });
+  }
+});
+
+// ─── Filter & Search ──────────────────────────────────────────────────────────
+function getFilteredBones() {
+  let list = BONES;
+  if (currentRegion !== 'all') {
+    list = list.filter(b => b.region === currentRegion);
+  }
+  if (searchQuery) {
+    list = list.filter(b =>
+      b.name.toLowerCase().includes(searchQuery) ||
+      b.latin.toLowerCase().includes(searchQuery) ||
+      b.tags.some(t => t.toLowerCase().includes(searchQuery)) ||
+      b.desc.toLowerCase().includes(searchQuery) ||
+      b.region.toLowerCase().includes(searchQuery)
+    );
+  }
+  return list;
+}
+
+// ─── Render Main ─────────────────────────────────────────────────────────────
+function renderMain() {
+  const main = document.getElementById('mainContent');
+
+  // Special views
+  if (currentRegion === 'contagem') { renderCountView(main); return; }
+  if (currentRegion === 'fraturas') { renderFraturasView(main); return; }
+  if (currentRegion === 'palpacao') { renderPalpacaoView(main); return; }
+
+  const bones = getFilteredBones();
+
+  const regionLabels = {
+    all: 'Todos os Ossos', craneo: 'Crânio & Face', coluna: 'Coluna Vertebral',
+    torax: 'Tórax', membros_sup: 'Membro Superior', pelve: 'Pelve',
+    membros_inf: 'Membro Inferior', mao: 'Mão', pe: 'Pé'
+  };
+
+  let html = `<div class="section-header">
+    <h2>${searchQuery ? `Resultados para "${searchQuery}"` : regionLabels[currentRegion] || 'Ossos'}</h2>
+    <p>${bones.length} estrutura${bones.length !== 1 ? 's' : ''} encontrada${bones.length !== 1 ? 's' : ''}</p>
+  </div>`;
+
+  if (bones.length === 0) {
+    html += `<div class="empty-state">
+      <div class="icon">🔍</div>
+      <h3>Nenhum osso encontrado</h3>
+      <p>Tente uma busca diferente ou selecione outra região.</p>
+    </div>`;
+  } else {
+    html += `<div class="bone-grid">`;
+    bones.forEach((b, i) => {
+      const tagHtml = b.tags.map((t, j) =>
+        `<span class="tag ${b.tagStyles[j] || 'tag-blue'}">${t}</span>`
+      ).join('');
+      html += `<div class="bone-card" style="animation-delay:${i * 40}ms" onclick="openDetail('${b.id}')">
+        <div class="bone-card-header">
+          <div>
+            <div class="bone-card-title">${b.name}</div>
+            <div class="bone-card-latin">${b.latin}</div>
+          </div>
+          <div class="bone-card-icon" style="background:${getRegionColor(b.region)}">
+            <span style="font-size:18px">${b.emoji}</span>
+          </div>
+        </div>
+        <div class="bone-card-tags">${tagHtml}</div>
+        <div class="bone-card-desc">${b.desc}</div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  main.innerHTML = html;
+  lucide.createIcons();
+}
+
+function getRegionColor(r) {
+  const m = {
+    craneo: 'rgba(79,142,247,0.15)',
+    coluna: 'rgba(110,198,160,0.15)',
+    torax: 'rgba(247,168,79,0.15)',
+    membros_sup: 'rgba(123,93,247,0.15)',
+    pelve: 'rgba(247,79,130,0.15)',
+    membros_inf: 'rgba(79,210,247,0.15)',
+    mao: 'rgba(247,220,79,0.15)',
+    pe: 'rgba(150,247,79,0.15)'
+  };
+  return m[r] || 'rgba(79,142,247,0.15)';
+}
+
+// ─── Detail Panel ─────────────────────────────────────────────────────────────
+function openDetail(id) {
+  const bone = BONES.find(b => b.id === id);
+  if (!bone) return;
+  selectedBone = bone;
+
+  document.getElementById('detailName').textContent = bone.name;
+  document.getElementById('detailLatin').textContent = bone.latin;
+
+  const tagsEl = document.getElementById('detailTags');
+  tagsEl.innerHTML = bone.tags.map((t, i) =>
+    `<span class="tag ${bone.tagStyles[i] || 'tag-blue'}">${t}</span>`
+  ).join('');
+
+  const body = document.getElementById('detailBody');
+
+  let html = '';
+
+  // Media section
+  html += `<div class="detail-section">
+    <div class="detail-section-title">Mídia</div>
+    <div class="media-section">
+      <button class="media-button" onclick="capturePhoto('${bone.id}')">
+        <i data-lucide="camera" style="width:13px;height:13px;"></i> Foto
+      </button>
+      <button class="media-button" onclick="addFile('${bone.id}')">
+        <i data-lucide="paperclip" style="width:13px;height:13px;"></i> Arquivo
+      </button>
+    </div>
+    <div class="media-gallery" id="media-gallery-${bone.id}"></div>
+  </div>`;
+
+  // Função
+  html += `<div class="detail-section">
+    <div class="detail-section-title">Função</div>
+    <p class="detail-text">${bone.funcao}</p>
+  </div>`;
+
+  // Acidentes ósseos
+  html += `<div class="detail-section">
+    <div class="detail-section-title">Acidentes Ósseos</div>
+    <ul class="detail-list">
+      ${bone.acidentes.map(a => `<li>${a}</li>`).join('')}
+    </ul>
+  </div>`;
+
+  // Articulações
+  if (bone.ossos_relacionados.length > 0) {
+    html += `<div class="detail-section">
+      <div class="detail-section-title">Articulações / Relações</div>
+      <ul class="detail-list">
+        ${bone.ossos_relacionados.map(o => `<li>${o}</li>`).join('')}
+      </ul>
+    </div>`;
+  }
+
+  // Palpação
+  if (bone.palpacao && bone.palpacao.length > 0) {
+    html += `<div class="detail-section">
+      <div class="detail-section-title">Pontos de Palpação</div>
+      ${bone.palpacao.map(p => `
+        <div class="palpation-spot">
+          <div class="spot-name">${p.nome}</div>
+          <div class="spot-desc">${p.desc}</div>
+        </div>
+      `).join('')}
+    </div>`;
+  }
+
+  // Clínica
+  if (bone.clinica) {
+    html += `<div class="detail-section">
+      <div class="detail-section-title">Relevância Clínica</div>
+      <div class="detail-info">
+        <div style="flex-shrink:0;margin-top:1px;"><i data-lucide="stethoscope" style="width:13px;height:13px;color:#93b8f7;"></i></div>
+        <p>${bone.clinica}</p>
+      </div>
+    </div>`;
+  }
+
+  // Fraturas
+  if (bone.fraturas && bone.fraturas.length > 0) {
+    html += `<div class="detail-section">
+      <div class="detail-section-title">Fraturas Comuns</div>
+      ${bone.fraturas.map(f => `
+        <div class="fracture-item">
+          <strong>${f.nome}</strong>${f.desc}
+        </div>
+      `).join('')}
+    </div>`;
+  }
+
+  // Count
+  html += `<div class="detail-section">
+    <div class="detail-section-title">Contagem</div>
+    <div class="count-badge">
+      <span class="label">Quantidade no corpo adulto</span>
+      <span class="value">${bone.count}</span>
+    </div>
+  </div>`;
+
+  body.innerHTML = html;
+
+  const panel = document.getElementById('detailPanel');
+  panel.classList.add('open');
   lucide.createIcons();
 
-  function showToast(msg, color) {
-    const t = document.getElementById('toast');
-    t.textContent = msg; 
-    t.style.borderColor = color || 'var(--accent)';
-    t.classList.add('show'); 
-    setTimeout(() => t.classList.remove('show'), 2800);
-  }
+  // Populate media gallery
+  refreshMediaGallery(bone.id);
+}
 
-  // --- TEXTOS NO LOCAL STORAGE ---
-  const TEXT_IDS = ['notes-intro','notes-partes','notes-sup','notes-inf','notes-cranio','notes-aplicacao','notes-general'];
+// ─── Media Functions ──────────────────────────────────────────────────────────
+function capturePhoto(boneId) {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.capture = 'environment';
   
-  function saveTextNotes() {
-    TEXT_IDS.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) localStorage.setItem('esq_txt_' + id, el.value);
-    });
-    showToast('✓ Textos salvos!', 'var(--accent)');
-  }
-  
-  function loadTextNotes() {
-    TEXT_IDS.forEach(id => {
-      const val = localStorage.getItem('esq_txt_' + id);
-      if (val) document.getElementById(id).value = val;
-    });
-  }
-  
-  loadTextNotes();
-
-  // --- MÍDIAS NO INDEXEDDB ---
-  let db;
-  const dbName = "GuiaEsqueleticoDB";
-  const storeName = "mediaFiles";
-
-  const initDB = new Promise((resolve, reject) => {
-    const request = indexedDB.open(dbName, 1);
-    request.onerror = (e) => reject("Erro no banco de dados");
-    request.onupgradeneeded = (e) => {
-      db = e.target.result;
-      if (!db.objectStoreNames.contains(storeName)) {
-        db.createObjectStore(storeName, { keyPath: "id" });
-      }
-    };
-    request.onsuccess = (e) => { db = e.target.result; resolve(db); renderAllGalleries(); };
-  });
-
-  function triggerFile(inputId, sectionId) {
-    const input = document.getElementById(inputId);
-    input.dataset.section = sectionId;
-    input.click();
-  }
-
-  async function handleFile(event, type) {
-    const file = event.target.files[0];
-    if (!file) return;
-    const sectionId = event.target.dataset.section;
-    
-    const mediaRecord = {
-      id: Date.now().toString(),
-      section: sectionId,
-      type: file.type.startsWith('video') ? 'video' : 'image',
-      fileBlob: file
-    };
-
-    try {
-      await initDB;
-      const tx = db.transaction(storeName, "readwrite");
-      tx.objectStore(storeName).add(mediaRecord);
-      tx.oncomplete = () => {
-        showToast('✓ Mídia salva!', 'var(--accent)');
-        renderGallery(sectionId);
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (!boneMedia[boneId]) boneMedia[boneId] = [];
+        boneMedia[boneId].push({ type: 'image', data: event.target.result });
+        saveMedia();
+        refreshMediaGallery(boneId);
       };
-      tx.onerror = () => showToast('❌ Erro ao salvar', '#e06c75');
-    } catch (e) {
-      console.error(e);
+      reader.readAsDataURL(file);
     }
-    event.target.value = '';
-  }
-
-  function renderAllGalleries() {
-    TEXT_IDS.forEach(id => renderGallery(id));
-  }
-
-  async function renderGallery(sectionId) {
-    const gallery = document.getElementById('gallery-' + sectionId);
-    if (!gallery) return;
-    gallery.innerHTML = '';
-
-    await initDB;
-    const tx = db.transaction(storeName, "readonly");
-    const req = tx.objectStore(storeName).getAll();
-
-    req.onsuccess = () => {
-      const items = req.result.filter(i => i.section === sectionId);
-      items.forEach(media => {
-        const url = URL.createObjectURL(media.fileBlob);
-        const div = document.createElement('div');
-        div.className = 'media-item';
-        
-        if (media.type === 'image') {
-          div.innerHTML = `<img src="${url}" onclick="openModal('${url}','image')" alt="Foto salva">
-                           <button class="media-delete" onclick="deleteMedia('${media.id}', '${sectionId}')">X</button>`;
-        } else {
-          div.innerHTML = `<video><source src="${url}"></video>
-                           <button class="media-delete" onclick="deleteMedia('${media.id}', '${sectionId}')">X</button>`;
-        }
-        gallery.appendChild(div);
-      });
-    };
-  }
-
-  async function deleteMedia(id, sectionId) {
-    await initDB;
-    const tx = db.transaction(storeName, "readwrite");
-    tx.objectStore(storeName).delete(id);
-    tx.oncomplete = () => renderGallery(sectionId);
-  }
-
-  function openModal(src, type) {
-    const modal = document.getElementById('media-modal');
-    const content = document.getElementById('modal-content-area');
-    content.innerHTML = type === 'image' 
-      ? `<img src="${src}" alt="Imagem em tela cheia">` 
-      : `<video controls autoplay style="width:100%;height:auto;"><source src="${src}"></video>`;
-    modal.classList.add('show');
-  }
+  };
   
-  function closeMediaModal() {
-    document.getElementById('media-modal').classList.remove('show');
-    document.getElementById('modal-content-area').innerHTML = '';
-  }
+  input.click();
+}
 
-  // PWA Install
-  let deferredPrompt;
-  window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
-  async function installPWA() {
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      deferredPrompt = null;
-    } else { showToast('App já instalado', 'var(--accent2)'); }
-  }
+function addFile(boneId) {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*,video/*';
+  
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const type = file.type.startsWith('video') ? 'video' : 'image';
+        if (!boneMedia[boneId]) boneMedia[boneId] = [];
+        boneMedia[boneId].push({ type, data: event.target.result });
+        saveMedia();
+        refreshMediaGallery(boneId);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  
+  input.click();
+}
 
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./service-worker.js')
-        .then(() => console.log('Service Worker registrado com sucesso!'))
-        .catch(err => console.log('Erro ao registrar Service Worker:', err));
-    });
+function removeMedia(boneId, index) {
+  if (boneMedia[boneId]) {
+    boneMedia[boneId].splice(index, 1);
+    if (boneMedia[boneId].length === 0) {
+      delete boneMedia[boneId];
+    }
+    saveMedia();
+    refreshMediaGallery(boneId);
   }
+}
 
-  // Scroll progress
-  window.addEventListener('scroll', () => {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-    document.getElementById('scroll-bar').style.width = scrollPercent + '%';
+function saveMedia() {
+  localStorage.setItem('boneMedia', JSON.stringify(boneMedia));
+}
+
+function refreshMediaGallery(boneId) {
+  const gallery = document.getElementById(`media-gallery-${boneId}`);
+  if (!gallery) return;
+  
+  const media = boneMedia[boneId] || [];
+  gallery.innerHTML = media.map((m, i) => {
+    const tag = m.type === 'video' ? `<video><source src="${m.data}"></video>` : `<img src="${m.data}" alt="Foto">`;
+    return `<div class="media-item">
+      ${tag}
+      <button class="media-item-remove" onclick="removeMedia('${boneId}', ${i})">
+        <i data-lucide="x" style="width:12px;height:12px;"></i>
+      </button>
+    </div>`;
+  }).join('');
+  
+  lucide.createIcons();
+}
+
+function closeDetail() {
+  const panel = document.getElementById('detailPanel');
+  panel.classList.remove('open');
+  selectedBone = null;
+}
+
+// ─── Special Views ────────────────────────────────────────────────────────────
+function renderCountView(main) {
+  const regions = {
+    'Crânio & Face': BONES.filter(b => b.region === 'craneo'),
+    'Coluna Vertebral': BONES.filter(b => b.region === 'coluna'),
+    'Tórax': BONES.filter(b => b.region === 'torax'),
+    'Membro Superior': BONES.filter(b => b.region === 'membros_sup'),
+    'Pelve': BONES.filter(b => b.region === 'pelve'),
+    'Membro Inferior': BONES.filter(b => b.region === 'membros_inf'),
+    'Mão': BONES.filter(b => b.region === 'mao'),
+    'Pé': BONES.filter(b => b.region === 'pe')
+  };
+
+  let html = `<div class="section-header"><h2>Contagem Óssea</h2><p>Referência para o esqueleto adulto</p></div>`;
+
+  html += `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:20px;">`;
+
+  Object.entries(regions).forEach(([label, bones]) => {
+    const total = bones.reduce((s, b) => s + b.count, 0);
+    html += `<div class="count-badge" style="flex-direction:column;align-items:flex-start;gap:4px;padding:14px;">
+      <span class="label" style="font-size:12px;font-weight:600;color:var(--text);">${label}</span>
+      <span class="value" style="font-size:24px;">${total}</span>
+      <span style="font-size:10px;color:var(--muted);">${bones.length} estruturas catalogadas</span>
+    </div>`;
   });
 
-  // Prevent zoom on double tap (para mobile)
-  let lastTouchEnd = 0;
-  document.addEventListener('touchend', function(event) {
-    const now = Date.now();
-    if (now - lastTouchEnd <= 300) {
-      event.preventDefault();
+  html += `</div>`;
+
+  const grandTotal = BONES.reduce((s, b) => s + b.count, 0);
+  html += `<div class="detail-info" style="margin-bottom:16px;">
+    <div style="flex-shrink:0;"><i data-lucide="info" style="width:13px;height:13px;"></i></div>
+    <p>Total catalogado neste guia: <strong>${grandTotal} ossos</strong>. O esqueleto adulto possui aproximadamente <strong>206 ossos</strong> no total. Recém-nascidos têm ~270 ossos, que se fundem ao longo do crescimento.</p>
+  </div>`;
+
+  main.innerHTML = html;
+  lucide.createIcons();
+}
+
+function renderFraturasView(main) {
+  const bonesWithFractures = BONES.filter(b => b.fraturas && b.fraturas.length > 0);
+
+  let html = `<div class="section-header"><h2>Fraturas Comuns</h2><p>Referência rápida de fraturas por estrutura óssea</p></div>`;
+
+  bonesWithFractures.forEach(b => {
+    html += `<div style="margin-bottom:14px;">
+      <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px;display:flex;align-items:center;gap:6px;">
+        <span>${b.emoji}</span> ${b.name}
+      </div>
+      ${b.fraturas.map(f => `
+        <div class="fracture-item" style="cursor:pointer" onclick="openDetail('${b.id}')">
+          <strong>${f.nome}</strong>${f.desc}
+        </div>
+      `).join('')}
+    </div>`;
+  });
+
+  main.innerHTML = html;
+  lucide.createIcons();
+}
+
+function renderPalpacaoView(main) {
+  const bonesWithPalpation = BONES.filter(b => b.palpacao && b.palpacao.length > 0);
+
+  let html = `<div class="section-header"><h2>Pontos de Palpação</h2><p>Referência clínica para exame físico e anatomia de superfície</p></div>`;
+
+  bonesWithPalpation.forEach(b => {
+    html += `<div style="margin-bottom:16px;">
+      <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px;display:flex;align-items:center;gap:6px;">
+        <span>${b.emoji}</span> ${b.name} <span style="font-size:11px;color:var(--muted);font-weight:400;font-style:italic;">${b.latin}</span>
+      </div>
+      ${b.palpacao.map(p => `
+        <div class="palpation-spot" style="cursor:pointer" onclick="openDetail('${b.id}')">
+          <div class="spot-name">${p.nome}</div>
+          <div class="spot-desc">${p.desc}</div>
+        </div>
+      `).join('')}
+    </div>`;
+  });
+
+  main.innerHTML = html;
+  lucide.createIcons();
+}
+
+// ─── Navigation ───────────────────────────────────────────────────────────────
+function filterRegion(region, pill) {
+  currentRegion = region;
+  closeDetail();
+
+  document.querySelectorAll('.region-pill').forEach(p => p.classList.remove('active'));
+  pill.classList.add('active');
+
+  // Sync sidebar
+  document.querySelectorAll('.sidebar-item').forEach(item => {
+    item.classList.remove('active');
+    if (item.getAttribute('onclick') && item.getAttribute('onclick').includes(`'${region}'`)) {
+      item.classList.add('active');
     }
-    lastTouchEnd = now;
-  }, false);
+  });
+
+  renderMain();
+}
+
+function selectSidebarItem(el, region) {
+  currentRegion = region;
+  closeDetail();
+
+  document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+
+  // Sync pills
+  document.querySelectorAll('.region-pill').forEach(p => {
+    p.classList.remove('active');
+    if (p.getAttribute('onclick') && p.getAttribute('onclick').includes(`'${region}'`)) {
+      p.classList.add('active');
+    }
+  });
+
+  renderMain();
+}
+
+function clearSearch() {
+  document.getElementById('searchInput').value = '';
+  searchQuery = '';
+  document.getElementById('searchClear').style.display = 'none';
+  renderMain();
+}
+
+// ─── PDF Export ───────────────────────────────────────────────────────────
+function exportToPDF() {
+  const element = document.createElement('div');
+  element.style.padding = '20px';
+  element.style.fontFamily = 'Arial, sans-serif';
+  element.style.backgroundColor = '#fff';
+  element.style.color = '#000';
+
+  let html = `
+    <h1 style="text-align:center;color:#0e1117;margin-bottom:5px;">Anatomia Óssea</h1>
+    <p style="text-align:center;color:#666;margin-bottom:20px;font-size:14px;">Guia Interativo de Estruturas Ósseas</p>
+    <hr style="margin-bottom:20px;"/>
+  `;
+
+  BONES.forEach((bone, index) => {
+    html += `
+      <div style="page-break-inside:avoid;margin-bottom:20px;border-left:4px solid #4f8ef7;padding-left:15px;">
+        <h2 style="color:#0e1117;margin:0 0 5px 0;font-size:18px;">${bone.name}</h2>
+        <p style="color:#666;margin:0 0 10px 0;font-size:12px;font-style:italic;">${bone.latin}</p>
+        
+        <p style="color:#333;margin:0 0 10px 0;line-height:1.5;"><strong>Descrição:</strong> ${bone.desc}</p>
+        
+        <p style="color:#333;margin:0 0 10px 0;line-height:1.5;"><strong>Função:</strong> ${bone.funcao}</p>
+        
+        <p style="color:#333;margin:0 0 5px 0;"><strong>Acidentes ósseos:</strong> ${bone.acidentes.join(', ')}</p>
+        
+        ${bone.ossos_relacionados.length > 0 ? `<p style="color:#333;margin:0 0 5px 0;"><strong>Articulações:</strong> ${bone.ossos_relacionados.join(', ')}</p>` : ''}
+        
+        ${bone.palpacao && bone.palpacao.length > 0 ? `
+          <p style="color:#333;margin:0 0 5px 0;"><strong>Pontos de Palpação:</strong></p>
+          <ul style="margin:5px 0 10px 20px;padding:0;">
+            ${bone.palpacao.map(p => `<li style="margin:3px 0;"><strong>${p.nome}:</strong> ${p.desc}</li>`).join('')}
+          </ul>
+        ` : ''}
+        
+        ${bone.clinica ? `<p style="color:#333;margin:0 0 10px 0;line-height:1.5;"><strong>Relevância Clínica:</strong> ${bone.clinica}</p>` : ''}
+        
+        ${bone.fraturas && bone.fraturas.length > 0 ? `
+          <p style="color:#333;margin:0 0 5px 0;"><strong>Fraturas Comuns:</strong></p>
+          <ul style="margin:5px 0 10px 20px;padding:0;">
+            ${bone.fraturas.map(f => `<li style="margin:3px 0;"><strong>${f.nome}:</strong> ${f.desc}</li>`).join('')}
+          </ul>
+        ` : ''}
+        
+        <p style="color:#666;margin:0;font-size:12px;"><strong>Quantidade:</strong> ${bone.count} osso${bone.count !== 1 ? 's' : ''}</p>
+      </div>
+    `;
+
+    if ((index + 1) % 3 === 0) {
+      html += '<div style="page-break-after:always;"></div>';
+    }
+  });
+
+  element.innerHTML = html;
+
+  const opt = {
+    margin: 10,
+    filename: 'Anatomia-Ossea-Completo.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
+  };
+
+  html2pdf().set(opt).from(element).save();
+}
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e511393a1c6016e',t:'MTc3NDk3ODE2OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e5aaf2b159bcb7f',t:'MTc3NTA3ODkxNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
  </html>
