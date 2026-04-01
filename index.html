@@ -13,8 +13,7 @@
   <link rel="manifest" href="manifest.json">
   <title>UEM - Anatomia Humana 3D</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-<script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jspdf"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
   <script src="/_sdk/element_sdk.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&amp;display=swap" rel="stylesheet">
@@ -1473,93 +1472,24 @@ startxref
                 <p style="color: #aaa; margin-bottom: 16px; font-size: 0.9rem; line-height: 1.6;">
                     O arquivo PDF foi salvo com sucesso.<br><br>
                     <strong>Para enviar à Professora Cláudia Pinheiro:</strong>
-function generatePDF() {
-    const loading = document.getElementById('loading');
-    loading.classList.add('visible');
-
-    setTimeout(() => {
-        try {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-
-            let y = 15;
-            const pageHeight = 280;
-
-            // ===== TÍTULO =====
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(18);
-            doc.text("UEM - ANATOMIA HUMANA", 10, y);
-            y += 8;
-
-            doc.setFontSize(11);
-            doc.setFont("helvetica", "normal");
-            doc.text("Universidade Estadual de Maringá", 10, y);
-            y += 6;
-
-            doc.text(`Relatório: ${new Date().toLocaleDateString('pt-BR')}`, 10, y);
-            y += 10;
-
-            // Linha separadora
-            doc.setDrawColor(180);
-            doc.line(10, y, 200, y);
-            y += 8;
-
-            // ===== CONTEÚDO =====
-            systems.forEach(sys => {
-
-                // Título do sistema
-                doc.setFontSize(14);
-                doc.setFont("helvetica", "bold");
-                doc.text(sys.name, 10, y);
-                y += 6;
-
-                sys.structures.forEach((bone, i) => {
-
-                    // Quebra de página automática
-                    if (y > pageHeight) {
-                        doc.addPage();
-                        y = 15;
-                    }
-
-                    // Nome do osso
-                    doc.setFontSize(11);
-                    doc.setFont("helvetica", "bold");
-                    doc.text(`${i + 1}. ${bone.title}`, 10, y);
-                    y += 5;
-
-                    // Descrição
-                    doc.setFont("helvetica", "normal");
-                    const desc = doc.splitTextToSize(bone.desc, 180);
-                    doc.text(desc, 10, y);
-                    y += desc.length * 5;
-
-                    // Acidentes anatômicos
-                    if (bone.landmarks && bone.landmarks.length > 0) {
-                        const lm = "• " + bone.landmarks.slice(0, 5).join(', ');
-                        const lmText = doc.splitTextToSize(lm, 180);
-                        doc.text(lmText, 12, y);
-                        y += lmText.length * 5;
-                    }
-
-                    y += 4;
-                });
-
-                y += 6;
-            });
-
-            // ===== SALVAR =====
-            doc.save(`Anatomia_UEM_${new Date().toLocaleDateString('pt-BR').replace(/\//g,'-')}.pdf`);
-
-            loading.classList.remove('visible');
-            showToast('PDF profissional gerado com sucesso 📄✨');
-
-        } catch (e) {
-            console.error(e);
-            loading.classList.remove('visible');
-            showToast('Erro ao gerar PDF ❌');
-        }
-    }, 600);
-}
+                </p>
+                <div style="background: rgba(212,165,116,0.1); border: 1px solid rgba(212,165,116,0.3); border-radius: 10px; padding: 12px; margin-bottom: 16px; font-family: monospace; font-size: 0.85rem; color: var(--uem-gold);">
+                    crplopes@uem.br
+                </div>
+                <button onclick="this.parentElement.parentElement.remove()" style="
+                    background: var(--uem-gold);
+                    color: #111;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 8px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    width: 100%;
+                ">Fechar</button>
+            `;
+            
+            modal.appendChild(box);
+            document.body.appendChild(modal);
             
             showToast('Roteiro baixado — envie para crplopes@uem.br');
         } catch(e) {
