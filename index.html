@@ -5,8 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#b9d7ea" />
   <meta name="description" content="Roteiro prático sistema esquelético - PWA para estudo, fotos, arquivos, notas e PDF." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Sistema Esquelético" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512.png" />
   <title>Roteiro prático sistema esquelético</title>
   <style>
     :root{
@@ -360,7 +365,7 @@
           <p class="subtitle">PWA com abas por osso, notas, fotos, anexos, instalação e geração de PDF.</p>
         </div>
         <div class="toolbar">
-          <button class="btn" id="installBtn">Baixar app</button>
+          <button class="btn" id="installBtn">Instalar app</button>
           <button class="btn secondary" id="pdfBtn">Gerar PDF</button>
           <button class="btn tertiary" id="backupBtn">Salvar backup</button>
           <label class="file-label soft" for="restoreInput">Restaurar backup</label>
@@ -437,6 +442,8 @@
 
     let activeBoneId = bones[0].id;
     let deferredPrompt = null;
+    const isIos = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+    const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 
     const dbName = 'roteiro-esqueletico-db';
     const dbVersion = 1;
@@ -776,11 +783,20 @@
     function setupInstall(){
       const installBtn = document.getElementById('installBtn');
       const modal = document.getElementById('modal');
+      const modalBody = modal.querySelector('.modal-body');
 
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
+        if(!isInStandaloneMode) installBtn.hidden = false;
       });
+
+      if(isInStandaloneMode){
+        installBtn.textContent = 'App instalado';
+        installBtn.disabled = true;
+        installBtn.style.opacity = '.7';
+        installBtn.style.cursor = 'default';
+      }
 
       installBtn.addEventListener('click', async () => {
         if(deferredPrompt){
@@ -788,6 +804,22 @@
           await deferredPrompt.userChoice;
           deferredPrompt = null;
           return;
+        }
+
+        if(isIos){
+          modalBody.innerHTML = `
+            <p><strong>No iPhone/iPad, o app não instala por botão automático.</strong></p>
+            <p>Abra este site no <strong>Safari</strong>, toque em <strong>Compartilhar</strong> e depois em <strong>Adicionar à Tela de Início</strong>.</p>
+            <p>Depois confirme em <strong>Adicionar</strong>.</p>
+          `;
+        }else{
+          modalBody.innerHTML = `
+            <p><strong>Para instalar no Android:</strong></p>
+            <p>1. Abra o app pelo navegador em um endereço <strong>https://</strong>.</p>
+            <p>2. No Chrome, toque no menu de <strong>3 pontos</strong>.</p>
+            <p>3. Toque em <strong>Instalar app</strong> ou <strong>Adicionar à tela inicial</strong>.</p>
+            <p>Se essa opção não aparecer, publique primeiro no GitHub Pages ou outro host com HTTPS.</p>
+          `;
         }
         modal.classList.add('show');
       });
