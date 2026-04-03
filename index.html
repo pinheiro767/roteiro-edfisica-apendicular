@@ -527,164 +527,8 @@
       border-radius: 12px;
     }
 
-    /* Tablet (768px - 1024px) */
-    @media (max-width: 1024px) and (min-width: 769px) {
-      .layout {
-        grid-template-columns: minmax(240px, 260px) 1fr;
-        gap: 0;
-      }
-
-      .sidebar {
-        border-right: 1px solid rgba(216, 229, 242, 0.5);
-      }
-
-      .btn {
-        min-height: 42px;
-      }
-
-      .gallery {
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-      }
-
-      .media-card img {
-        height: 120px;
-      }
-    }
-
-    /* Mobile landscape (tablet and phones) */
-    @media (max-width: 768px) {
-      .layout {
-        grid-template-columns: 1fr;
-        gap: 0;
-      }
-
-      .sidebar {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        grid-template-rows: auto;
-        max-height: 56px;
-        gap: 8px;
-        border-right: none;
-        border-bottom: 1px solid rgba(216, 229, 242, 0.5);
-        padding: 8px 10px;
-      }
-
-      .search {
-        order: 2;
-        min-width: 180px;
-      }
-
-      .tab-list {
-        display: none;
-      }
-
-      .content {
-        border-radius: 0;
-      }
-
-      .toolbar {
-        gap: 6px;
-      }
-
-      .btn {
-        padding: 8px 10px;
-        font-size: 0.85rem;
-        min-height: 40px;
-      }
-
-      .gallery {
-        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-      }
-
-      .media-card img {
-        height: 110px;
-      }
-
-      .hero {
-        padding: 12px;
-      }
-
-      .app-container {
-        padding: 0;
-      }
-
-      .content {
-        padding: 12px;
-      }
-
-      .note-box {
-        max-height: 35vh;
-      }
-    }
-
-    /* Small phones (480px and below) */
-    @media (max-width: 480px) {
-      body {
-        font-size: 16px;
-      }
-
-      .layout {
-        grid-template-columns: 1fr;
-      }
-
-      .sidebar {
-        display: none;
-      }
-
-      .hero-top {
-        flex-direction: column;
-        gap: 8px;
-      }
-
-      .toolbar {
-        gap: 6px;
-        margin-top: 8px;
-        width: 100%;
-      }
-
-      .btn {
-        padding: 8px 9px;
-        font-size: 0.75rem;
-        min-height: 44px;
-        flex: 1;
-        min-width: 70px;
-      }
-
-      h1 {
-        font-size: 1.1rem;
-      }
-
-      .gallery {
-        grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
-      }
-
-      .media-card img {
-        height: 95px;
-      }
-
-      .note-box {
-        max-height: 30vh;
-      }
-
-      .app-container {
-        padding: 8px;
-      }
-
-      .hero {
-        padding: 10px;
-      }
-
-      .content {
-        padding: 10px;
-      }
-
-      .section-card {
-        padding: 10px;
-      }
-    }
-
-    /* Large screens (1440px+) */
-    @media (min-width: 1441px) {
+    /* ===== NOTEBOOK / DESKTOP (1440px+) ===== */
+    @media (min-width: 1440px) {
       .layout {
         grid-template-columns: 300px 1fr;
         gap: 0;
@@ -713,16 +557,342 @@
       .btn {
         min-height: 44px;
       }
+
+      .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      }
+
+      .media-card img {
+        height: 160px;
+      }
     }
 
-    /* Landscape orientation adjustments */
-    @media (max-height: 600px) and (min-width: 768px) {
+    /* ===== LARGE TABLET (1024px - 1439px) ===== */
+    @media (min-width: 1024px) and (max-width: 1439px) {
+      .layout {
+        grid-template-columns: 280px 1fr;
+        gap: 0;
+      }
+
+      .sidebar {
+        border-right: 1px solid rgba(216, 229, 242, 0.5);
+      }
+
+      .btn {
+        min-height: 42px;
+      }
+
+      .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      }
+
+      .media-card img {
+        height: 140px;
+      }
+
+      .hero {
+        padding: 14px;
+        gap: 12px;
+        margin: 12px 12px 0 12px;
+        border-radius: var(--radius);
+      }
+
+      .layout {
+        margin: 0 12px 12px 12px;
+        border-radius: var(--radius);
+      }
+    }
+
+    /* ===== TABLET PORTRAIT (768px - 1023px) ===== */
+    @media (min-width: 768px) and (max-width: 1023px) {
+      .layout {
+        grid-template-columns: 240px 1fr;
+        gap: 0;
+      }
+
+      .sidebar {
+        border-right: 1px solid rgba(216, 229, 242, 0.5);
+      }
+
+      .btn {
+        min-height: 40px;
+        padding: 8px 12px;
+        font-size: 0.9rem;
+      }
+
+      .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      }
+
+      .media-card img {
+        height: 120px;
+      }
+
+      .hero {
+        padding: 12px;
+        gap: 10px;
+      }
+
+      .toolbar {
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .search {
+        min-width: 150px;
+      }
+
+      .tab-btn {
+        padding: 8px 10px;
+        font-size: 0.85rem;
+      }
+    }
+
+    /* ===== TABLET LANDSCAPE (1024px height, 600px+ height) ===== */
+    @media (max-height: 1024px) and (min-width: 768px) and (min-height: 600px) {
+      .layout {
+        grid-template-columns: 240px 1fr;
+      }
+
+      .note-box {
+        min-height: 100px;
+        max-height: 200px;
+      }
+
+      .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      }
+
+      .media-card img {
+        height: 110px;
+      }
+    }
+
+    /* ===== LARGE PHONE (600px - 767px) ===== */
+    @media (min-width: 600px) and (max-width: 767px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto;
+        max-height: 60px;
+        gap: 8px;
+        border-right: none;
+        border-bottom: 1px solid rgba(216, 229, 242, 0.5);
+        padding: 8px 10px;
+      }
+
+      .search {
+        order: 2;
+        min-width: 200px;
+      }
+
+      .tab-list {
+        display: none;
+      }
+
+      .btn {
+        padding: 9px 12px;
+        font-size: 0.9rem;
+        min-height: 42px;
+      }
+
+      .toolbar {
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      }
+
+      .media-card img {
+        height: 130px;
+      }
+
+      .hero {
+        padding: 12px;
+      }
+
+      .content {
+        padding: 12px;
+      }
+
+      .note-box {
+        max-height: 40vh;
+      }
+
       .app-container {
         padding: 8px;
+      }
+    }
+
+    /* ===== MEDIUM PHONE (480px - 599px) ===== */
+    @media (min-width: 480px) and (max-width: 599px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto;
+        max-height: 56px;
+        gap: 6px;
+        border-right: none;
+        border-bottom: 1px solid rgba(216, 229, 242, 0.5);
+        padding: 6px 8px;
+      }
+
+      .search {
+        order: 2;
+        min-width: 150px;
+        font-size: 0.85rem;
+      }
+
+      .tab-list {
+        display: none;
+      }
+
+      .btn {
+        padding: 8px 10px;
+        font-size: 0.85rem;
+        min-height: 40px;
+        flex: 0 1 auto;
+      }
+
+      .toolbar {
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+
+      .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      }
+
+      .media-card img {
+        height: 110px;
       }
 
       .hero {
         padding: 10px;
+        gap: 8px;
+      }
+
+      .content {
+        padding: 10px;
+      }
+
+      .hero-top {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .note-box {
+        max-height: 35vh;
+      }
+
+      .app-container {
+        padding: 6px;
+      }
+
+      h1 {
+        font-size: 1.2rem;
+      }
+    }
+
+    /* ===== SMALL PHONE (< 480px) ===== */
+    @media (max-width: 479px) {
+      body {
+        font-size: 16px;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .hero-top {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .toolbar {
+        gap: 6px;
+        margin-top: 8px;
+        width: 100%;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        padding: 8px 9px;
+        font-size: 0.75rem;
+        min-height: 44px;
+        flex: 1;
+        min-width: 65px;
+      }
+
+      h1 {
+        font-size: 1.1rem;
+      }
+
+      .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
+      }
+
+      .media-card img {
+        height: 95px;
+      }
+
+      .note-box {
+        max-height: 30vh;
+      }
+
+      .app-container {
+        padding: 6px;
+      }
+
+      .hero {
+        padding: 10px;
+        gap: 8px;
+      }
+
+      .content {
+        padding: 10px;
+      }
+
+      .section-card {
+        padding: 10px;
+      }
+
+      .subtitle {
+        font-size: 0.8rem;
+      }
+
+      .pill {
+        font-size: 0.65rem;
+      }
+
+      .actions {
+        gap: 4px;
+      }
+
+      .btn.soft {
+        padding: 6px 8px;
+        font-size: 0.7rem;
+      }
+    }
+
+    /* ===== PHONE LANDSCAPE (height < 600px, width >= 600px) ===== */
+    @media (max-height: 599px) and (min-width: 600px) {
+      .hero {
+        padding: 8px 12px;
         gap: 8px;
       }
 
@@ -731,12 +901,233 @@
       }
 
       .note-box {
-        min-height: 80px;
-        max-height: 150px;
+        min-height: 70px;
+        max-height: 120px;
       }
 
       .section-card {
-        padding: 10px;
+        padding: 8px;
+      }
+
+      .app-container {
+        padding: 6px;
+      }
+
+      .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      }
+
+      .media-card img {
+        height: 100px;
+      }
+
+      .toolbar {
+        gap: 4px;
+      }
+
+      .btn {
+        padding: 6px 8px;
+        font-size: 0.8rem;
+        min-height: 36px;
+      }
+    }
+
+    /* ===== IPHONE SPECIFIC (vertical orientation, 375-428px width) ===== */
+    @media (max-width: 428px) and (orientation: portrait) {
+      .hero {
+        padding: 9px;
+        gap: 6px;
+      }
+
+      h1 {
+        font-size: 1rem;
+      }
+
+      .subtitle {
+        font-size: 0.75rem;
+      }
+
+      .toolbar {
+        width: 100%;
+        gap: 5px;
+      }
+
+      .btn {
+        flex: 1;
+        min-width: 50px;
+        padding: 7px 8px;
+        font-size: 0.7rem;
+        min-height: 40px;
+      }
+
+      .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+        gap: 6px;
+      }
+
+      .media-card img {
+        height: 85px;
+      }
+
+      .app-container {
+        padding: 4px;
+      }
+
+      .content {
+        padding: 8px;
+        gap: 8px;
+      }
+
+      .section-card {
+        padding: 8px;
+      }
+
+      .note-box {
+        min-height: 100px;
+        max-height: 30vh;
+      }
+
+      .actions {
+        gap: 4px;
+        flex-wrap: wrap;
+      }
+
+      .btn.soft {
+        padding: 5px 7px;
+        font-size: 0.65rem;
+        flex: 1;
+        min-width: 45px;
+      }
+
+      .media-card .actions {
+        flex-wrap: wrap;
+      }
+
+      .file-name {
+        font-size: 0.7rem;
+      }
+
+      .file-meta {
+        font-size: 0.6rem;
+      }
+    }
+
+    /* ===== IPHONE LANDSCAPE (orientation: landscape) ===== */
+    @media (max-height: 500px) and (orientation: landscape) {
+      .hero {
+        padding: 6px 10px;
+        gap: 6px;
+      }
+
+      h1 {
+        font-size: 1rem;
+      }
+
+      .subtitle {
+        display: none;
+      }
+
+      .hint {
+        display: none;
+      }
+
+      .toolbar {
+        gap: 4px;
+      }
+
+      .btn {
+        padding: 6px 8px;
+        font-size: 0.75rem;
+        min-height: 36px;
+      }
+
+      .app-container {
+        padding: 0;
+      }
+
+      .content {
+        padding: 8px;
+      }
+
+      .section-card {
+        padding: 8px;
+      }
+
+      .note-box {
+        min-height: 60px;
+        max-height: 100px;
+      }
+
+      .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+      }
+
+      .media-card img {
+        height: 90px;
+      }
+
+      .media-card .body {
+        padding: 4px;
+      }
+
+      .file-name {
+        font-size: 0.65rem;
+      }
+
+      .file-meta {
+        font-size: 0.6rem;
+      }
+
+      .btn.soft {
+        padding: 4px 6px;
+        font-size: 0.6rem;
+      }
+    }
+
+    /* ===== ANDROID SPECIFIC (480px - 720px width) ===== */
+    @media (min-width: 480px) and (max-width: 720px) and (orientation: portrait) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .btn {
+        min-height: 44px;
+        padding: 10px 12px;
+      }
+
+      .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
+      }
+
+      .media-card img {
+        height: 115px;
+      }
+
+      .toolbar {
+        gap: 8px;
+      }
+
+      .note-box {
+        max-height: 35vh;
+      }
+    }
+
+    /* ===== ANDROID TABLET (720px - 1024px) ===== */
+    @media (min-width: 720px) and (max-width: 1024px) and (orientation: portrait) {
+      .layout {
+        grid-template-columns: 220px 1fr;
+      }
+
+      .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      }
+
+      .media-card img {
+        height: 130px;
+      }
+
+      .btn {
+        min-height: 42px;
       }
     }
 
@@ -769,15 +1160,13 @@
        <h1 id="appTitle">Roteiro prático sistema esquelético</h1>
        <p class="subtitle">Universidade Estadual de Maringá • Estude cada osso com notas e fotos anexadas.</p>
       </div>
-      <div class="toolbar">
-       <button class="btn primary" id="installBtn">Baixar app</button> <button class="btn primary" id="pdfBtn">Gerar PDF</button>
+      <div class="toolbar"><button class="btn primary" id="installBtn">Baixar app</button> <button class="btn primary" id="pdfBtn">Gerar PDF</button>
       </div>
      </div>
      <p class="hint">Clique em um osso para estudar. Suas anotações e fotos são salvas automaticamente.</p>
     </header>
     <main class="layout">
-     <aside class="sidebar">
-      <input class="search" id="searchInput" type="search" placeholder="Buscar osso...">
+     <aside class="sidebar"><input class="search" id="searchInput" type="search" placeholder="Buscar osso...">
       <div class="tab-list" id="tabList"></div>
      </aside>
      <section id="contentArea" class="content"></section>
@@ -1469,5 +1858,5 @@
       });
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e6ac60c04fea507',t:'MTc3NTI0NzYyMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e6ad14c637ee638',t:'MTc3NTI0ODA4NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
