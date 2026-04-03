@@ -781,22 +781,35 @@
     }
 
     function setupInstall(){
-      const installBtn = document.getElementById('installBtn');
-      const modal = document.getElementById('modal');
-      const modalBody = modal.querySelector('.modal-body');
+  const installBtn = document.getElementById('installBtn');
+  const modal = document.getElementById('modal');
 
-      window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        if(!isInStandaloneMode) installBtn.hidden = false;
-      });
+  // CORREÇÃO
+  const modalBody = modal.querySelector('.modal-content');
 
-      if(isInStandaloneMode){
-        installBtn.textContent = 'App instalado';
-        installBtn.disabled = true;
-        installBtn.style.opacity = '.7';
-        installBtn.style.cursor = 'default';
-      }
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if(!isInStandaloneMode) installBtn.hidden = false;
+  });
+
+  installBtn.addEventListener('click', async () => {
+    if(deferredPrompt){
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      return;
+    }
+
+    if(isIos){
+      modalBody.innerHTML = `
+        <h3>Instalar no iPhone</h3>
+        <p>Abra no Safari → Compartilhar → Adicionar à Tela de Início.</p>
+      `;
+      modal.classList.add('show');
+    }
+  });
+}
 
       installBtn.addEventListener('click', async () => {
         if(deferredPrompt){
