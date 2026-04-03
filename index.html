@@ -1,1632 +1,824 @@
-<!doctype html>
-<html lang="pt-br" class="h-full">
- <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#004a8d">
-  <meta name="description" content="Aplicativo interativo de Anatomia Humana 3D - Sistema Esquelético - Universidade Estadual de Maringá">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="UEM Anatomia">
-  <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%23004a8d' width='192' height='192'/><text x='50%' y='50%' font-size='100' fill='%23d4a574' text-anchor='middle' dy='.3em'>UEM</text></svg>">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect fill='%23004a8d' width='180' height='180' rx='40'/><text x='50%' y='50%' font-size='90' fill='%23d4a574' text-anchor='middle' dy='.3em'>UEM</text></svg>">
-  <link rel="manifest" href="manifest.json">
-  <title>UEM - Anatomia Humana 3D</title>
-  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-  <script src="/_sdk/element_sdk.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&amp;display=swap" rel="stylesheet">
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#b9d7ea" />
+  <meta name="description" content="Roteiro prático sistema esquelético - PWA para estudo, fotos, arquivos, notas e PDF." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <title>Roteiro prático sistema esquelético</title>
   <style>
-        :root {
-            --uem-blue: #004a8d;
-            --uem-blue-light: #0066cc;
-            --uem-gold: #d4a574;
-            --uem-gold-dim: rgba(212,165,116,0.25);
-            --dark-bg: #0f0f14;
-            --card-bg: #1c1c26;
-            --card-border: rgba(212,165,116,0.2);
-        }
+    :root{
+      --bg:#f8fbff;
+      --panel:#ffffff;
+      --panel-2:#f1f7ff;
+      --line:#d8e5f2;
+      --text:#1f2a37;
+      --muted:#5c728a;
+      --primary:#7bb8d9;
+      --primary-2:#a7d7c5;
+      --accent:#f7c6c7;
+      --accent-2:#f5e6a8;
+      --shadow:0 12px 28px rgba(61, 102, 140, .12);
+      --radius:22px;
+    }
 
-        * { box-sizing: border-box; }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(167,215,197,.38), transparent 28%),
+        radial-gradient(circle at top right, rgba(247,198,199,.38), transparent 28%),
+        linear-gradient(180deg, #f8fbff 0%, #eef6ff 100%);
+    }
 
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            font-family: 'Sora', 'Segoe UI', sans-serif;
-            background: var(--dark-bg);
-            color: white;
-            overflow-x: hidden;
-        }
+    .app{
+      max-width:1300px;
+      margin:0 auto;
+      padding:16px;
+      display:grid;
+      gap:16px;
+    }
 
-        .app-wrapper {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            position: relative;
-        }
+    .hero, .sidebar, .content, .empty, .modal-content{
+      background:rgba(255,255,255,.88);
+      backdrop-filter: blur(12px);
+      border:1px solid rgba(216,229,242,.9);
+      box-shadow:var(--shadow);
+      border-radius:var(--radius);
+    }
 
-        /* ── NAV DOCK ── */
-        .nav-dock {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            height: 68px;
-            background: rgba(10,10,20,0.97);
-            backdrop-filter: blur(16px);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            border-top: 1.5px solid var(--uem-gold);
-            z-index: 1000;
-            flex-shrink: 0;
-        }
-        .nav-item {
-            color: #888;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-size: 0.62rem;
-            font-weight: 600;
-            gap: 3px;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            padding: 6px 12px;
-            border-radius: 10px;
-            transition: color 0.2s;
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
-        .nav-item.active { color: var(--uem-gold); }
-        .nav-item svg { width: 20px; height: 20px; }
+    .hero{
+      padding:18px;
+      display:grid;
+      gap:14px;
+    }
 
-        /* ── SCENES ── */
-        .scene {
-            display: none;
-            width: 100%;
-            height: 100%;
-            flex: 1;
-            overflow-y: auto;
-            overflow-x: hidden;
-            animation: fadeIn 0.25s ease;
-        }
-        .scene.active { display: flex; flex-direction: column; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    .hero-top{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+    }
 
-        /* ── HEADER ── */
-        .app-header {
-            background: linear-gradient(135deg, #001d40 0%, #004a8d 60%, #00367a 100%);
-            padding: 22px 20px 18px;
-            text-align: center;
-            border-bottom: 2px solid var(--uem-gold);
-            position: sticky; top: 0; z-index: 100;
-            flex-shrink: 0;
-        }
-        .app-header .badge {
-            display: inline-block;
-            background: rgba(212,165,116,0.15);
-            border: 1px solid var(--uem-gold);
-            color: var(--uem-gold);
-            font-size: 0.6rem;
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            padding: 2px 10px;
-            border-radius: 20px;
-            margin-bottom: 6px;
-        }
-        .app-header h1 {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: #fff;
-            margin: 0;
-        }
-        .app-header p {
-            font-size: 0.72rem;
-            color: #aac4e8;
-            margin: 3px 0 0;
-        }
+    h1{
+      margin:0;
+      font-size:clamp(1.4rem, 3vw, 2.2rem);
+      line-height:1.1;
+    }
 
-        /* ── ANATOMY CARD ── */
-        .anatomy-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 0;
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
-            position: relative;
-            margin: 20px 16px 0;
-        }
-        .anatomy-card:last-child { margin-bottom: 20px; }
-        .anatomy-card:hover { transform: translateY(-3px); border-color: var(--uem-gold); box-shadow: 0 8px 30px rgba(212,165,116,0.18); }
-        .anatomy-card .card-header-band {
-            height: 5px;
-        }
-        .anatomy-card .card-body { padding: 14px 12px 12px; }
-        .anatomy-card .card-icon {
-            width: 48px; height: 48px;
-            border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.4rem;
-            margin-bottom: 10px;
-        }
-        .anatomy-card .card-title { font-size: 0.88rem; font-weight: 700; margin-bottom: 4px; line-height: 1.2; }
-        .anatomy-card .card-count { font-size: 0.68rem; color: #888; font-weight: 500; }
+    .subtitle{
+      margin:0;
+      color:var(--muted);
+      font-size:0.98rem;
+    }
 
-        /* ── DETAIL SCENE ── */
-        .back-btn {
-            display: inline-flex; align-items: center; gap: 7px;
-            color: var(--uem-gold); font-size: 0.85rem; font-weight: 600;
-            background: rgba(212,165,116,0.1); border: 1px solid var(--uem-gold-dim);
-            border-radius: 10px; padding: 7px 13px; margin-bottom: 18px;
-            cursor: pointer; transition: background 0.15s;
-        }
-        .back-btn:hover { background: rgba(212,165,116,0.18); }
-        .back-btn svg { width: 16px; height: 16px; }
+    .toolbar{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
 
-        .section-tag {
-            display: inline-block;
-            background: var(--uem-gold);
-            color: #111;
-            font-size: 0.62rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            padding: 2px 9px;
-            border-radius: 20px;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
+    .btn, .file-label{
+      appearance:none;
+      border:none;
+      border-radius:16px;
+      padding:12px 16px;
+      background:linear-gradient(135deg, var(--primary), #8fc4e0);
+      color:#11324a;
+      font-weight:700;
+      cursor:pointer;
+      min-height:46px;
+      transition:transform .16s ease, box-shadow .16s ease, filter .16s ease;
+      box-shadow:0 8px 18px rgba(123,184,217,.26);
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+    }
 
-        .detail-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 4px;
-        }
-        .detail-desc {
-            font-size: 0.82rem;
-            color: #aaa;
-            line-height: 1.6;
-            margin-bottom: 18px;
-        }
+    .btn.secondary, .file-label.secondary{
+      background:linear-gradient(135deg, var(--primary-2), #c2eadb);
+      color:#23483c;
+      box-shadow:0 8px 18px rgba(167,215,197,.26);
+    }
 
-        /* 3D Viewer placeholder */
-        .viewer-box {
-            background: linear-gradient(135deg, #0a1929 0%, #001d40 100%);
-            border: 1px solid rgba(0,102,204,0.4);
-            border-radius: 16px;
-            height: 210px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-        .viewer-box::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse at 50% 50%, rgba(0,102,204,0.12) 0%, transparent 70%);
-        }
-        .viewer-box .viewer-emoji { font-size: 4rem; filter: drop-shadow(0 0 20px rgba(0,102,204,0.6)); }
-        .viewer-box .viewer-label { font-size: 0.75rem; color: #6b9fd4; font-weight: 600; letter-spacing: 0.08em; }
+    .btn.tertiary, .file-label.tertiary{
+      background:linear-gradient(135deg, var(--accent), #ffd8d9);
+      color:#5b2b2c;
+      box-shadow:0 8px 18px rgba(247,198,199,.26);
+    }
 
-        /* Bone items */
-        /* ── BONE TABS ── */
-        .bones-tabs-sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            padding: 12px 8px;
-            background: rgba(0,0,0,0.3);
-            border-right: 1.5px solid rgba(212,165,116,0.2);
-            overflow-y: auto;
-            flex-shrink: 0;
-            width: 120px;
-            max-height: 100%;
-            scroll-behavior: smooth;
-        }
-        .bones-tabs-sidebar::-webkit-scrollbar { width: 4px; }
-        .bones-tabs-sidebar::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 2px; }
-        .bones-tabs-sidebar::-webkit-scrollbar-thumb { background: var(--uem-gold); border-radius: 2px; }
-        .bone-tab {
-            padding: 10px 8px;
-            border: 1px solid rgba(212,165,116,0.3);
-            border-radius: 8px;
-            background: rgba(255,255,255,0.02);
-            color: #888;
-            font-size: 0.65rem;
-            font-weight: 600;
-            cursor: pointer;
-            white-space: normal;
-            word-wrap: break-word;
-            transition: all 0.2s;
-            text-transform: uppercase;
-            letter-spacing: 0.03em;
-            flex-shrink: 0;
-            text-align: center;
-            line-height: 1.3;
-        }
-        .bone-tab:hover { border-color: var(--uem-gold); background: rgba(212,165,116,0.1); }
-        .bone-tab.active { 
-            background: var(--uem-gold);
-            color: #111;
-            border-color: var(--uem-gold);
-        }
+    .btn.soft{
+      background:#fff;
+      color:var(--text);
+      border:1px solid var(--line);
+      box-shadow:none;
+    }
 
-        .bone-detail-main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            min-width: 0;
-        }
+    .btn:hover, .file-label:hover{transform:translateY(-1px); filter:saturate(1.05)}
+    .btn:active, .file-label:active{transform:translateY(1px)}
 
-        /* ── BONE DETAIL IMMERSIVE ── */
-        .bone-detail-hero {
-            background: linear-gradient(135deg, rgba(0,74,141,0.2) 0%, rgba(212,165,116,0.1) 100%);
-            border-bottom: 1px solid rgba(212,165,116,0.2);
-            padding: 20px 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            text-align: center;
-            flex-shrink: 0;
-        }
-        .bone-hero-emoji { font-size: 3.5rem; filter: drop-shadow(0 0 15px rgba(212,165,116,0.4)); }
-        .bone-hero-title { font-size: 1.3rem; font-weight: 800; margin: 0; }
-        .bone-hero-subtitle { font-size: 0.8rem; color: #aaa; margin: 0; line-height: 1.4; }
-        .hero-section-wrapper {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    .layout{
+      display:grid;
+      grid-template-columns:330px 1fr;
+      gap:16px;
+      min-height:60vh;
+    }
 
-        /* ── MEDIA BUTTONS ── */
-        .media-buttons {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            margin-top: 16px;
-            flex-shrink: 0;
-        }
-        .media-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(212,165,116,0.15);
-            border: 1.5px solid var(--uem-gold);
-            color: var(--uem-gold);
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 10px 16px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        .media-btn:hover {
-            background: rgba(212,165,116,0.25);
-            transform: translateY(-2px);
-        }
-        .media-btn svg { width: 18px; height: 18px; }
+    .sidebar{
+      padding:14px;
+      display:grid;
+      gap:12px;
+      align-content:start;
+      max-height:calc(100vh - 190px);
+      position:sticky;
+      top:16px;
+      overflow:hidden;
+    }
 
-        /* ── MEDIA PREVIEW ── */
-        .media-preview {
-            margin-top: 16px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 12px;
-        }
-        .media-item {
-            position: relative;
-            border: 1px solid rgba(212,165,116,0.2);
-            border-radius: 10px;
-            overflow: hidden;
-            aspect-ratio: 1;
-            background: rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .media-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .media-item .remove-media {
-            position: absolute;
-            top: 4px;
-            right: 4px;
-            width: 24px;
-            height: 24px;
-            background: rgba(231,76,60,0.9);
-            border: none;
-            border-radius: 50%;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            transition: background 0.2s;
-        }
-        .media-item .remove-media:hover {
-            background: rgba(231,76,60,1);
-        }
+    .search{
+      width:100%;
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:14px;
+      padding:12px 14px;
+      font-size:1rem;
+      outline:none;
+    }
 
-        .bone-detail-content {
-            padding: 16px;
-            flex: 1;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-        }
+    .search:focus{
+      border-color:var(--primary);
+      box-shadow:0 0 0 4px rgba(123,184,217,.18);
+    }
 
-        .notes-section {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(212,165,116,0.2);
-        }
+    .tab-list{
+      overflow:auto;
+      display:grid;
+      gap:8px;
+      padding-right:4px;
+    }
 
-        .notes-title {
-            font-size: 0.72rem;
-            font-weight: 700;
-            color: var(--uem-gold);
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
+    .tab-btn{
+      width:100%;
+      text-align:left;
+      border:1px solid transparent;
+      background:var(--panel-2);
+      padding:12px 14px;
+      border-radius:16px;
+      cursor:pointer;
+      color:var(--text);
+      font-weight:700;
+    }
 
-        .notes-textarea {
-            width: 100%;
-            background: rgba(0,0,0,0.3);
-            border: 1px solid rgba(212,165,116,0.2);
-            border-radius: 10px;
-            color: #ddd;
-            padding: 12px 14px;
-            font-size: 0.85rem;
-            font-family: 'Sora', Segoe UI, sans-serif;
-            resize: vertical;
-            min-height: 100px;
-            max-height: 150px;
-            transition: border-color 0.2s;
-        }
+    .tab-btn small{
+      display:block;
+      margin-top:4px;
+      font-weight:600;
+      color:var(--muted);
+    }
 
-        .notes-textarea:focus {
-            outline: none;
-            border-color: var(--uem-gold);
-            background: rgba(212,165,116,0.05);
-        }
+    .tab-btn.active{
+      background:linear-gradient(135deg, rgba(123,184,217,.22), rgba(167,215,197,.18));
+      border-color:rgba(123,184,217,.45);
+    }
 
-        .notes-textarea::placeholder {
-            color: rgba(255,255,255,0.3);
-        }
+    .content{
+      padding:18px;
+      display:grid;
+      gap:16px;
+    }
 
-        .notes-char-count {
-            font-size: 0.65rem;
-            color: #888;
-            margin-top: 6px;
-            text-align: right;
-        }
-        .bone-detail-section {
-            margin-bottom: 20px;
-        }
-        .bone-detail-label {
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: var(--uem-gold);
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin-bottom: 6px;
-        }
-        .bone-detail-text {
-            font-size: 0.85rem;
-            color: #ddd;
-            line-height: 1.8;
-            background: rgba(255,255,255,0.03);
-            padding: 12px 14px;
-            border-radius: 10px;
-            border-left: 3px solid var(--uem-gold);
-        }
+    .section-card{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:16px;
+    }
 
-        /* ── ANATOMICAL LANDMARKS CHECKLIST ── */
-        .landmarks-checklist {
-            background: rgba(212,165,116,0.08);
-            border: 1px solid rgba(212,165,116,0.25);
-            border-radius: 12px;
-            padding: 14px;
-            margin-top: 16px;
-        }
-        .landmarks-title {
-            font-size: 0.72rem;
-            font-weight: 700;
-            color: var(--uem-gold);
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-        .landmark-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            padding: 8px 0;
-            font-size: 0.78rem;
-            color: #ddd;
-            line-height: 1.5;
-        }
-        .landmark-checkbox {
-            width: 18px;
-            height: 18px;
-            min-width: 18px;
-            margin-top: 2px;
-            cursor: pointer;
-            accent-color: var(--uem-gold);
-        }
-        .landmark-text {
-            flex: 1;
-        }
+    .section-card h2, .section-card h3{
+      margin-top:0;
+    }
 
-        /* ── GUIDE SCENE ── */
-        .guide-step {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            padding: 16px 16px 16px 18px;
-            margin-bottom: 14px;
-            position: relative;
-        }
-        .guide-step-number {
-            position: absolute;
-            top: -10px; left: 14px;
-            background: var(--uem-gold);
-            color: #111;
-            font-size: 0.68rem;
-            font-weight: 800;
-            width: 22px; height: 22px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .guide-step-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 5px; }
-        .guide-step-body { font-size: 0.78rem; color: #aaa; line-height: 1.6; }
-        .guide-step-body ul { padding-left: 16px; margin: 6px 0 0; }
-        .guide-step-body li { margin-bottom: 4px; }
+    .meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-bottom:8px;
+    }
 
-        /* ── CASES SCENE ── */
-        .case-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 18px;
-            margin-bottom: 16px;
-        }
-        .case-card .case-tag {
-            display: inline-block;
-            font-size: 0.6rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            padding: 2px 9px;
-            border-radius: 20px;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-        .tag-trauma { background: rgba(231,76,60,0.2); color: #e74c3c; border: 1px solid rgba(231,76,60,0.35); }
-        .tag-ortho  { background: rgba(52,152,219,0.2); color: #3498db; border: 1px solid rgba(52,152,219,0.35); }
-        .tag-neuro  { background: rgba(155,89,182,0.2); color: #9b59b6; border: 1px solid rgba(155,89,182,0.35); }
-        .case-card .case-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; }
-        .case-card .case-desc  { font-size: 0.78rem; color: #aaa; line-height: 1.6; margin-bottom: 12px; }
+    .pill{
+      background:var(--panel-2);
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:6px 12px;
+      font-size:.88rem;
+      color:var(--muted);
+      font-weight:700;
+    }
 
-        .accordion-btn {
-            width: 100%;
-            background: rgba(0,74,141,0.25);
-            border: 1px solid rgba(0,102,204,0.3);
-            border-radius: 9px;
-            color: #7bb3e0;
-            font-size: 0.78rem;
-            font-weight: 600;
-            padding: 9px 14px;
-            text-align: left;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: background 0.15s;
-        }
-        .accordion-btn:hover { background: rgba(0,74,141,0.4); }
-        .accordion-btn svg { width: 16px; height: 16px; transition: transform 0.2s; flex-shrink: 0; }
-        .accordion-btn.open svg { transform: rotate(180deg); }
-        .accordion-content {
-            display: none;
-            background: rgba(0,74,141,0.1);
-            border: 1px solid rgba(0,102,204,0.2);
-            border-top: none;
-            border-radius: 0 0 9px 9px;
-            padding: 12px 14px;
-            font-size: 0.77rem;
-            color: #b0c8e0;
-            line-height: 1.65;
-        }
-        .accordion-content.open { display: block; }
-        .accordion-content.locked {
-            display: block !important;
-            background: rgba(200,50,50,0.15);
-            border: 1px solid rgba(231,76,60,0.4);
-            color: #e74c3c;
-            text-align: center;
-            padding: 16px;
-        }
-        .accordion-content.locked .lock-icon {
-            font-size: 1.5rem;
-            margin-bottom: 8px;
-        }
-        .accordion-content.locked .lock-text {
-            font-size: 0.75rem;
-            margin-bottom: 10px;
-        }
-        .password-input {
-            width: 100%;
-            padding: 8px 12px;
-            border: 1px solid rgba(212,165,116,0.4);
-            background: rgba(212,165,116,0.1);
-            color: white;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            margin-bottom: 8px;
-        }
-        .password-input::placeholder {
-            color: rgba(255,255,255,0.4);
-        }
-        .password-btn {
-            width: 100%;
-            padding: 8px 12px;
-            background: var(--uem-gold);
-            color: #111;
-            border: none;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-        .password-btn:hover {
-            background: #e8b86a;
-        }
+    .note-box{
+      width:100%;
+      min-height:180px;
+      resize:vertical;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:14px;
+      font-size:1rem;
+      line-height:1.5;
+      outline:none;
+      background:#fff;
+    }
 
-        /* ── PDF FLOAT ── */
-        .floating-pdf {
-            position: fixed;
-            bottom: 84px; right: 16px;
-            background: linear-gradient(135deg, #1a7a45, #27ae60);
-            width: 52px; height: 52px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 18px rgba(39,174,96,0.45);
-            z-index: 999;
-            border: none; cursor: pointer;
-            transition: transform 0.15s, box-shadow 0.15s;
-        }
-        .floating-pdf:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(39,174,96,0.6); }
-        .floating-pdf svg { width: 22px; height: 22px; color: white; }
+    .note-box:focus{
+      border-color:var(--primary);
+      box-shadow:0 0 0 4px rgba(123,184,217,.18);
+    }
 
-        /* ── INSTALL FLOAT ── */
-        .floating-install {
-            position: fixed;
-            bottom: 84px; right: 76px;
-            background: linear-gradient(135deg, #0066cc, #004a8d);
-            width: 52px; height: 52px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 18px rgba(0,102,204,0.45);
-            z-index: 999;
-            border: none; cursor: pointer;
-            transition: transform 0.15s, box-shadow 0.15s;
-            animation: bounce 2s infinite;
-        }
-        .floating-install:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(0,102,204,0.6); }
-        .floating-install svg { width: 22px; height: 22px; color: white; }
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:12px;
+      align-items:center;
+    }
 
-        /* ── LOADING ── */
-        #loading {
-            display: none;
-            position: fixed; inset: 0;
-            background: rgba(0,0,0,0.85);
-            z-index: 2000;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 14px;
-        }
-        #loading.visible { display: flex; }
-        .spinner {
-            width: 44px; height: 44px;
-            border: 3px solid rgba(255,255,255,0.15);
-            border-top-color: var(--uem-gold);
-            border-radius: 50%;
-            animation: spin 0.75s linear infinite;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
+    .hidden{display:none !important}
 
-        /* ── SECTION TITLES ── */
-        .section-head {
-            font-size: 0.65rem;
-            font-weight: 700;
-            color: var(--uem-gold);
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-            padding-bottom: 6px;
-            border-bottom: 1px solid var(--uem-gold-dim);
-        }
+    .hint{
+      color:var(--muted);
+      font-size:.94rem;
+      margin:0;
+    }
 
-        /* Color accents per system */
-        .c-skeletal  { color: #f39c12; }
-        .c-muscular  { color: #e74c3c; }
-        .c-neuro     { color: #9b59b6; }
-        .c-vascular  { color: #e74c3c; }
-        .c-digestive { color: #27ae60; }
-        .c-respiratory { color: #3498db; }
+    .gallery{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:12px;
+      margin-top:12px;
+    }
 
-        .bg-skeletal   { background: rgba(243,156,18,0.15); }
-        .bg-muscular   { background: rgba(231,76,60,0.15); }
-        .bg-neuro      { background: rgba(155,89,182,0.15); }
-        .bg-vascular   { background: rgba(231,76,60,0.15); }
-        .bg-digestive  { background: rgba(39,174,96,0.15); }
-        .bg-respiratory{ background: rgba(52,152,219,0.15); }
+    .media-card{
+      border:1px solid var(--line);
+      border-radius:18px;
+      overflow:hidden;
+      background:#fff;
+      display:grid;
+      min-height:100px;
+    }
 
-        .band-skeletal   { background: #f39c12; }
-        .band-muscular   { background: #e74c3c; }
-        .band-neuro      { background: #9b59b6; }
-        .band-vascular   { background: #c0392b; }
-        .band-digestive  { background: #27ae60; }
-        .band-respiratory{ background: #3498db; }
+    .media-card img{
+      width:100%;
+      height:180px;
+      object-fit:cover;
+      display:block;
+      background:#eef6ff;
+    }
 
-        /* Toast */
-        #toast {
-            position: fixed; bottom: 84px; left: 50%; transform: translateX(-50%);
-            background: #27ae60; color: white;
-            padding: 10px 20px; border-radius: 30px;
-            font-size: 0.8rem; font-weight: 600;
-            opacity: 0; transition: opacity 0.3s;
-            z-index: 3000; pointer-events: none;
-        }
-        #toast.show { opacity: 1; }
-    </style>
-  <style>body { box-sizing: border-box; }</style>
-  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
- </head>
- <body>
-  <div id="loading">
-   <div class="spinner"></div>
-   <p style="font-size:0.85rem;color:#ccc;">Gerando Relatório...</p>
+    .media-card .body{
+      padding:10px;
+      display:grid;
+      gap:8px;
+    }
+
+    .file-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:12px;
+      margin-top:10px;
+      background:#fff;
+    }
+
+    .file-name{
+      font-weight:700;
+      word-break:break-word;
+    }
+
+    .file-meta{
+      color:var(--muted);
+      font-size:.9rem;
+    }
+
+    .empty{
+      padding:18px;
+      text-align:center;
+      color:var(--muted);
+    }
+
+    .footer-note{
+      font-size:.9rem;
+      color:var(--muted);
+      text-align:center;
+      padding-bottom:24px;
+    }
+
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(19,33,52,.42);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      z-index:50;
+    }
+
+    .modal.show{display:flex}
+    .modal-content{
+      width:min(560px, 100%);
+      padding:18px;
+    }
+
+    .modal-content h3{margin-top:0}
+
+    @media (max-width: 960px){
+      .layout{grid-template-columns:1fr}
+      .sidebar{
+        position:static;
+        max-height:none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="hero">
+      <div class="hero-top">
+        <div>
+          <h1>Roteiro prático sistema esquelético</h1>
+          <p class="subtitle">PWA com abas por osso, notas, fotos, anexos, instalação e geração de PDF.</p>
+        </div>
+        <div class="toolbar">
+          <button class="btn" id="installBtn">Baixar app</button>
+          <button class="btn secondary" id="pdfBtn">Gerar PDF</button>
+          <button class="btn tertiary" id="backupBtn">Salvar backup</button>
+          <label class="file-label soft" for="restoreInput">Restaurar backup</label>
+          <input id="restoreInput" class="hidden" type="file" accept=".json,application/json">
+        </div>
+      </div>
+      <p class="hint">As informações ficam salvas no aparelho pelo navegador/app. No iPhone, o botão de instalar mostra instruções para “Adicionar à Tela de Início”.</p>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar">
+        <input class="search" id="searchInput" type="search" placeholder="Buscar osso..." />
+        <div class="tab-list" id="tabList"></div>
+      </aside>
+
+      <section id="contentArea" class="content"></section>
+    </main>
+
+    <p class="footer-note">Desenvolvido para estudo prático do sistema esquelético.</p>
   </div>
-  <div id="toast"></div>
-  <div class="app-wrapper">
-   <!-- HEADER -->
-   <header class="app-header">
-    <div class="badge">
-     UEM
+
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <h3>Instalar no iPhone</h3>
+      <p>Abra o site no Safari, toque em <strong>Compartilhar</strong> e depois em <strong>Adicionar à Tela de Início</strong>.</p>
+      <button class="btn" id="closeModal">Fechar</button>
     </div>
-    <h1 id="app-title">Anatomia Humana 3D</h1>
-    <p id="app-subtitle">Universidade Estadual de Maringá</p>
-   </header><!-- SCENES -->
-   <section id="scene-cards" class="scene active">
-    <div style="padding: 20px 16px 0; flex-shrink: 0;">
-     <p class="section-head">Sistema Esquelético — 26 Estruturas</p>
-    </div>
-    <div class="grid grid-cols-1 gap-0" id="cards-grid" style="margin: 0;"></div>
-   </section>
-   <section id="scene-detail" class="scene" style="display: flex; flex-direction: row; overflow: hidden;">
-    <div class="bones-tabs-sidebar" id="bones-tabs"></div>
-    <div class="bone-detail-main">
-     <div class="bone-detail-hero" id="bone-hero"></div>
-     <div class="bone-detail-content" id="bone-content"></div>
-    </div>
-   </section>
-   <section id="scene-cases" class="scene">
-    <p class="section-head">Casos Clínicos</p>
-    <div id="cases-content"></div>
-   </section>
-  </div><!-- NAV DOCK -->
-  <nav class="nav-dock">
-   <button class="nav-item active" id="nav-cards" onclick="switchScene('cards')"> <i data-lucide="layout-grid"></i>ESTRUTURAS </button> <button class="nav-item" id="nav-cases" onclick="switchScene('cases')"> <i data-lucide="activity"></i>CASOS </button>
-  </nav><!-- PDF FLOAT --> <button class="floating-pdf" onclick="generatePDF()" title="Gerar PDF"> <i data-lucide="file-text"></i> </button><!-- INSTALL FLOAT --> <button id="install-btn" class="floating-install" onclick="installApp()" title="Instalar App" style="display: none;"> <i data-lucide="download-cloud"></i> </button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
   <script>
-// ════════════════════════════════════════════
-//  DATA
-// ════════════════════════════════════════════
-const systems = [
-    {
-        id: 'skeletal',
-        name: 'Sistema Ósseo',
-        emoji: '',
-        colorClass: 'c-skeletal',
-        bgClass: 'bg-skeletal',
-        bandClass: 'band-skeletal',
-        description: 'O esqueleto humano adulto é composto por 206 ossos, divididos em esqueleto axial e apendicular. Fornece suporte estrutural, proteção de órgãos, produção de células sanguíneas e reserva mineral.',
-        viewer: { label: 'ESQUELETO COMPLETO · VISTA ANTERIOR', emoji: '💀' },
-        structures: [{ 
-                title: 'Esterno e Costelas', 
-                desc: 'Esterno: manúbrio, corpo, ângulo do esterno e processo xifóide. Costelas: 7 pares verdadeiras (articulam com esterno) | 3 pares falsas (articulam com 7ª costela) | 2 pares flutuantes. Cada costela possui: cabeça, colo, tubérculo e corpo.',
-                landmarks: ['Manúbrio esternal', 'Ângulo de Louis (T4)', 'Processo xifóide', 'Tuberosidade costal', 'Sulco costal (interno)', 'Cabeça da costela', 'Articulação costovertebral']
-            },
-            { 
-                title: 'Coluna Vertebral — Anatomia Geral', 
-                desc: 'Total: 33 ossos (7 cervicais + 12 torácicas + 5 lombares + 5 sacrais fundidas + 4 coccígeas fundidas). Vértebra típica: corpo vertebral, forame vertebral, processo espinhoso, processos transversos e articulares. Canal vertebral e forames intervertebrais.',
-                landmarks: ['Corpo vertebral', 'Forame vertebral', 'Processo espinhoso', 'Processos transversos', 'Facetas articulares superiores', 'Facetas articulares inferiores', 'Forame intervertebral', 'Disco intervertebral']
-            },
-            { 
-                title: 'Coluna Vertebral — Curvaturas', 
-                desc: 'Primárias: cifose torácica e cifose sacral (côncavas ventralmente). Secundárias: lordose cervical e lordose lombar (côncavas dorsalmente). Clinicamente importantes para diagnóstico de escoliose, cifose patológica e osteoporose em idosos.',
-                landmarks: ['Cifose torácica normal', 'Lordose cervical normal', 'Lordose lombar normal', 'Cifose sacral', 'Transição cervicotorácica (C7-T1)', 'Transição toracolumbar (T12-L1)']
-            },
-            { 
-                title: 'Vértebras Cervicais (C1-C7)', 
-                desc: 'C1 (Atlas): anel anterior e posterior, sem corpo vertebral típico. C2 (Áxis): processo odontóide articulando-se com atlas. C3-C7: corpos menores, processos espinhosos bifurcados. Forame transverso passa artéria vertebral. Clinicamente importante: lesões traumáticas provocam tetraplegia.',
-                landmarks: ['Anel anterior (C1)', 'Anel posterior (C1)', 'Processo odontóide (dens)', 'Forame transverso', 'Processo espinhoso bifurcado', 'Tübérculo anterior (C1)', 'Tubérculo posterior (C1)', 'Saliência vertebral (C7)']
-            },
-            { 
-                title: 'Vértebras Torácicas (T1-T12)', 
-                desc: 'Corpos maiores, processo espinhoso dirigido inferiormente (sobrepõem-se como telhas). Fóveas articulares para articulação costal. T4-T5: nível de bifurcação da traqueia (carina). T12: maior mobilidade, frequente para punção para anestesia.',
-                landmarks: ['Fóvea articular superior', 'Fóvea articular inferior', 'Processo espinhoso descendente', 'Corpo vertebral maior', 'Forame costal (faceta costal)', 'T4 (nível de carina)', 'T12 (transição toracolumbar)']
-            },
-            { 
-                title: 'Vértebras Lombares (L1-L5)', 
-                desc: 'Maiores e mais robustas. Corpos cilíndricos, processos espinhosos quadrangulares horizontalizados. Maior amplitude de movimento. L4-L5: espaço comum para punção lombar e anestesia raquidiana. L5 articula-se com o sacro pelo promontório.',
-                landmarks: ['Corpo vertebral cilíndrico grande', 'Processo espinhoso quadrangular', 'Apófise mamilar', 'Apófise acessória', 'Espaço L4-L5 (punção lombar)', 'Forame intervertebral expandido', 'Promontório lombossacro']
-            },
-            { 
-                title: 'Sacro e Cóccix', 
-                desc: 'Sacro: 5 vértebras fundidas, base articula com L5, ápice com cóccix. Forame sacral anterior/posterior. Cóccix: 3-4 ossos fundidos em posição variável. Articula-se inferiormente com sacro formando a base do coccígeo (suporta posição sentada).',
-                landmarks: ['Promontório sacro', 'Asa sacra', 'Forame sacral anterior (4 pares)', 'Forame sacral posterior (4 pares)', 'Crista sacral mediana', 'Hiatüs sacral', 'Ápice do sacro', 'Cóccix (base e ápice)']
-            },
-            { 
-                title: 'Clavícula', 
-                desc: 'Osso longo que une cintura escapular ao tórax. Extremidade acromial (lateral) articula-se com acrômio. Extremidade esternal (medial) articula-se com manúbrio e 1ª costela. Corpo com tuberosidade deltóidea. Osso mais frequentemente fraturado.',
-                landmarks: ['Extremidade esternal', 'Extremidade acromial', 'Tuberosidade deltóidea', 'Tuberosidade conoide', 'Linha trapezóide', 'Sulco subclávia', 'Articulação esternoclavicular', 'Articulação acromioclavicular']
-            },
-            { 
-                title: 'Escápula', 
-                desc: 'Osso triangular plano. Espinha da escápula divide fossas supra e infraespinhal. Acrômio (lateral) forma articulação acromioclavicular. Cavidade glenoide recebe cabeça do úmero. Processo coracóide: inserção de ligamentos e músculos. Borda medial, lateral e superior.',
-                landmarks: ['Espinha da escápula', 'Acrômio', 'Processo coracóide', 'Cavidade glenoide', 'Ângulo inferior', 'Borda medial', 'Borda lateral', 'Ângulo superior', 'Fossa supraspinhal', 'Fossa infraspinhal']
-            },
-            { 
-                title: 'Úmero', 
-                desc: 'Osso longo do braço. Cabeça hemisférica, colo anatômico e cirúrgico, tubérculo maior (lateral) e menor (medial), sulco intertubercular. Tuberosidade deltóidea na diáfise. Distalmente: tróclea (articulação com ulna), capítulo (com rádio), epicôndilos medial e lateral, fossa do olécrano.',
-                landmarks: ['Cabeça do úmero', 'Colo anatômico', 'Colo cirúrgico', 'Tubérculo maior', 'Tubérculo menor', 'Sulco intertubercular', 'Tuberosidade deltóidea', 'Tróclea', 'Capítulo', 'Epicôndilo medial', 'Epicôndilo lateral', 'Fossa do olécrano']
-            },
-            { 
-                title: 'Rádio', 
-                desc: 'Osso lateral do antebraço. Proximalmente: cabeça cilíndrica (articula com capítulo do úmero e incisura radial da ulna), colo e tuberosidade do rádio (inserção do bíceps). Distalmente: incisura ulnar, processo estilóide lateral, faceta para cúbito-carpal.',
-                landmarks: ['Cabeça radial', 'Colo radial', 'Tuberosidade radial', 'Borda interóssea', 'Processo estilóide radial', 'Faceta articular (cúbito-carpal)', 'Incisura ulnar', 'Disco radioulnar']
-            },
-            { 
-                title: 'Ulna', 
-                desc: 'Osso medial do antebraço. Proximalmente: olécrano (projeção posterior), processo coronóide, incisura troclear (articula com tróclea do úmero). Diáfise e cabeça distal com processo estilóide medial. Tuberosidade da ulna. Rádio e ulna articulam-se proximalmente e distalmente (movimento de pronação/supinação).',
-                landmarks: ['Olécrano', 'Processo coronóide', 'Incisura troclear', 'Tuberosidade ulnar', 'Cabeça ulnar', 'Processo estilóide ulnar', 'Borda interóssea', 'Fovéola (articulação com rádio)']
-            },
-            { 
-                title: 'Ossos do Carpo (8)', 
-                desc: 'Proximal (lateral → medial): escafóide, semilunar, piramidal, pisiforme. Distal: trapézio, trapezóide, capitato, hamato. Mnemônico: "Saiba Logo Que Trapézio Grande Capitato Hamato". Formam concavidade palmar com ligamentos intrínsecosfortes. Fraturas de escafóide são comuns em quedas.',
-                landmarks: ['Escafóide (proximal lateral)', 'Semilunar (proximal central)', 'Piramidal (proximal medial)', 'Pisiforme (proximal medial)', 'Trapézio (distal lateral)', 'Trapezóide (distal central-lateral)', 'Capitato (distal central)', 'Hamato (distal medial)']
-            },
-            { 
-                title: 'Metacarpos e Falanges', 
-                desc: '5 metacarpos (I-V) com base, corpo e cabeça. Cada dedo tem 3 falanges (proximal, média, distal), exceto polegar com 2. Total: 14 falanges nas duas mãos. Articulação carpometacarpiana permite oposição do polegar.',
-                landmarks: ['Base metacarpiana', 'Corpo metacarpiano', 'Cabeça metacarpiana', 'Falange proximal', 'Falange média', 'Falange distal', 'Tuberosidade ungual', 'Articulação MCP (metacarpofalangiana)']
-            },
-            { 
-                title: 'Pelve — Osso do Quadril', 
-                desc: 'Fusão de 3 ossos: ílio (superior), ísquio (posterior) e púbis (anterior). Acetábulo: cavidade articular côncava recebe cabeça do fêmur. Forame obturado: maior forame ósseo do corpo. Cintura pélvica estável suporta peso do tronco e transmite aos membros inferiores.',
-                landmarks: ['Acetábulo', 'Forame obturado', 'Crista ilíaca', 'Espinha ilíaca anterossuperior (EIAS)', 'Espinha ilíaca anteroinferior (EIAI)', 'Espinha ilíaca posterossuperior (EIPS)', 'Tubérculo ilíaco', 'Incisura isquiática maior']
-            },
-            { 
-                title: 'Ílio', 
-                desc: 'Maior porção pélvica. Crista ilíaca: margem superior palpável. Fossa ilíaca interna e externa. Face glútea: inserção dos glúteos. Espinhas ilíacas: anterossuperior (EIAS — ponto de referência), anteroinferior, posterossuperior, posteroinferior. Incisura isquiática maior e menor.',
-                landmarks: ['Crista ilíaca palpável', 'Fossa ilíaca anterior (interna)', 'Fossa ilíaca posterior (externa)', 'Face glútea', 'Incisura isquiática maior', 'Incisura isquiática menor', 'Tuberosidade ilíaca', 'Asa do ílio']
-            },
-            { 
-                title: 'Ísquio', 
-                desc: 'Posteroinferior do quadril. Túber isquiático: proeminência onde nos sentamos. Espinha isquiática: referência para divisão de pelve em pequena (acima) e grande (abaixo). Incisura isquiática menor. Forma parte do forame obturado.',
-                landmarks: ['Túber isquiático (apoio sentado)', 'Espinha isquiática', 'Ramo isquiático', 'Ângulo isquiático', 'Incisura isquiática menor', 'Forame obturado', 'Corpo do ísquio']
-            },
-            { 
-                title: 'Púbis', 
-                desc: 'Anteroinferior da pelve. Corpo, ramo superior (une a ispinha ilíaca anteroinferior) e ramo inferior (articula com ísquio). Sínfise púbica: cartilagem fibrosa mediana articula os dois púbis. Crista pública palpável.',
-                landmarks: ['Crista pública', 'Sínfise púbica (linha mediana)', 'Ramo superior do púbis', 'Ramo inferior do púbis', 'Ângulo púbico', 'Eminência iliopúbica', 'Forame obturado', 'Tuberculo púbico']
-            },
-            { 
-                title: 'Sacro', 
-                desc: '5 vértebras fusionadas formando osso triangular. Base articula com L5 pelo promontório (referência obstétrica). Asas sacrais laterais. Foramens sacrais (anterior e posterior). Ápice articula com cóccix. Primeiro segmento pélvico; suporta peso do tronco.',
-                landmarks: ['Promontório sacro', 'Asa sacra', 'Face anterior convexa', 'Face posterior côncava', 'Crista sacral mediana', 'Foramens sacrais (4 pares)', 'Hiatüs sacral', 'Ápice do sacro']
-            },
-            { 
-                title: 'Fêmur', 
-                desc: 'Maior osso do corpo (~45cm). Cabeça hemisférica articula com acetábulo. Colo femoral (ângulo varismo ~130°). Trocanter maior (lateral, inserção glúteos) e menor (medial, inserção psoas). Corpo com linhas para inserção muscular. Distalmente: côndilos medial e lateral com fossa intercondilar. Face patelar. Ângulo Q importante para joelho.',
-                landmarks: ['Cabeça do fêmur', 'Colo femoral', 'Ângulo de varismo', 'Trocanter maior', 'Trocanter menor', 'Linha áspera', 'Tuberosidade deltóidea', 'Côndilo medial', 'Côndilo lateral', 'Fossa intercondilar', 'Face patelar']
-            },
-            { 
-                title: 'Patela', 
-                desc: 'Osso sesamoide maior do corpo dentro do tendão do quadríceps. Ápice inferior, base superior. Face anterior subcutânea, face articular posterior com facetas para côndilos femorais. Carrilha patelar formada por côndilos femorais guia movimento. Problemas patelares frequentes em atletas.',
-                landmarks: ['Base da patela', 'Ápice da patela', 'Face anterior convexa', 'Face articular posterior', 'Faceta medial', 'Faceta lateral', 'Crista mediana', 'Margem medial e lateral']
-            },
-            { 
-                title: 'Tíbia', 
-                desc: 'Osso anteromedial da perna, maior e mais robusto. Tuberosidade anterior: inserção do tendão patelar. Côndilos medial e lateral com eminência intercondilar. Maléolo medial proeminente medialmente. Borda anterior palpável (canela). Articula proximalmente com fêmur e patela, distalmente com tálus.',
-                landmarks: ['Tuberosidade anterior (Gerdy)', 'Côndilo medial', 'Côndilo lateral', 'Eminência intercondilar', 'Maléolo medial', 'Borda anterior (canela)', 'Borda medial', 'Borda lateral', 'Platô tibial']
-            },
-            { 
-                title: 'Fíbula', 
-                desc: 'Osso lateral menor da perna, não articula com fêmur. Cabeça articula com côndilo lateral da tíbia. Corpo fino com inserção muscular. Maléolo lateral proeminente lateralmente. Membrana interóssea une fíbula à tíbia. Articulações tíbio-fibular proximal e distal.',
-                landmarks: ['Cabeça fibular', 'Colo fibular', 'Borda anterior', 'Borda posterior (crista)', 'Maléolo lateral', 'Membrana interóssea', 'Tuberosidade fibular', 'Articulação tíbio-fibular']
-            },
-            { 
-                title: 'Ossos do Tarso (7)', 
-                desc: 'Posterior: tálus (articula com tíbia e fíbula) e calcâneo (maior osso do tarso, suporta peso). Médio: navicular, cubóide. Anterior: cuneiformes medial, intermédio e lateral. Formam abóbada plantar. Tálus é o único osso do tarso sem inserção muscular — funciona como "rol" articular.',
-                landmarks: ['Tálus (corpo, cabeça, colo)', 'Calcâneo (tuberosidade, sustentáculo tálus)', 'Navicular (tubérculo medial)', 'Cubóide (sulco tendão fibular)', 'Cuneiformes (medial, intermédio, lateral)', 'Arco longitudinal', 'Arco transverso']
-            },
-            { 
-                title: 'Metatarsos e Falanges do Pé', 
-                desc: '5 metatarsos (I-V) com base, corpo e cabeça. Cada dedo tem 3 falanges (proximal, média, distal), exceto hálux com 2. Total: 14 falanges no pé (simetria com mão). Arcos do pé: longitudinal medial (maior), lateral, transverso.',
-                landmarks: ['Base metatarsiana', 'Corpo metatarsiano', 'Cabeça metatarsiana', 'Tuberosidade 5º metatarso', 'Falange proximal', 'Falange média', 'Falange distal (hálux: 2 falanges)', 'Arco longitudinal medial', 'Arco lateral']
-            },
-            { 
-                title: 'Acidentes Anatômicos Ósseos', 
-                desc: 'Depressões: fossa (região côncava), sulco (depressão alongada). Saliências: cabeça (articular grande), capítulo (articular pequeno), côndilo (par articular), crista (margem), epicôndilo (sobre côndilo), espinha (afilada), faceta (plana articular), fóvea (articular lisa), linha (suave), maléolo (arredondado), processo (projeção), protuberância, trocanter, tróclea (carretel), tuberosidade.',
-                landmarks: ['Fossa (depressão côncava)', 'Sulco (depressão alongada)', 'Cabeça (articular grande)', 'Capítulo (articular pequeno)', 'Côndilo (par articular)', 'Crista (margem)', 'Epicôndilo (sobre côndilo)', 'Espinha (afilada)', 'Faceta (articular plana)', 'Fóvea (articular lisa)', 'Linha (depressão suave)', 'Maléolo (arredondado)', 'Processo (projeção)', 'Trocanter (grande inserção)', 'Tróclea (carretel)', 'Tuberosidade (inserção)', 'Protuberância (saliência)']
-            },
-        ]
-    },
+    const bones = [
+      { id:'clavicula', nome:'Clavícula', grupo:'Membro superior', instrucoes:'Posicione a extremidade acromial lateralmente, a face lisa superiormente, a maior convexidade anteriormente e o processo conóide inferiormente.' },
+      { id:'escapula', nome:'Escápula', grupo:'Membro superior', instrucoes:'Posicione a espinha da escápula superior e posteriormente, com a cavidade glenóide e o acrômio lateralmente; a fossa subescapular e o processo coracóide ficam anteriormente.' },
+      { id:'umero', nome:'Úmero', grupo:'Membro superior', instrucoes:'Posicione a cabeça do úmero proximal e medialmente, e a fossa do olécrano posteriormente. Observe tubérculo maior, tubérculo menor, sulco intertubercular, colo anatômico e cirúrgico; distalmente, tróclea, capítulo e epicôndilos.' },
+      { id:'radio', nome:'Rádio', grupo:'Membro superior', instrucoes:'É o osso lateral do antebraço. Posicione a face anterior côncava anteriormente, a cabeça proximalmente, a tuberosidade medialmente e o processo estilóide lateralmente.' },
+      { id:'ulna', nome:'Ulna', grupo:'Membro superior', instrucoes:'É o osso medial do antebraço. Posicione a cabeça distalmente, o olécrano e processo coronoide proximalmente, a borda interóssea lateralmente e o processo estilóide medialmente.' },
+      { id:'carpo', nome:'Ossos do carpo', grupo:'Membro superior', instrucoes:'Fileira proximal: escafóide, semilunar, piramidal e pisiforme. Fileira distal: trapézio, trapezóide, capitato e hamato.' },
+      { id:'metacarpo', nome:'Metacarpos', grupo:'Membro superior', instrucoes:'Identifique os metacarpos I a V.' },
+      { id:'falanges_mao', nome:'Falanges da mão', grupo:'Membro superior', instrucoes:'Identifique falanges proximais, médias e distais.' },
 
-];
+      { id:'quadril', nome:'Osso do quadril', grupo:'Membro inferior', instrucoes:'Identifique ílio, ísquio e púbis. Posicione a crista ilíaca superiormente, o acetábulo ântero-lateralmente, púbis e EIAS anteriormente e o forame obturado inferior ao acetábulo.' },
+      { id:'femur', nome:'Fêmur', grupo:'Membro inferior', instrucoes:'Posicione cabeça e colo proximal e medialmente; côndilos distalmente. Identifique trocanter maior e menor, incisura intercondilar e face patelar.' },
+      { id:'patela', nome:'Patela', grupo:'Membro inferior', instrucoes:'Posicione o ápice inferiormente, a base superiormente e a face articular posteriormente, com a parte maior lateralmente.' },
+      { id:'tibia', nome:'Tíbia', grupo:'Membro inferior', instrucoes:'É o osso medial da perna. Posicione os côndilos superiormente, a tuberosidade tibial anteriormente, o maléolo medial infero-medialmente e a incisura fibular lateralmente.' },
+      { id:'fibula', nome:'Fíbula', grupo:'Membro inferior', instrucoes:'É o osso lateral da perna. Posicione a cabeça superiormente, a face articular do maléolo lateral medialmente e a fossa do maléolo posteriormente.' },
+      { id:'tarso', nome:'Ossos do tarso', grupo:'Membro inferior', instrucoes:'Identifique tálus, calcâneo, navicular, cubóide e cuneiformes medial, intermédio e lateral.' },
+      { id:'metatarso', nome:'Metatarsos', grupo:'Membro inferior', instrucoes:'Identifique os metatarsos I a V.' },
+      { id:'falanges_pe', nome:'Falanges do pé', grupo:'Membro inferior', instrucoes:'Identifique falanges proximais, médias e distais.' },
 
-const guideSteps = [
-    {
-        title: 'Semana 1 — Fundamentos do Esqueleto Axial',
-        body: 'Inicie pelo crânio, identificando cada osso e suas suturas. Avance pela coluna vertebral (características de cada região), costelas e esterno.',
-        items: ['Identifique os 8 ossos do neurocrânio', 'Compare vértebras cervicais, torácicas e lombares', 'Reconheça os tipos de costelas', 'Pratique nos modelos de gesso do laboratório']
-    },
-    {
-        title: 'Semana 2 — Esqueleto Apendicular',
-        body: 'Foque nos ossos dos membros superiores e inferiores, incluindo as cinturas. Identifique pontos de referência palpáveis.',
-        items: ['Clavícula, escápula, úmero, rádio e ulna', 'Ossos do carpo (mnemônico: "Saiba Logo Que Trapézio Grande Capitato Hamato")', 'Ilíaco, fêmur, patela, tíbia, fíbula', 'Ossos do tarso e falanges']
-    },
-    {
-        title: 'Semana 3 — Anatomia Funcional e Acidentes',
-        body: 'Estude origem, inserção, pontos de referência e funções de cada osso. Correlacione com a clínica ortopédica.',
-        items: ['Colo cirúrgico do úmero: risco de necrose avascular em fraturas', 'Escafóide: carpal bone mais frequentemente fraturado', 'Colo do fêmur: importância na vascularização em idosos', 'Forame obturado: maior forame ósseo do corpo']
-    },
-    {
-        title: 'Semana 4 — Coluna Vertebral Detalhada',
-        body: 'Domine cada região vertebral: cervicais (mobilidade), torácicas (estabilidade), lombares (força), sacro e cóccix.',
-        items: ['Vértebra típica: corpo, forame, processo espinhoso, transversos, articulares', 'Atlas (C1): anel sem corpo. Áxis (C2): odontóide', 'Dermátomos: C3-T1 (MMSS), T4-T12 (tronco), L1-S3 (MMII)', 'Reflexos espinhais: patelar (L2-L4), aquileu (S1-S2)']
-    },
-    {
-        title: 'Semana 5 — Aplicação Clínica e Casos',
-        body: 'Resolva casos clínicos de fraturas, compressões nervosas e deformidades. Integre anatomia com semiologia ortopédica.',
-        items: ['Fratura de colo do fêmur: por quê risco de necrose?', 'Síndrome do túnel do carpo: anatomia do retináculo', 'Cifose torácica patológica vs. primária', 'Escoliose: curvaturas laterais e suas complicações']
-    },
-    {
-        title: 'Semana 6 — Revisão e Consolidação',
-        body: 'Realiza mapas mentais integrando todos os ossos, articulações e referências palpáveis. Pratique identificação em peças cadavéricas.',
-        items: ['Mapa mental do esqueleto axial completo', 'Mapa mental do esqueleto apendicular completo', 'Identifique 20 pontos palpáveis no corpo', 'Simule questões de concursos e residência médica']
-    }
-];
+      { id:'frontal', nome:'Frontal', grupo:'Crânio', instrucoes:'Verifique a incisura frontal e o forame supraorbital.' },
+      { id:'occipital', nome:'Occipital', grupo:'Crânio', instrucoes:'Identifique o forame magno e os côndilos occipitais.' },
+      { id:'esfenoide', nome:'Esfenóide', grupo:'Crânio', instrucoes:'Observe asas maiores, asas menores e a fossa hipofisária (sela túrcica).' },
+      { id:'etmoide', nome:'Etmóide', grupo:'Crânio', instrucoes:'Observe a crista galli, a lâmina crivosa e as células etmoidais.' },
+      { id:'parietal', nome:'Parietais', grupo:'Crânio', instrucoes:'Identifique os ossos parietais direito e esquerdo.' },
+      { id:'temporal', nome:'Temporais', grupo:'Crânio', instrucoes:'Observe partes timpânica, escamosa e petrosa; tubérculo articular, fossa da mandíbula, meatos acústicos, processo mastóide e estilóide, canal carótico e forame jugular.' },
+      { id:'nasais', nome:'Nasais', grupo:'Viscerocrânio', instrucoes:'Identifique os dois ossos nasais.' },
+      { id:'zigomaticos', nome:'Zigomáticos', grupo:'Viscerocrânio', instrucoes:'Observe o processo temporal.' },
+      { id:'maxilas', nome:'Maxilas', grupo:'Viscerocrânio', instrucoes:'Observe especialmente o processo palatino.' },
+      { id:'palatinos', nome:'Palatinos', grupo:'Viscerocrânio', instrucoes:'Observe a lâmina horizontal.' },
+      { id:'lacrimais', nome:'Lacrimais', grupo:'Viscerocrânio', instrucoes:'Identifique os dois ossos lacrimais.' },
+      { id:'mandibula', nome:'Mandíbula', grupo:'Viscerocrânio', instrucoes:'Identifique corpo, processos alveolares, ramos, côndilo, processo coronóide e incisura da mandíbula.' },
+      { id:'vomer', nome:'Vômer', grupo:'Viscerocrânio', instrucoes:'Identifique o vômer.' },
+      { id:'conchas', nome:'Conchas nasais inferiores', grupo:'Viscerocrânio', instrucoes:'Identifique as conchas nasais inferiores.' },
+      { id:'hioide', nome:'Hióide', grupo:'Axial', instrucoes:'Observe o osso hióide no atlas ou peça anatômica.' },
+      { id:'esterno', nome:'Esterno', grupo:'Tórax', instrucoes:'Identifique manúbrio, corpo, processo xifóide, incisuras claviculares, jugular e costais.' },
+      { id:'costelas', nome:'Costelas', grupo:'Tórax', instrucoes:'São 12 pares. Para uma costela típica, posicione a cabeça posteriormente, o tubérculo e o sulco costal inferiormente.' },
+      { id:'vertebras_cervicais', nome:'Vértebras cervicais', grupo:'Coluna vertebral', instrucoes:'Reconheça atlas e áxis. Características: forame transverso, processo espinhoso bífido, corpo retangular e forame vertebral triangular.' },
+      { id:'vertebras_toracicas', nome:'Vértebras torácicas', grupo:'Coluna vertebral', instrucoes:'Apresentam fóveas costais, processo espinhoso longo e oblíquo, forame vertebral arredondado e corpo cordiforme.' },
+      { id:'vertebras_lombares', nome:'Vértebras lombares', grupo:'Coluna vertebral', instrucoes:'Possuem corpo volumoso e reniforme, processos espinhosos curtos e altos e processo mamilar.' },
+      { id:'sacro', nome:'Sacro', grupo:'Coluna vertebral', instrucoes:'Observe a face pélvica com forames sacrais pélvicos e a face dorsal com forames sacrais dorsais.' },
+      { id:'coccix', nome:'Cóccix', grupo:'Coluna vertebral', instrucoes:'Observe o cóccix no atlas ou coluna articulada.' }
+    ];
 
-const cases = [];
+    let activeBoneId = bones[0].id;
+    let deferredPrompt = null;
 
-// ════════════════════════════════════════════
-//  RENDER
-// ════════════════════════════════════════════
+    const dbName = 'roteiro-esqueletico-db';
+    const dbVersion = 1;
+    let db;
 
-function renderCards() {
-    const grid = document.getElementById('cards-grid');
-    grid.innerHTML = '';
-    systems.forEach(sys => {
-        const card = document.createElement('div');
-        card.className = 'anatomy-card';
-        card.innerHTML = `
-            <div class="card-header-band ${sys.bandClass}"></div>
-            <div class="card-body">
-                <div class="card-icon ${sys.bgClass}">
-                    <span>${sys.emoji}</span>
-                </div>
-                <div class="card-title">${sys.name}</div>
-                <div class="card-count">${sys.structures.length} estruturas</div>
-            </div>
-        `;
-        card.addEventListener('click', () => showDetail(sys.id, 0));
-        grid.appendChild(card);
-    });
-}
-
-function showDetail(sysId, boneIndex = 0) {
-    const sys = systems.find(s => s.id === sysId);
-    if (!sys || !sys.structures[boneIndex]) return;
-
-    // Render tabs
-    const tabsContainer = document.getElementById('bones-tabs');
-    tabsContainer.innerHTML = '';
-    sys.structures.forEach((bone, idx) => {
-        const tab = document.createElement('button');
-        tab.className = `bone-tab ${idx === boneIndex ? 'active' : ''}`;
-        tab.textContent = bone.title.split(' — ')[0];
-        tab.addEventListener('click', () => showDetail(sysId, idx));
-        tabsContainer.appendChild(tab);
-    });
-
-    // Update hero
-    const bone = sys.structures[boneIndex];
-    const heroContainer = document.getElementById('bone-hero');
-    heroContainer.innerHTML = `
-        <div class="hero-section-wrapper">
-            <div class="bone-hero-emoji">${sys.emoji}</div>
-            <h2 class="bone-hero-title">${bone.title}</h2>
-            <div class="media-buttons">
-                <button class="media-btn" onclick="triggerFileUpload(${boneIndex})">
-                    <i data-lucide="image-plus"></i> Inserir Arquivo
-                </button>
-                <button class="media-btn" onclick="triggerCamera(${boneIndex})">
-                    <i data-lucide="camera"></i> Tirar Foto
-                </button>
-            </div>
-            <div class="media-preview" id="media-preview-${boneIndex}"></div>
-        </div>
-    `;
-    lucide.createIcons();
-
-    // Update content
-    const contentContainer = document.getElementById('bone-content');
-    const landmarksHtml = bone.landmarks ? `
-        <div class="landmarks-checklist">
-            <div class="landmarks-title">✓ Acidentes Anatômicos</div>
-            ${bone.landmarks.map((landmark, idx) => `
-                <div class="landmark-item">
-                    <input type="checkbox" class="landmark-checkbox" id="landmark-${boneIndex}-${idx}" />
-                    <label for="landmark-${boneIndex}-${idx}" class="landmark-text">${landmark}</label>
-                </div>
-            `).join('')}
-        </div>
-    ` : '';
-    
-    contentContainer.innerHTML = `
-        <div class="bone-detail-section">
-            <div class="bone-detail-label">Descrição Anatômica</div>
-            <div class="bone-detail-text">${bone.desc}</div>
-        </div>
-        ${landmarksHtml}
-        <div class="notes-section">
-            <div class="notes-title">📝 Anotações Pessoais</div>
-            <textarea class="notes-textarea" id="notes-${boneIndex}" placeholder="Adicione suas anotações sobre esta estrutura..."></textarea>
-            <div class="notes-char-count"><span id="notes-count-${boneIndex}">0</span>/500</div>
-        </div>
-        <div style="text-align: center; padding: 20px 0; opacity: 0.5; font-size: 0.8rem;">
-            ${boneIndex + 1} de ${sys.structures.length}
-        </div>
-    `;
-
-    // Restaurar notas salvas
-    const notesKey = `notes-${sys.id}-${boneIndex}`;
-    const savedNotes = localStorage.getItem(notesKey);
-    const notesInput = document.getElementById(`notes-${boneIndex}`);
-    if (notesInput) {
-        if (savedNotes) notesInput.value = savedNotes;
-        notesInput.addEventListener('input', (e) => {
-            localStorage.setItem(notesKey, e.target.value);
-            document.getElementById(`notes-count-${boneIndex}`).textContent = e.target.value.length;
-        });
-        document.getElementById(`notes-count-${boneIndex}`).textContent = notesInput.value.length;
-    }
-
-    switchScene('detail');
-}
-
-function renderCases() {
-    const container = document.getElementById('cases-content');
-    container.innerHTML = '';
-    cases.forEach((c, i) => {
-        const el = document.createElement('div');
-        el.className = 'case-card';
-        el.innerHTML = `
-            <span class="case-tag ${c.tagClass}">${c.tag}</span>
-            <div class="case-title">${c.title}</div>
-            <div class="case-desc">${c.desc}</div>
-            <button class="accordion-btn" id="acc-btn-${i}" onclick="toggleAccordion(${i})">
-                <span>💡 ${c.question}</span>
-                <i data-lucide="chevron-down"></i>
-            </button>
-            <div class="accordion-content locked" id="acc-content-${i}">
-                <div class="lock-icon">🔒</div>
-                <div class="lock-text">Resposta protegida por senha</div>
-                <input type="password" class="password-input" id="pwd-${i}" placeholder="Insira a senha do professor" />
-                <button class="password-btn" onclick="unlockAnswer(${i})">Desbloquear</button>
-            </div>
-        `;
-        container.appendChild(el);
-    });
-    lucide.createIcons();
-}
-
-function toggleAccordion(i) {
-    const btn = document.getElementById(`acc-btn-${i}`);
-    const content = document.getElementById(`acc-content-${i}`);
-    const isOpen = content.classList.contains('open');
-    // close all
-    document.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('open'));
-    document.querySelectorAll('.accordion-btn').forEach(b => b.classList.remove('open'));
-    if (!isOpen) {
-        content.classList.add('open');
-        btn.classList.add('open');
-    }
-}
-
-function unlockAnswer(i) {
-    const pwd = document.getElementById(`pwd-${i}`).value;
-    const correctPassword = '2026';
-    
-    if (pwd === correctPassword) {
-        const content = document.getElementById(`acc-content-${i}`);
-        content.classList.remove('locked');
-        content.innerHTML = cases[i].answer;
-        showToast('Resposta desbloqueada');
-    } else {
-        showToast('Senha incorreta');
-    }
-}
-
-// ════════════════════════════════════════════
-//  MEDIA MANAGEMENT
-// ════════════════════════════════════════════
-
-const mediaStore = {}; // { boneIndex: [{ type: 'file' | 'camera', src: dataUrl, timestamp }] }
-
-function triggerFileUpload(boneIndex) {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
-    input.onchange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                addMedia(boneIndex, event.target.result, 'file');
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-    input.click();
-}
-
-async function triggerCamera(boneIndex) {
-    try {
-        // Try multiple constraint combinations for better compatibility
-        let stream = null;
-        const constraints = [
-            { video: { facingMode: 'environment' } },
-            { video: true },
-            { video: { width: { ideal: 1280 }, height: { ideal: 720 } } }
-        ];
-        
-        for (let constraint of constraints) {
-            try {
-                stream = await navigator.mediaDevices.getUserMedia(constraint);
-                break;
-            } catch (e) {
-                continue;
-            }
-        }
-        
-        if (!stream) {
-            showToast('Câmera não disponível neste dispositivo');
-            return;
-        }
-        
-        // Create modal overlay
-        const modal = document.createElement('div');
-        modal.style.cssText = `
-            position: fixed; inset: 0;
-            background: rgba(0,0,0,0.95);
-            z-index: 2001;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            padding: 20px;
-        `;
-        
-        const video = document.createElement('video');
-        video.setAttribute('playsinline', true);
-        video.setAttribute('autoplay', true);
-        video.setAttribute('muted', true);
-        video.style.cssText = `
-            width: 100%;
-            max-width: 400px;
-            max-height: 500px;
-            border-radius: 16px;
-            background: #000;
-            object-fit: cover;
-            transform: scaleX(-1);
-        `;
-        video.srcObject = stream;
-        
-        const canvas = document.createElement('canvas');
-        const btnContainer = document.createElement('div');
-        btnContainer.style.cssText = `
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
-        `;
-        
-        const captureBtn = document.createElement('button');
-        captureBtn.textContent = '📸 Capturar';
-        captureBtn.style.cssText = `
-            background: var(--uem-gold);
-            color: #111;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: transform 0.2s;
-        `;
-        captureBtn.onmouseover = () => captureBtn.style.transform = 'scale(1.05)';
-        captureBtn.onmouseout = () => captureBtn.style.transform = 'scale(1)';
-        
-        const closeBtn = document.createElement('button');
-        closeBtn.textContent = '✕ Fechar';
-        closeBtn.style.cssText = `
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.3);
-            padding: 12px 24px;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: background 0.2s;
-        `;
-        closeBtn.onmouseover = () => closeBtn.style.background = 'rgba(255,255,255,0.2)';
-        closeBtn.onmouseout = () => closeBtn.style.background = 'rgba(255,255,255,0.1)';
-        
-        const stopStream = () => {
-            stream.getTracks().forEach(track => {
-                track.stop();
-            });
+    function openDB(){
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(dbName, dbVersion);
+        request.onupgradeneeded = (event) => {
+          const database = event.target.result;
+          if(!database.objectStoreNames.contains('entries')){
+            database.createObjectStore('entries', { keyPath:'id' });
+          }
         };
-        
-        captureBtn.onclick = () => {
-            // Wait for video to load dimensions
-            if (video.videoWidth === 0 || video.videoHeight === 0) {
-                showToast('Aguarde a câmera carregar');
-                return;
-            }
-            
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            const ctx = canvas.getContext('2d');
-            ctx.scale(-1, 1); // Mirror horizontally
-            ctx.drawImage(video, -canvas.width, 0);
-            const dataUrl = canvas.toDataURL('image/jpeg', 0.9);
-            
-            stopStream();
-            if (modal.parentNode) {
-                document.body.removeChild(modal);
-            }
-            
-            addMedia(boneIndex, dataUrl, 'camera');
-            showToast('Foto capturada com sucesso');
+        request.onsuccess = () => {
+          db = request.result;
+          resolve(db);
         };
-        
-        closeBtn.onclick = () => {
-            stopStream();
-            if (modal.parentNode) {
-                document.body.removeChild(modal);
-            }
-        };
-        
-        // Stop stream on page change
-        window.addEventListener('beforeunload', stopStream);
-        
-        btnContainer.appendChild(captureBtn);
-        btnContainer.appendChild(closeBtn);
-        
-        modal.appendChild(video);
-        modal.appendChild(btnContainer);
-        document.body.appendChild(modal);
-        
-        // Ensure video plays
-        video.play().catch(e => {
-            showToast('Erro ao iniciar câmera');
-            stopStream();
-            document.body.removeChild(modal);
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    function saveEntry(entry){
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction('entries', 'readwrite');
+        tx.objectStore('entries').put(entry);
+        tx.oncomplete = () => resolve(true);
+        tx.onerror = () => reject(tx.error);
+      });
+    }
+
+    function getEntry(id){
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction('entries', 'readonly');
+        const req = tx.objectStore('entries').get(id);
+        req.onsuccess = () => resolve(req.result || { id, notes:'', files:[] });
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    function getAllEntries(){
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction('entries', 'readonly');
+        const req = tx.objectStore('entries').getAll();
+        req.onsuccess = () => resolve(req.result || []);
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    function fileToDataURL(file){
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(reader.error);
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function formatBytes(bytes){
+      if(!bytes && bytes !== 0) return '';
+      const units = ['B','KB','MB','GB'];
+      let i = 0;
+      let n = bytes;
+      while(n >= 1024 && i < units.length - 1){
+        n /= 1024;
+        i++;
+      }
+      return `${n.toFixed(n < 10 && i > 0 ? 1 : 0)} ${units[i]}`;
+    }
+
+    function renderTabs(filter=''){
+      const tabList = document.getElementById('tabList');
+      const query = filter.trim().toLowerCase();
+      const filtered = bones.filter(b =>
+        b.nome.toLowerCase().includes(query) || b.grupo.toLowerCase().includes(query)
+      );
+
+      tabList.innerHTML = '';
+      if(filtered.length === 0){
+        tabList.innerHTML = '<div class="empty">Nenhum osso encontrado.</div>';
+        return;
+      }
+
+      filtered.forEach(bone => {
+        const btn = document.createElement('button');
+        btn.className = 'tab-btn' + (bone.id === activeBoneId ? ' active' : '');
+        btn.innerHTML = `<span>${bone.nome}</span><small>${bone.grupo}</small>`;
+        btn.addEventListener('click', () => {
+          activeBoneId = bone.id;
+          renderTabs(document.getElementById('searchInput').value);
+          renderContent();
         });
-        
-    } catch (err) {
-        console.error('Camera error:', err.name, err.message);
-        showToast('Câmera não disponível — use upload de arquivo');
+        tabList.appendChild(btn);
+      });
     }
-}
 
-function addMedia(boneIndex, src, type) {
-    if (!mediaStore[boneIndex]) {
-        mediaStore[boneIndex] = [];
+    async function removeFile(entryId, fileId){
+      const entry = await getEntry(entryId);
+      entry.files = entry.files.filter(f => f.id !== fileId);
+      await saveEntry(entry);
+      await renderContent();
     }
-    
-    mediaStore[boneIndex].push({
-        type,
-        src,
-        timestamp: new Date().toLocaleTimeString()
-    });
-    
-    renderMediaPreview(boneIndex);
-}
 
-function renderMediaPreview(boneIndex) {
-    const preview = document.getElementById(`media-preview-${boneIndex}`);
-    if (!preview) return;
-    
-    preview.innerHTML = '';
-    
-    if (mediaStore[boneIndex] && mediaStore[boneIndex].length > 0) {
-        mediaStore[boneIndex].forEach((media, idx) => {
-            const item = document.createElement('div');
-            item.className = 'media-item';
-            item.innerHTML = `
-                <img src="${media.src}" alt="Media ${idx + 1}" />
-                <button class="remove-media" onclick="removeMedia(${boneIndex}, ${idx})" title="Remover">✕</button>
-            `;
-            preview.appendChild(item);
+    async function onNoteChange(id, value){
+      const entry = await getEntry(id);
+      entry.notes = value;
+      await saveEntry(entry);
+    }
+
+    async function addFiles(id, files){
+      if(!files || !files.length) return;
+      const entry = await getEntry(id);
+      for(const file of files){
+        const dataUrl = await fileToDataURL(file);
+        entry.files.push({
+          id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+          name: file.name || 'arquivo',
+          type: file.type || 'application/octet-stream',
+          size: file.size || 0,
+          dataUrl,
+          createdAt: new Date().toISOString()
         });
+      }
+      await saveEntry(entry);
+      await renderContent();
     }
-}
 
-function removeMedia(boneIndex, idx) {
-    if (mediaStore[boneIndex]) {
-        mediaStore[boneIndex].splice(idx, 1);
-        renderMediaPreview(boneIndex);
-        showToast('Mídia removida');
-    }
-}
+    async function renderContent(){
+      const bone = bones.find(b => b.id === activeBoneId) || bones[0];
+      const entry = await getEntry(bone.id);
+      const content = document.getElementById('contentArea');
 
-function switchScene(name) {
-    document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      const images = entry.files.filter(f => (f.type || '').startsWith('image/'));
+      const docs = entry.files.filter(f => !(f.type || '').startsWith('image/'));
 
-    const scene = document.getElementById(`scene-${name}`);
-    if (scene) scene.classList.add('active');
+      content.innerHTML = `
+        <div class="section-card">
+          <div class="meta">
+            <span class="pill">${bone.grupo}</span>
+            <span class="pill">${images.length} foto(s)</span>
+            <span class="pill">${docs.length} arquivo(s)</span>
+          </div>
+          <h2>${bone.nome}</h2>
+          <p>${bone.instrucoes}</p>
+        </div>
 
-    const navId = name === 'detail' ? 'nav-cards' : `nav-${name}`;
-    const navEl = document.getElementById(navId);
-    if (navEl) navEl.classList.add('active');
+        <div class="section-card">
+          <h3>Anotações</h3>
+          <textarea id="noteBox" class="note-box" placeholder="Escreva aqui observações, acidentes ósseos, posição anatômica, dúvidas e respostas...">${escapeHtml(entry.notes || '')}</textarea>
+          <p class="hint">As notas são salvas automaticamente no aparelho.</p>
+        </div>
 
-    // Scroll bones tabs to active tab
-    if (name === 'detail') {
-        setTimeout(() => {
-            const activeTab = document.querySelector('.bone-tab.active');
-            if (activeTab && activeTab.parentElement) {
-                activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-            }
-        }, 50);
-    }
-}
+        <div class="section-card">
+          <h3>Fotos e arquivos</h3>
+          <div class="actions">
+            <label class="file-label secondary" for="cameraInput">Tirar foto</label>
+            <input id="cameraInput" class="hidden" type="file" accept="image/*" capture="environment" multiple>
+            <label class="file-label tertiary" for="fileInput">Anexar arquivo</label>
+            <input id="fileInput" class="hidden" type="file" multiple>
+          </div>
 
-// ════════════════════════════════════════════
-//  PDF GENERATION  (pure JS, no external lib)
-// ════════════════════════════════════════════
-
-function generatePDF() {
-    const loading = document.getElementById('loading');
-    loading.classList.add('visible');
-
-    setTimeout(() => {
-        try {
-            // Simple PDF generation using canvas and blob
-            const pdfContent = [];
-            const title = 'UEM — ANATOMIA HUMANA 3D';
-            const subtitle = 'Universidade Estadual de Maringá';
-            const date = new Date().toLocaleDateString('pt-BR');
-            
-            let content = `%PDF-1.4
-1 0 obj
-<<
-/Type /Catalog
-/Pages 2 0 R
->>
-endobj
-2 0 obj
-<<
-/Type /Pages
-/Kids [3 0 R]
-/Count 1
->>
-endobj
-3 0 obj
-<<
-/Type /Page
-/Parent 2 0 R
-/Resources <<
-/Font <<
-/F1 4 0 R
->>
->>
-/MediaBox [0 0 612 792]
-/Contents 5 0 R
->>
-endobj
-4 0 obj
-<<
-/Type /Font
-/Subtype /Type1
-/BaseFont /Helvetica
->>
-endobj
-5 0 obj
-<<
-/Length 2800
->>
-stream
-BT
-/F1 20 Tf
-50 750 Td
-(${title}) Tj
-0 -30 Td
-/F1 14 Tf
-(${subtitle}) Tj
-0 -20 Td
-/F1 10 Tf
-(Relatório gerado em: ${date}) Tj
-0 -40 Td
-/F1 12 Tf
-(ROTEIRO DE ESTUDO - SISTEMA ESQUELÉTICO) Tj
-0 -20 Td
-/F1 10 Tf
-`;
-
-            guideSteps.forEach((step, i) => {
-                content += `(Semana ${i + 1}: ${step.title}) Tj\n0 -15 Td\n`;
-                content += `(${step.body}) Tj\n0 -12 Td\n`;
-            });
-
-            content += `0 -30 Td
-/F1 12 Tf
-(CASOS CLÍNICOS) Tj
-0 -20 Td
-/F1 10 Tf
-`;
-
-            cases.forEach((c, i) => {
-                content += `([${i+1}] ${c.title} - ${c.tag}) Tj\n0 -12 Td\n`;
-                content += `(${c.desc.substring(0, 80)}...) Tj\n0 -10 Td\n`;
-            });
-
-            content += `ET
-endstream
-endobj
-xref
-0 6
-0000000000 65535 f 
-0000000009 00000 n 
-0000000058 00000 n 
-0000000115 00000 n 
-0000000244 00000 n 
-0000000333 00000 n 
-trailer
-<<
-/Size 6
-/Root 1 0 R
->>
-startxref
-3183
-%%EOF`;
-
-            // Create blob with proper PDF headers
-            const blob = new Blob([content], { type: 'application/pdf' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `Roteiro_Anatomia_${new Date().toLocaleDateString('pt-BR').replace(/\//g,'-')}.pdf`;
-            a.click();
-            URL.revokeObjectURL(url);
-
-            loading.classList.remove('visible');
-            
-            // Show success modal with email info
-            const modal = document.createElement('div');
-            modal.style.cssText = `
-                position: fixed;
-                inset: 0;
-                background: rgba(0,0,0,0.7);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 3001;
-            `;
-            
-            const box = document.createElement('div');
-            box.style.cssText = `
-                background: var(--card-bg);
-                border: 1px solid var(--card-border);
-                border-radius: 16px;
-                padding: 24px;
-                max-width: 400px;
-                text-align: center;
-            `;
-            
-            box.innerHTML = `
-                <h3 style="color: var(--uem-gold); font-size: 1.1rem; margin-bottom: 16px;">✓ Roteiro Baixado</h3>
-                <p style="color: #aaa; margin-bottom: 16px; font-size: 0.9rem; line-height: 1.6;">
-                    O arquivo PDF foi salvo com sucesso.<br><br>
-                    <strong>Para enviar à Professora Cláudia Pinheiro:</strong>
-                </p>
-                <div style="background: rgba(212,165,116,0.1); border: 1px solid rgba(212,165,116,0.3); border-radius: 10px; padding: 12px; margin-bottom: 16px; font-family: monospace; font-size: 0.85rem; color: var(--uem-gold);">
-                    crplopes@uem.br
+          <div id="imagesWrap">
+            ${images.length ? `<div class="gallery">
+              ${images.map(img => `
+                <div class="media-card">
+                  <img src="${img.dataUrl}" alt="${escapeHtmlAttr(img.name)}">
+                  <div class="body">
+                    <div>
+                      <div class="file-name">${escapeHtml(img.name)}</div>
+                      <div class="file-meta">${formatBytes(img.size)}</div>
+                    </div>
+                    <button class="btn soft remove-file-btn" data-fileid="${img.id}">Remover</button>
+                  </div>
                 </div>
-                <button onclick="this.parentElement.parentElement.remove()" style="
-                    background: var(--uem-gold);
-                    color: #111;
-                    border: none;
-                    padding: 10px 20px;
-                    border-radius: 8px;
-                    font-weight: 600;
-                    cursor: pointer;
-                    width: 100%;
-                ">Fechar</button>
-            `;
-            
-            modal.appendChild(box);
-            document.body.appendChild(modal);
-            
-            showToast('Roteiro baixado — envie para crplopes@uem.br');
-        } catch(e) {
-            loading.classList.remove('visible');
-            showToast('Erro ao gerar relatório');
-        }
-    }, 900);
-}
+              `).join('')}
+            </div>` : `<div class="empty">Nenhuma foto adicionada ainda.</div>`}
+          </div>
 
-function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2800);
-}
+          <div id="docsWrap" style="margin-top:14px">
+            ${docs.length ? docs.map(doc => `
+              <div class="file-row">
+                <div>
+                  <div class="file-name">${escapeHtml(doc.name)}</div>
+                  <div class="file-meta">${formatBytes(doc.size)} • ${escapeHtml(doc.type || 'arquivo')}</div>
+                </div>
+                <div class="actions">
+                  <a class="btn soft" download="${escapeHtmlAttr(doc.name)}" href="${doc.dataUrl}">Baixar</a>
+                  <button class="btn soft remove-file-btn" data-fileid="${doc.id}">Remover</button>
+                </div>
+              </div>
+            `).join('') : `<div class="empty">Nenhum arquivo anexado ainda.</div>`}
+          </div>
+        </div>
+      `;
 
-// ════════════════════════════════════════════
-//  ELEMENT SDK
-// ════════════════════════════════════════════
+      const noteBox = document.getElementById('noteBox');
+      noteBox.addEventListener('input', (e) => onNoteChange(bone.id, e.target.value));
 
-const defaultConfig = {
-    app_title: 'Anatomia Humana 3D',
-    subtitle: 'Universidade Estadual de Maringá',
-    primary_color: '#004a8d',
-    gold_color: '#d4a574',
-    bg_color: '#0f0f14',
-    text_color: '#ffffff',
-    font_family: 'Sora',
-    font_size: 14
-};
+      const cameraInput = document.getElementById('cameraInput');
+      const fileInput = document.getElementById('fileInput');
 
-window.elementSdk && window.elementSdk.init({
-    defaultConfig,
-    onConfigChange: async (config) => {
-        const title = document.getElementById('app-title');
-        const subtitle = document.getElementById('app-subtitle');
-        if (title) title.textContent = config.app_title || defaultConfig.app_title;
-        if (subtitle) subtitle.textContent = config.subtitle || defaultConfig.subtitle;
+      cameraInput.addEventListener('change', async (e) => {
+        await addFiles(bone.id, Array.from(e.target.files || []));
+        e.target.value = '';
+      });
+      fileInput.addEventListener('change', async (e) => {
+        await addFiles(bone.id, Array.from(e.target.files || []));
+        e.target.value = '';
+      });
 
-        const gold = config.gold_color || defaultConfig.gold_color;
-        const bg   = config.bg_color   || defaultConfig.bg_color;
-        const txt  = config.text_color || defaultConfig.text_color;
-        const primary = config.primary_color || defaultConfig.primary_color;
-
-        document.documentElement.style.setProperty('--uem-gold', gold);
-        document.documentElement.style.setProperty('--dark-bg', bg);
-        document.documentElement.style.setProperty('--uem-blue', primary);
-
-        document.body.style.color = txt;
-        document.body.style.backgroundColor = bg;
-
-        const baseSize = config.font_size || defaultConfig.font_size;
-        const fontFamily = config.font_family || defaultConfig.font_family;
-        const fontStack = `${fontFamily}, Sora, Segoe UI, sans-serif`;
-        document.body.style.fontSize = `${baseSize}px`;
-        document.body.style.fontFamily = fontStack;
-
-        if (title) title.style.fontFamily = fontStack;
-        if (subtitle) subtitle.style.fontFamily = fontStack;
-    },
-    mapToCapabilities: (config) => ({
-        recolorables: [
-            {
-                get: () => config.bg_color || defaultConfig.bg_color,
-                set: (v) => { config.bg_color = v; window.elementSdk.setConfig({ bg_color: v }); }
-            },
-            {
-                get: () => config.primary_color || defaultConfig.primary_color,
-                set: (v) => { config.primary_color = v; window.elementSdk.setConfig({ primary_color: v }); }
-            },
-            {
-                get: () => config.text_color || defaultConfig.text_color,
-                set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); }
-            },
-            {
-                get: () => config.gold_color || defaultConfig.gold_color,
-                set: (v) => { config.gold_color = v; window.elementSdk.setConfig({ gold_color: v }); }
-            },
-        ],
-        borderables: [],
-        fontEditable: {
-            get: () => config.font_family || defaultConfig.font_family,
-            set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
-        },
-        fontSizeable: {
-            get: () => config.font_size || defaultConfig.font_size,
-            set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
-        }
-    }),
-    mapToEditPanelValues: (config) => new Map([
-        ['app_title', config.app_title || defaultConfig.app_title],
-        ['subtitle',  config.subtitle  || defaultConfig.subtitle]
-    ])
-});
-
-// ════════════════════════════════════════════
-//  INIT
-// ════════════════════════════════════════════
-
-let deferredPrompt = null;
-
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    
-    // Show install button
-    const installBtn = document.getElementById('install-btn');
-    if (installBtn) {
-        installBtn.style.display = 'flex';
+      document.querySelectorAll('.remove-file-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          await removeFile(bone.id, btn.dataset.fileid);
+        });
+      });
     }
-});
 
-function installApp() {
-    if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-                showToast('App instalado com sucesso');
+    function escapeHtml(text=''){
+      return text
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;');
+    }
+
+    function escapeHtmlAttr(text=''){
+      return escapeHtml(text).replaceAll('"', '&quot;');
+    }
+
+    async function exportBackup(){
+      const entries = await getAllEntries();
+      const payload = {
+        app:'Roteiro prático sistema esquelético',
+        version:1,
+        exportedAt:new Date().toISOString(),
+        entries
+      };
+      const blob = new Blob([JSON.stringify(payload)], { type:'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'roteiro-sistema-esqueletico-backup.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    async function restoreBackup(file){
+      if(!file) return;
+      try{
+        const text = await file.text();
+        const json = JSON.parse(text);
+        if(!Array.isArray(json.entries)) throw new Error('Backup inválido');
+        for(const entry of json.entries){
+          await saveEntry({
+            id: entry.id,
+            notes: entry.notes || '',
+            files: Array.isArray(entry.files) ? entry.files : []
+          });
+        }
+        await renderContent();
+        alert('Backup restaurado com sucesso.');
+      }catch(err){
+        alert('Não foi possível restaurar o backup.');
+      }
+    }
+
+    async function generatePDF(){
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const margin = 12;
+      const maxWidth = 186;
+      const pageHeight = 297;
+      let y = margin;
+
+      function newPageIfNeeded(spaceNeeded = 10){
+        if(y + spaceNeeded > pageHeight - margin){
+          pdf.addPage();
+          y = margin;
+        }
+      }
+
+      function addWrappedText(text, size = 11, gap = 6, bold = false){
+        pdf.setFont('helvetica', bold ? 'bold' : 'normal');
+        pdf.setFontSize(size);
+        const lines = pdf.splitTextToSize(text || '', maxWidth);
+        const needed = lines.length * (size * 0.42) + gap;
+        newPageIfNeeded(needed);
+        pdf.text(lines, margin, y);
+        y += lines.length * (size * 0.42) + gap;
+      }
+
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(18);
+      pdf.text('Roteiro prático sistema esquelético', margin, y);
+      y += 10;
+      addWrappedText('PDF gerado pelo app com notas, fotos e arquivos anexados.', 11, 8, false);
+
+      for(const bone of bones){
+        const entry = await getEntry(bone.id);
+        newPageIfNeeded(14);
+        pdf.setDrawColor(190, 214, 232);
+        pdf.roundedRect(margin, y - 5, maxWidth, 12, 4, 4, 'S');
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(14);
+        pdf.text(bone.nome, margin + 4, y + 2);
+        y += 12;
+
+        addWrappedText(`Grupo: ${bone.grupo}`, 10, 4, false);
+        addWrappedText(`Roteiro: ${bone.instrucoes}`, 10, 4, false);
+        addWrappedText(`Notas: ${entry.notes ? entry.notes : 'Sem anotações.'}`, 10, 6, false);
+
+        for(const file of (entry.files || [])){
+          if((file.type || '').startsWith('image/')){
+            try{
+              newPageIfNeeded(80);
+              addWrappedText(`Foto: ${file.name}`, 10, 4, true);
+              const imgProps = pdf.getImageProperties(file.dataUrl);
+              const width = maxWidth;
+              let height = (imgProps.height * width) / imgProps.width;
+              if(height > 120){
+                height = 120;
+              }
+              newPageIfNeeded(height + 8);
+              pdf.addImage(file.dataUrl, 'JPEG', margin, y, width, height, undefined, 'FAST');
+              y += height + 8;
+            }catch(err){
+              addWrappedText(`Imagem não pôde ser adicionada ao PDF: ${file.name}`, 10, 5, false);
             }
-            deferredPrompt = null;
-        });
+          }else{
+            addWrappedText(`Arquivo anexado: ${file.name} (${formatBytes(file.size)})`, 10, 4, false);
+          }
+        }
+      }
+
+      pdf.save('roteiro-pratico-sistema-esqueletico.pdf');
     }
-}
 
-document.addEventListener('DOMContentLoaded', () => {
-    renderCards();
-    renderCases();
-    lucide.createIcons();
+    function setupInstall(){
+      const installBtn = document.getElementById('installBtn');
+      const modal = document.getElementById('modal');
 
-    // Register Service Worker for PWA
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js').catch(err => {
-            console.log('Service Worker registration failed:', err);
-        });
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+      });
+
+      installBtn.addEventListener('click', async () => {
+        if(deferredPrompt){
+          deferredPrompt.prompt();
+          await deferredPrompt.userChoice;
+          deferredPrompt = null;
+          return;
+        }
+        modal.classList.add('show');
+      });
+
+      document.getElementById('closeModal').addEventListener('click', () => {
+        modal.classList.remove('show');
+      });
+      modal.addEventListener('click', (e) => {
+        if(e.target === modal) modal.classList.remove('show');
+      });
     }
-});
 
-</script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e5ac55ca6fd0357',t:'MTc3NTA3OTgyMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
- </html>
+    async function init(){
+      await openDB();
+      renderTabs();
+      await renderContent();
+
+      document.getElementById('searchInput').addEventListener('input', (e) => {
+        renderTabs(e.target.value);
+      });
+      document.getElementById('pdfBtn').addEventListener('click', generatePDF);
+      document.getElementById('backupBtn').addEventListener('click', exportBackup);
+      document.getElementById('restoreInput').addEventListener('change', (e) => restoreBackup(e.target.files[0]));
+      setupInstall();
+
+      if('serviceWorker' in navigator){
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>

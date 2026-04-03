@@ -1,19 +1,16 @@
-# PWA - Guia Esquelético
+# Roteiro prático sistema esquelético - PWA
 
-Arquivos para subir no GitHub Pages:
-
+Arquivos incluídos:
 - index.html
-- manifest.json
-- service-worker.js
-- pasta icons/
+- manifest.webmanifest
+- sw.js
+- icons/icon-192.png
+- icons/icon-512.png
 
-## Como publicar
-1. Crie um repositório no GitHub.
-2. Envie todos estes arquivos.
-3. Em **Settings > Pages**, publique pela branch principal.
-4. Abra o link gerado no celular e escolha **Adicionar à tela inicial**.
-
-## Observações
-- As anotações, fotos, vídeos e arquivos ficam salvos no armazenamento local do aparelho.
-- Para não travar o celular, há limite de tamanho por arquivo.
-- O uso offline funciona após a primeira abertura com internet.
+## Como usar
+1. Suba a pasta para o GitHub.
+2. Publique no GitHub Pages ou em outro hosting estático.
+3. Abra no celular.
+4. Toque em **Baixar app**.
+   - Android: abre a instalação quando o navegador suportar.
+   - iPhone: mostra a orientação para usar **Adicionar à Tela de Início**.
