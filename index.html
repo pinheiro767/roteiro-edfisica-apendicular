@@ -5,12 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#7bb8d9">
   <meta name="description" content="Estude cada osso com notas e fotos anexadas">
-  <link rel="manifest" href="./manifest.json">
+  <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%237bb8d9' width='192' height='192'/><text x='50%' y='50%' font-size='100' font-weight='bold' fill='white' text-anchor='middle' dominant-baseline='central'>🦴</text></svg>">
   <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%237bb8d9' width='192' height='192' rx='45'/><text x='50%' y='50%' font-size='100' font-weight='bold' fill='white' text-anchor='middle' dominant-baseline='central'>🦴</text></svg>">
   <title>Sistema Esquelético</title>
-  <script src="/_sdk/element_sdk.js"></script>
-  <script src="/_sdk/data_sdk.js"></script>
   <style>
     :root {
       --bg: #f7fbff;
@@ -489,6 +487,8 @@
   <style>body { box-sizing: border-box; }</style>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
   <script src="https://cdn.tailwindcss.com/3.4.17" type="text/javascript"></script>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
  </head>
  <body>
   <div class="app-wrapper">
@@ -499,13 +499,15 @@
        <h1 id="appTitle">Roteiro prático sistema esquelético</h1>
        <p class="subtitle">Estude cada osso com notas e fotos anexadas.</p>
       </div>
-      <div class="toolbar"><button class="btn primary" id="installBtn">Baixar app</button> <button class="btn primary" id="pdfBtn">Gerar PDF</button> <button class="btn secondary" id="backupBtn">Salvar backup</button> <label class="btn soft" for="restoreInput">Restaurar backup</label> <input id="restoreInput" class="hidden" type="file" accept=".json">
+      <div class="toolbar">
+       <button class="btn primary" id="installBtn">Baixar app</button> <button class="btn primary" id="pdfBtn">Gerar PDF</button> <button class="btn secondary" id="backupBtn">Salvar backup</button> <label class="btn soft" for="restoreInput">Restaurar backup</label> <input id="restoreInput" class="hidden" type="file" accept=".json">
       </div>
      </div>
      <p class="hint">Clique em um osso para estudar. Suas anotações e fotos são salvas automaticamente.</p>
     </header>
     <main class="layout">
-     <aside class="sidebar"><input class="search" id="searchInput" type="search" placeholder="Buscar osso...">
+     <aside class="sidebar">
+      <input class="search" id="searchInput" type="search" placeholder="Buscar osso...">
       <div class="tab-list" id="tabList"></div>
      </aside>
      <section id="contentArea" class="content"></section>
@@ -624,7 +626,6 @@
     }
 
     async function saveEntry(boneId, notes) {
-      const existing = allData.find(e => e.bone_id === boneId);
       const photoCount = (await getPhotos(boneId)).length;
       
       const payload = {
@@ -633,14 +634,14 @@
         photo_count: photoCount
       };
 
-      if (existing) {
-        Object.assign(existing, payload);
-        const result = await window.dataSdk.update(existing);
-        if (!result.isOk) console.error('Update failed:', result.error);
+      const index = allData.findIndex(e => e.bone_id === boneId);
+      if (index >= 0) {
+        allData[index] = payload;
       } else {
-        const result = await window.dataSdk.create(payload);
-        if (!result.isOk) console.error('Create failed:', result.error);
+        allData.push(payload);
       }
+
+      localStorage.setItem('skeletalNotes', JSON.stringify(allData));
     }
 
     function renderTabs(filter = '') {
@@ -1022,47 +1023,7 @@
       pdf.save('sistema-esqueletico-completo.pdf');
     }
 
-    async function initSDK() {
-      const handler = {
-        onDataChanged(data) {
-          allData = data;
-        }
-      };
 
-      const result = await window.dataSdk.init(handler);
-      if (!result.isOk) {
-        console.error('Data SDK init failed:', result.error);
-      }
-    }
-
-    async function initElementSDK() {
-      const defaultConfig = {
-        app_title: 'Roteiro prático sistema esquelético'
-      };
-
-      const element = {
-        defaultConfig,
-        onConfigChange(cfg) {
-          config = cfg;
-          document.getElementById('appTitle').textContent = cfg.app_title || defaultConfig.app_title;
-        },
-        mapToCapabilities(cfg) {
-          return {
-            recolorables: [],
-            borderables: [],
-            fontEditable: undefined,
-            fontSizeable: undefined
-          };
-        },
-        mapToEditPanelValues(cfg) {
-          return new Map([
-            ['app_title', cfg.app_title || defaultConfig.app_title]
-          ]);
-        }
-      };
-
-      window.elementSdk.init(element);
-    }
 
     function setupInstall() {
       const installBtn = document.getElementById('installBtn');
@@ -1097,6 +1058,14 @@
 
     function registerSW() {
       if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js').catch(err => {
+          console.log('Service worker não registrado:', err);
+        });
+      }
+    }
+
+    function registerSWOnLoad() {
+      if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('./sw.js').catch(err => {
             console.log('Service worker não registrado:', err);
@@ -1106,9 +1075,8 @@
     }
 
     async function init() {
+      allData = JSON.parse(localStorage.getItem('skeletalNotes') || '[]');
       await initDB();
-      await initSDK();
-      initElementSDK();
       setupInstall();
       registerSW();
 
@@ -1147,6 +1115,17 @@
         <div class="empty">Erro ao carregar. Tente recarregar a página.</div>
       `;
     });
+
+    registerSWOnLoad();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e67782347748bdd',t:'MTc3NTIxMjk3NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(() => console.log('Service Worker registrado'))
+          .catch(err => console.log(err));
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e67ccc38789f202',t:'MTc3NTIxNjQ0MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
