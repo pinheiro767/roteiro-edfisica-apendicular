@@ -1,24 +1,25 @@
 {
   "name": "Roteiro prático sistema esquelético",
-  "short_name": "Sistema Esquelético",
-  "description": "PWA para roteiro prático do sistema esquelético com notas, fotos, anexos e PDF.",
+  "short_name": "Roteiro Esquelético",
+  "description": "PWA para registro de fotos, anexos e anotações do roteiro prático do sistema esquelético.",
   "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
-  "display_override": ["window-controls-overlay", "standalone", "minimal-ui", "browser"],
-  "background_color": "#f8fbff",
-  "theme_color": "#b9d7ea",
-  "lang": "pt-BR",
-  "orientation": "portrait",
+  "background_color": "#f7f8fc",
+  "theme_color": "#7c95d1",
+  "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "icons/icon-192.png",
+      "src": "./icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "icons/icon-512.png",
+      "src": "./icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
