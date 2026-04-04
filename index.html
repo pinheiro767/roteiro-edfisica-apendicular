@@ -1,639 +1,543 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#7c95d1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#7bb8d9" />
+  <meta name="description" content="Roteiro prático sistema esquelético com notas, fotos, backup e PDF." />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Roteiro Esquelético" />
+  <meta name="apple-mobile-web-app-title" content="Sistema Esquelético" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="format-detection" content="telephone=no" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="apple-touch-icon" sizes="192x192" href="./icons/icon-192.png" />
+  <link rel="apple-touch-icon" sizes="512x512" href="./icons/icon-512.png" />
   <title>Roteiro prático sistema esquelético</title>
-  <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="apple-touch-icon" href="icon-192.png" />
   <style>
-    :root{
-      --bg: #f7f8fc;
-      --card: #ffffff;
-      --card-soft: #f0f4ff;
-      --line: #dbe3f4;
-      --text: #24324a;
-      --muted: #60708b;
-      --accent: #7c95d1;
-      --accent-2: #9fc4b5;
-      --accent-3: #e8b9a8;
-      --ok: #2d8a68;
-      --warn: #a86231;
-      --danger: #ba5c5c;
-      --shadow: 0 12px 30px rgba(80, 106, 160, .12);
-      --radius: 20px;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:linear-gradient(180deg,#eef3ff 0%,#fefeff 100%);color:var(--text);font-family:Arial,Helvetica,sans-serif;}
-    body{min-height:100vh;}
-    .app{max-width:1400px;margin:0 auto;padding:16px 16px 110px;}
-    .hero{
-      background:linear-gradient(135deg, rgba(124,149,209,.22), rgba(159,196,181,.22), rgba(232,185,168,.25));
-      border:1px solid rgba(124,149,209,.18);
-      border-radius:28px;
-      padding:18px;
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(8px);
-    }
-    .hero h1{margin:0 0 8px;font-size:clamp(1.3rem,2.5vw,2.2rem);line-height:1.15}
-    .hero p{margin:6px 0;color:var(--muted);font-size:0.98rem}
-    .actions-top{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
-    button,.btn,label.file-btn{
-      border:none;border-radius:14px;padding:12px 14px;background:var(--card);color:var(--text);
-      box-shadow:0 8px 18px rgba(72,91,140,.12);cursor:pointer;font-weight:700;font-size:.95rem;
-      border:1px solid var(--line);text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;
-    }
-    button.primary,.btn.primary,label.file-btn.primary{background:var(--accent);color:#fff;border-color:transparent}
-    button.secondary,.btn.secondary,label.file-btn.secondary{background:var(--card-soft)}
-    button.success{background:var(--ok);color:#fff;border-color:transparent}
-    button.warn{background:var(--warn);color:#fff;border-color:transparent}
-    button:disabled{opacity:.55;cursor:not-allowed}
-    .layout{display:grid;grid-template-columns:320px 1fr;gap:16px;margin-top:16px}
-    .sidebar,.content{background:var(--card);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow)}
-    .sidebar{padding:14px;position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto}
-    .sidebar h2,.content h2{margin:6px 0 12px;font-size:1.1rem}
-    .search{width:100%;padding:13px 14px;border-radius:14px;border:1px solid var(--line);outline:none;background:#fff;color:var(--text);font-size:1rem}
-    .tab-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
-    .tab-btn{text-align:left;background:#fff;border:1px solid var(--line);padding:12px 14px;border-radius:14px;box-shadow:none;font-size:.95rem}
-    .tab-btn.active{background:linear-gradient(135deg, rgba(124,149,209,.18), rgba(159,196,181,.16));border-color:var(--accent)}
-    .content{padding:16px}
-    .section-head{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
-    .badge{display:inline-flex;align-items:center;gap:8px;background:var(--card-soft);border:1px solid var(--line);padding:8px 12px;border-radius:999px;color:var(--muted);font-weight:700}
-    .card{background:linear-gradient(180deg,#fff,#fbfcff);border:1px solid var(--line);border-radius:22px;padding:16px;margin-top:14px}
-    .card h3{margin:0 0 10px}
-    .muted{color:var(--muted)}
-    .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}
-    .notes{width:100%;min-height:200px;border-radius:16px;border:1px solid var(--line);padding:14px;font:inherit;resize:vertical;color:var(--text);background:#fff}
-    .field{margin-top:10px}
-    .field input[type="text"]{width:100%;padding:12px 14px;border-radius:14px;border:1px solid var(--line);font:inherit}
-    .media-actions{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 0}
-    input[type="file"]{display:none}
-    .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-top:14px}
-    .thumb{position:relative;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff;min-height:150px;display:flex;flex-direction:column}
-    .thumb .preview{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;background:#f5f8ff;overflow:hidden}
-    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
-    .thumb .file-icon{font-size:3rem}
-    .thumb .meta{padding:10px;font-size:.84rem;color:var(--muted);word-break:break-word}
-    .thumb .meta strong{display:block;color:var(--text);font-size:.88rem;margin-bottom:6px}
-    .thumb-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0 10px 10px}
-    .thumb-actions button{padding:10px 8px;font-size:.82rem;border-radius:12px;box-shadow:none}
-    .summary-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin-top:12px}
-    .summary-box{background:var(--card-soft);border:1px solid var(--line);border-radius:18px;padding:12px}
-    dialog#viewer{width:min(96vw,1100px);height:min(92vh,900px);border:none;border-radius:24px;padding:0;overflow:hidden;box-shadow:0 18px 50px rgba(0,0,0,.28)}
-    dialog::backdrop{background:rgba(18,25,45,.6)}
-    .viewer-wrap{display:flex;flex-direction:column;height:100%}
-    .viewer-top{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px;background:#fff;border-bottom:1px solid var(--line)}
-    .viewer-body{flex:1;background:#f4f7ff;display:flex;align-items:center;justify-content:center;padding:12px}
-    .viewer-body img,.viewer-body iframe{max-width:100%;max-height:100%;border:none;border-radius:14px;background:white}
-    .footerbar{position:fixed;left:0;right:0;bottom:0;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-top:1px solid var(--line)}
-    .footerbar .inner{max-width:1400px;margin:0 auto;display:flex;gap:10px;flex-wrap:wrap}
-    .small{font-size:.88rem}
+    :root{--bg:#f7fbff;--panel:#ffffff;--panel-2:#f1f7ff;--line:#d8e5f2;--text:#1f2a37;--muted:#607489;--primary:#7bb8d9;--primary-2:#a7d7c5;--accent:#f7c6c7;--shadow:0 12px 28px rgba(61,102,140,.12);--radius:22px}
+    *{box-sizing:border-box} html,body{height:100%;margin:0;width:100%}
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--text);background:radial-gradient(circle at top left, rgba(167,215,197,.35), transparent 28%),radial-gradient(circle at top right, rgba(247,198,199,.35), transparent 28%),linear-gradient(180deg,#f8fbff 0%,#eef6ff 100%)}
+    .app{min-height:100%;display:flex;flex-direction:column;padding:10px;gap:10px}
+    .hero,.sidebar,.content,.modal-card{background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border:1px solid rgba(216,229,242,.92);box-shadow:var(--shadow);border-radius:var(--radius)}
+    .hero{padding:14px;display:grid;gap:10px;flex-shrink:0}
+    .hero-top{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start;justify-content:space-between}
+    h1{margin:0;font-size:clamp(1.1rem,4vw,1.8rem);line-height:1.1}
+    .subtitle{margin:4px 0 0 0;color:var(--muted);font-size:clamp(.78rem,2vw,.95rem)}
+    .toolbar{display:flex;gap:8px;flex-wrap:wrap}
+    .btn,.file-label{appearance:none;border:none;border-radius:14px;padding:10px 13px;min-height:42px;cursor:pointer;font-weight:700;font-size:.9rem;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:transform .16s ease, filter .16s ease;white-space:nowrap}
+    .btn:hover,.file-label:hover{transform:translateY(-1px);filter:saturate(1.04)} .btn:active,.file-label:active{transform:translateY(1px)} .btn:disabled{opacity:.6;cursor:not-allowed}
+    .primary{background:linear-gradient(135deg,var(--primary),#8fc4e0);color:#11324a;box-shadow:0 6px 14px rgba(123,184,217,.22)}
+    .secondary{background:linear-gradient(135deg,var(--primary-2),#c2eadb);color:#23483c;box-shadow:0 6px 14px rgba(167,215,197,.22)}
+    .tertiary{background:linear-gradient(135deg,var(--accent),#ffd8d9);color:#5b2b2c;box-shadow:0 6px 14px rgba(247,198,199,.22)}
+    .soft{background:#fff;color:var(--text);border:1px solid var(--line);box-shadow:none}
+    .layout{display:grid;grid-template-columns:280px 1fr;gap:10px;flex:1;min-height:0}
+    .sidebar{padding:12px;display:grid;grid-template-rows:auto 1fr;gap:10px;overflow:hidden}
+    .search{width:100%;border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 12px;font-size:.95rem;outline:none}
+    .search:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(123,184,217,.15)}
+    .tab-list{overflow:auto;display:grid;gap:6px;padding-right:4px}
+    .tab-btn{width:100%;text-align:left;border:1px solid transparent;background:var(--panel-2);padding:10px 12px;border-radius:14px;cursor:pointer;color:var(--text);font-weight:700;font-size:.9rem}
+    .tab-btn small{display:block;margin-top:3px;font-weight:600;font-size:.78rem;color:var(--muted)}
+    .tab-btn.active{background:linear-gradient(135deg, rgba(123,184,217,.22), rgba(167,215,197,.18));border-color:rgba(123,184,217,.45)}
+    .content{padding:14px;display:flex;flex-direction:column;gap:12px;overflow:auto;min-height:0}
+    .section-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:13px}
+    .section-card h2{margin:0 0 8px 0;font-size:1.2rem} .section-card h3{margin:0 0 8px 0;font-size:1rem} .section-card p{margin:0;line-height:1.5}
+    .meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+    .pill{background:var(--panel-2);border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:.78rem;color:var(--muted);font-weight:700}
+    .note-box{width:100%;min-height:130px;max-height:40vh;resize:vertical;border:1px solid var(--line);border-radius:14px;padding:11px;font-size:.95rem;line-height:1.4;outline:none;background:#fff;font-family:inherit}
+    .note-box:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(123,184,217,.15)}
+    .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;align-items:center}
+    .hint{color:var(--muted);font-size:.85rem;margin:0}
+    .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-top:10px}
+    .media-card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;display:grid;grid-template-rows:auto 1fr}
+    .media-card img{width:100%;height:130px;object-fit:cover;display:block;background:#eef6ff;cursor:pointer}
+    .media-card .body{padding:8px;display:flex;flex-direction:column;gap:6px}
+    .file-name{font-weight:700;word-break:break-word;font-size:.85rem}
+    .file-meta{color:var(--muted);font-size:.75rem}
+    .empty{padding:16px;text-align:center;color:var(--muted);font-size:.9rem}
+    .footer-note{font-size:.8rem;color:var(--muted);text-align:center;padding:2px 8px 10px;margin:0;flex-shrink:0}
     .hidden{display:none !important}
-    @media (max-width: 980px){
-      .layout{grid-template-columns:1fr}
-      .sidebar{position:static;max-height:none}
-      .grid{grid-template-columns:1fr}
-    }
-    @media (max-width: 640px){
-      .app{padding:12px 12px 130px}
-      .hero,.sidebar,.content,.card{border-radius:20px}
-      .actions-top,.media-actions,.footerbar .inner{display:grid;grid-template-columns:1fr 1fr}
-      .actions-top > *, .media-actions > *, .footerbar .inner > *{width:100%}
-      .thumb-actions{grid-template-columns:1fr}
-    }
+    .toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#1f2a37;color:#fff;padding:12px 16px;border-radius:12px;font-size:.9rem;z-index:9999;max-width:90%;animation:slideUp .25s ease}
+    @keyframes slideUp{from{opacity:0;transform:translateX(-50%) translateY(14px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(4px);z-index:10000;display:none;align-items:center;justify-content:center;padding:12px}
+    .modal.show{display:flex}
+    .modal-card{width:min(92vw,840px);max-height:90vh;overflow:hidden;background:#fff;display:flex;flex-direction:column}
+    .modal-header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line)}
+    .modal-title{margin:0;font-size:1rem;font-weight:700;word-break:break-word}
+    .modal-close{appearance:none;border:none;background:transparent;font-size:26px;line-height:1;cursor:pointer;min-width:40px;min-height:40px}
+    .modal-body{padding:14px;overflow:auto;display:flex;align-items:center;justify-content:center}
+    .modal-body img{max-width:100%;max-height:74vh;border-radius:12px;object-fit:contain}
+    @media (max-width:768px){.layout{grid-template-columns:1fr}.sidebar{grid-template-columns:auto 1fr;grid-template-rows:auto;max-height:58px}.tab-list{display:none}.search{order:2}.btn,.file-label{min-height:40px;font-size:.82rem;padding:8px 10px}.gallery{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}.media-card img{height:110px}.app{padding:8px}}
+    @media (max-width:480px){.sidebar{display:none}.hero-top{flex-direction:column}.toolbar{width:100%}.btn,.file-label{flex:1;min-width:70px;min-height:42px;font-size:.75rem;padding:8px 9px}.gallery{grid-template-columns:repeat(auto-fill,minmax(95px,1fr))}.media-card img{height:95px}.content,.hero,.sidebar{padding:10px}h1{font-size:1.05rem}}
   </style>
 </head>
 <body>
   <div class="app">
-    <section class="hero">
-      <h1>Roteiro prático sistema esquelético</h1>
-      <p><strong>Universidade Estadual de Maringá</strong> • Profª Dra. Cláudia Pinheiro</p>
-      <p>Aplicativo PWA responsivo para registrar fotos, anexos e anotações por osso. Funciona offline após a primeira abertura.</p>
-      <div class="actions-top">
-        <button id="installBtn" class="primary">Baixar app</button>
-        <button id="pdfBtn" class="success">Gerar PDF completo</button>
-        <button id="backupBtn" class="secondary">Exportar backup</button>
-        <label for="restoreInput" class="file-btn secondary">Restaurar backup</label>
-        <input id="restoreInput" type="file" accept="application/json" />
-      </div>
-      <div class="summary-list">
-        <div class="summary-box"><strong id="countBones">0</strong><div class="muted small">abas de ossos/estruturas</div></div>
-        <div class="summary-box"><strong id="countPhotos">0</strong><div class="muted small">mídias salvas no aparelho</div></div>
-        <div class="summary-box"><strong>Offline</strong><div class="muted small">arquivos do app disponíveis sem internet</div></div>
-      </div>
-    </section>
-
-    <div class="layout">
-      <aside class="sidebar">
-        <h2>Abas do roteiro</h2>
-        <input id="searchInput" class="search" type="search" placeholder="Buscar osso ou estrutura..." />
-        <div id="tabList" class="tab-list"></div>
-      </aside>
-
-      <main class="content">
-        <div class="section-head">
-          <div>
-            <h2 id="boneTitle">Selecione uma aba</h2>
-            <div id="boneMeta" class="badge">Roteiro prático</div>
-          </div>
-          <div class="badge" id="boneCounters">0 mídia(s) • 0 caracteres em notas</div>
+    <header class="hero">
+      <div class="hero-top">
+        <div>
+          <h1>Roteiro prático sistema esquelético</h1>
+          <p class="subtitle">Universidade Estadual de Maringá • Estude cada osso com notas, fotos, backup e PDF.</p>
         </div>
-
-        <section class="card">
-          <h3>Itens para observar</h3>
-          <div id="boneDescription" class="muted"></div>
-        </section>
-
-        <section class="grid">
-          <section class="card">
-            <h3>Anotações do aluno</h3>
-            <textarea id="notesInput" class="notes" placeholder="Escreva aqui as observações deste osso, acidentes anatômicos, atlas, relações clínicas e dúvidas..."></textarea>
-            <div class="field">
-              <input id="studentInput" type="text" placeholder="Nome do aluno (opcional, sai no PDF)" />
-            </div>
-          </section>
-
-          <section class="card">
-            <h3>Fotos e anexos</h3>
-            <p class="muted">O aluno pode adicionar quantas fotos e arquivos quiser. Tudo fica salvo no aparelho no navegador.</p>
-            <div class="media-actions">
-              <label id="cameraLabel" for="cameraInput" class="file-btn primary">Tirar foto</label>
-              <label for="fileInput" class="file-btn secondary">Anexar arquivo</label>
-              <button id="clearBoneBtn" class="warn">Limpar esta aba</button>
-            </div>
-            <input id="cameraInput" type="file" accept="image/*" capture="environment" multiple />
-            <input id="fileInput" type="file" accept="image/*,.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.txt" multiple />
-            <div id="gallery" class="gallery"></div>
-          </section>
-        </section>
-      </main>
-    </div>
-  </div>
-
-  <div class="footerbar">
-    <div class="inner">
-      <button id="saveNowBtn" class="primary">Salvar agora</button>
-      <button id="exportHtmlBtn">Baixar resumo em HTML</button>
-      <button id="expandFirstBtn">Ampliar imagem</button>
-      <button id="clearAllBtn">Apagar tudo</button>
-    </div>
-  </div>
-
-  <dialog id="viewer">
-    <div class="viewer-wrap">
-      <div class="viewer-top">
-        <strong id="viewerTitle">Visualização</strong>
-        <button id="closeViewerBtn">Fechar</button>
+        <div class="toolbar">
+          <button class="btn primary" id="installBtn" type="button">Baixar app</button>
+          <button class="btn primary" id="pdfBtn" type="button">Gerar PDF</button>
+          <button class="btn secondary" id="backupBtn" type="button">Salvar backup</button>
+          <label class="file-label soft" for="restoreInput">Restaurar backup</label>
+          <input id="restoreInput" class="hidden" type="file" accept=".json,application/json" />
+        </div>
       </div>
-      <div class="viewer-body" id="viewerBody"></div>
+      <p class="hint">As fotos são comprimidas antes de salvar e o PDF reconverte as imagens para evitar listras no Android.</p>
+    </header>
+    <main class="layout">
+      <aside class="sidebar">
+        <input class="search" id="searchInput" type="search" placeholder="Buscar osso..." />
+        <div class="tab-list" id="tabList"></div>
+      </aside>
+      <section id="contentArea" class="content"><div class="empty">Carregando roteiro...</div></section>
+    </main>
+    <p class="footer-note">Anatomia Humana • Profa. Dra. Cláudia Pinheiro • Todos os direitos reservados © 2026</p>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalTitle">Visualização</h2>
+        <button class="modal-close" id="modalClose" type="button" aria-label="Fechar">×</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
     </div>
-  </dialog>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
   <script>
-    const BONE_DATA = [
-      { id:'frontal', title:'Frontal', group:'Crânio - Neurocrânio', desc:['Osso frontal (1).'] },
-      { id:'occipital', title:'Occipital', group:'Crânio - Neurocrânio', desc:['Osso occipital (1).', 'Forame magno', 'Côndilos'] },
-      { id:'esfenoide', title:'Esfenóide', group:'Crânio - Neurocrânio', desc:['Osso esfenóide (1).', 'Fossa hipofisial localizada na sela túrcica'] },
-      { id:'etmoide', title:'Etmóide', group:'Crânio - Neurocrânio', desc:['Osso etmóide (1).', 'Lâmina cribiforme', 'Células etmoidais'] },
-      { id:'parietais', title:'Parietais', group:'Crânio - Neurocrânio', desc:['Ossos parietais (2).'] },
-      { id:'temporais', title:'Temporais', group:'Crânio - Neurocrânio', desc:['Ossos temporais (2).', 'Meato acústico externo', 'Processo mastóide'] },
-      { id:'ossiculos-ouvido', title:'Ossículos do ouvido', group:'Crânio - Neurocrânio', desc:['Martelo', 'Bigorna', 'Estribo', 'Devem ser observados no atlas.'] },
-      { id:'nasais', title:'Nasais', group:'Crânio - Viscerocrânio', desc:['Ossos nasais (2).'] },
-      { id:'zigomaticos', title:'Zigomáticos', group:'Crânio - Viscerocrânio', desc:['Ossos zigomáticos (2).'] },
-      { id:'maxilas', title:'Maxilas', group:'Crânio - Viscerocrânio', desc:['Maxilas (2).'] },
-      { id:'palatinos', title:'Palatinos', group:'Crânio - Viscerocrânio', desc:['Palatinos (2).'] },
-      { id:'mandibula', title:'Mandíbula', group:'Crânio - Viscerocrânio', desc:['Mandíbula (1).'] },
-      { id:'lacrimais', title:'Lacrimais', group:'Crânio - Viscerocrânio', desc:['Lacrimais (2).'] },
-      { id:'vomer', title:'Vômer', group:'Crânio - Viscerocrânio', desc:['Vômer (1).'] },
-      { id:'conchas-nasais-inferiores', title:'Conchas nasais inferiores', group:'Crânio - Viscerocrânio', desc:['Conchas nasais inferiores (2).'] },
-      { id:'hioide', title:'Osso hióide', group:'Esqueleto axial', desc:['Deve ser observado no atlas.'] },
-      { id:'esterno', title:'Esterno', group:'Tórax', desc:['Manúbrio', 'Corpo', 'Ângulo do esterno', 'Processo xifóide'] },
-      { id:'costelas', title:'Costelas', group:'Tórax', desc:['7 pares de costelas verdadeiras', '3 pares de costelas falsas', '2 pares de costelas flutuantes'] },
-      { id:'vertebras-toracicas', title:'Vértebras torácicas', group:'Tórax', desc:['Observar as vértebras torácicas.'] },
-      { id:'coluna-vertebral', title:'Coluna vertebral', group:'Coluna vertebral', desc:['33 ossos', 'Observar o canal vertebral', 'Observar os forames intervertebrais'] },
-      { id:'vertebras-cervicais', title:'Vértebras cervicais', group:'Coluna vertebral', desc:['7 vértebras cervicais'] },
-      { id:'vertebras-toracicas-coluna', title:'Vértebras torácicas da coluna', group:'Coluna vertebral', desc:['12 vértebras torácicas'] },
-      { id:'vertebras-lombares', title:'Vértebras lombares', group:'Coluna vertebral', desc:['5 vértebras lombares'] },
-      { id:'sacro', title:'Sacro', group:'Coluna vertebral', desc:['4 ou 5 ossos fundidos'] },
-      { id:'coccix', title:'Cóccix', group:'Coluna vertebral', desc:['3 a 4 ossos fundidos'] },
-      { id:'vertebra-tipica', title:'Vértebra típica', group:'Coluna vertebral', desc:['Corpo vertebral', 'Forame vertebral', 'Processo espinhoso', 'Processos transversos', 'Processos articulares superiores', 'Processos articulares inferiores'] },
-      { id:'curvaturas', title:'Curvaturas da coluna vertebral', group:'Coluna vertebral', desc:['Cifose torácica', 'Cifose sacral', 'Lordose cervical', 'Lordose lombar'] },
-      { id:'regioes-coluna', title:'Regiões da coluna vertebral', group:'Coluna vertebral', desc:['Região cervical', 'Região torácica', 'Região lombar', 'Região sacral', 'Região coccígea'] },
-      { id:'clavicula', title:'Clavícula', group:'Membro superior - Cíngulo', desc:['Extremidade acromial', 'Extremidade esternal'] },
-      { id:'escapula', title:'Escápula', group:'Membro superior - Cíngulo', desc:['Espinha da escápula', 'Cavidade glenóide', 'Acrômio', 'Fossa supraespinal', 'Fossa infraespinal', 'Fossa subescapular', 'Tubérculo supra-glenoidal', 'Tubérculo infraglenoidal', 'Processo coracóide'] },
-      { id:'umero', title:'Úmero', group:'Membro superior - Braço', desc:['Cabeça do úmero', 'Tubérculo maior', 'Tubérculo menor', 'Sulco intertubercular', 'Colo anatômico', 'Colo cirúrgico', 'Tuberosidade deltoidea', 'Epicôndilo medial', 'Sulco do nervo ulnar', 'Epicôndilo lateral', 'Fossa do olécrano'] },
-      { id:'radio', title:'Rádio', group:'Membro superior - Antebraço', desc:['Cabeça do rádio', 'Tuberosidade do rádio', 'Processo estiloide do rádio'] },
-      { id:'ulna', title:'Ulna', group:'Membro superior - Antebraço', desc:['Olécrano', 'Processo estiloide da ulna', 'Tuberosidade da ulna'] },
-      { id:'carpais', title:'Ossos carpais', group:'Mão', desc:['Escafóide', 'Semilunar', 'Piramidal', 'Psiforme', 'Trapézio', 'Trapezóide', 'Capitato', 'Hamato'] },
-      { id:'metacarpais', title:'Ossos metacarpais', group:'Mão', desc:['Ossos metacarpais I a V'] },
-      { id:'falanges-mao', title:'Falanges da mão', group:'Mão', desc:['Falange proximal', 'Falange média', 'Falange distal'] },
-      { id:'osso-do-quadril', title:'Osso do quadril', group:'Membro inferior - Cíngulo', desc:['Ílio', 'Ísquio', 'Púbis', 'Crista ilíaca', 'Acetábulo', 'Espinha ilíaca anterossuperior', 'Espinha ilíaca anteroinferior', 'Forame obturado', 'Túber isquiático'] },
-      { id:'sacro-cingulo', title:'Sacro do cíngulo', group:'Membro inferior - Cíngulo', desc:['Sacro'] },
-      { id:'femur', title:'Fêmur', group:'Membro inferior - Coxa', desc:['Cabeça do fêmur', 'Colo do fêmur', 'Tuberosidade glútea', 'Linha áspera', 'Côndilo medial', 'Côndilo lateral', 'Epicôndilo medial', 'Epicôndilo lateral', 'Trocânter maior', 'Trocânter menor', 'Face poplítea', 'Face patelar'] },
-      { id:'patela', title:'Patela', group:'Membro inferior - Joelho', desc:['Patela'] },
-      { id:'tibia', title:'Tíbia', group:'Membro inferior - Perna', desc:['Côndilos', 'Tuberosidade da tíbia', 'Maléolo medial'] },
-      { id:'fibula', title:'Fíbula', group:'Membro inferior - Perna', desc:['Cabeça da fíbula', 'Maléolo lateral'] },
-      { id:'tarsais', title:'Ossos tarsais', group:'Pé', desc:['Tálus', 'Calcâneo', 'Navicular', 'Cubóide', 'Cuneiforme medial', 'Cuneiforme intermédio', 'Cuneiforme lateral'] },
-      { id:'metatarsais', title:'Ossos metatarsais', group:'Pé', desc:['Ossos metatarsais I a V'] },
-      { id:'falanges-pe', title:'Falanges do pé', group:'Pé', desc:['Falange proximal', 'Falange média', 'Falange distal'] }
+    const bones = [
+      { id:'clavicula', nome:'Clavícula', grupo:'Membro superior', instrucoes:'Posicione a extremidade acromial lateralmente, a face lisa superiormente, a maior convexidade anteriormente e o processo conóide inferiormente.' },
+      { id:'escapula', nome:'Escápula', grupo:'Membro superior', instrucoes:'Posicione a espinha da escápula superior e posteriormente, com a cavidade glenóide e o acrômio lateralmente; a fossa subescapular e o processo coracóide ficam anteriormente.' },
+      { id:'umero', nome:'Úmero', grupo:'Membro superior', instrucoes:'Posicione a cabeça do úmero proximal e medialmente, e a fossa do olécrano posteriormente. Observe tubérculo maior, tubérculo menor, sulco intertubercular, colo anatômico e cirúrgico; distalmente, tróclea, capítulo e epicôndilos.' },
+      { id:'radio', nome:'Rádio', grupo:'Membro superior', instrucoes:'É o osso lateral do antebraço. Posicione a face anterior côncava anteriormente, a cabeça proximalmente, a tuberosidade medialmente e o processo estilóide lateralmente.' },
+      { id:'ulna', nome:'Ulna', grupo:'Membro superior', instrucoes:'É o osso medial do antebraço. Posicione a cabeça distalmente, o olécrano e processo coronoide proximalmente, a borda interóssea lateralmente e o processo estilóide medialmente.' },
+      { id:'carpo', nome:'Ossos do carpo', grupo:'Membro superior', instrucoes:'Fileira proximal: escafóide, semilunar, piramidal e pisiforme. Fileira distal: trapézio, trapezóide, capitato e hamato.' },
+      { id:'metacarpo', nome:'Metacarpos', grupo:'Membro superior', instrucoes:'Identifique os metacarpos I a V.' },
+      { id:'falanges_mao', nome:'Falanges da mão', grupo:'Membro superior', instrucoes:'Identifique falanges proximais, médias e distais.' },
+      { id:'quadril', nome:'Osso do quadril', grupo:'Membro inferior', instrucoes:'Identifique ílio, ísquio e púbis. Posicione a crista ilíaca superiormente, o acetábulo ântero-lateralmente, púbis e espinha ilíaca ântero-superior anteriormente e o forame obturado inferior ao acetábulo.' },
+      { id:'femur', nome:'Fêmur', grupo:'Membro inferior', instrucoes:'Posicione cabeça e colo proximal e medialmente; côndilos distalmente. Identifique trocanter maior e menor, incisura intercondilar e face patelar.' },
+      { id:'patela', nome:'Patela', grupo:'Membro inferior', instrucoes:'Posicione o ápice inferiormente, a base superiormente e a face articular posteriormente, com a parte maior lateralmente.' },
+      { id:'tibia', nome:'Tíbia', grupo:'Membro inferior', instrucoes:'É o osso medial da perna. Posicione os côndilos superiormente, a tuberosidade tibial anteriormente, o maléolo medial infero-medialmente e a incisura fibular lateralmente.' },
+      { id:'fibula', nome:'Fíbula', grupo:'Membro inferior', instrucoes:'É o osso lateral da perna. Posicione a cabeça superiormente, a face articular do maléolo lateral medialmente e a fossa do maléolo posteriormente.' },
+      { id:'tarso', nome:'Ossos do tarso', grupo:'Membro inferior', instrucoes:'Identifique tálus, calcâneo, navicular, cubóide e cuneiformes medial, intermédio e lateral.' },
+      { id:'metatarso', nome:'Metatarsos', grupo:'Membro inferior', instrucoes:'Identifique os metatarsos I a V.' },
+      { id:'falanges_pe', nome:'Falanges do pé', grupo:'Membro inferior', instrucoes:'Identifique falanges proximais, médias e distais.' },
+      { id:'frontal', nome:'Frontal', grupo:'Crânio', instrucoes:'Verifique a incisura frontal e o forame supraorbital.' },
+      { id:'occipital', nome:'Occipital', grupo:'Crânio', instrucoes:'Identifique o forame magno e os côndilos occipitais.' },
+      { id:'esfenoide', nome:'Esfenóide', grupo:'Crânio', instrucoes:'Observe asas maiores, asas menores e a fossa hipofisária.' },
+      { id:'etmoide', nome:'Etmóide', grupo:'Crânio', instrucoes:'Observe a crista galli, a lâmina crivosa e as células etmoidais.' },
+      { id:'parietal', nome:'Parietais', grupo:'Crânio', instrucoes:'Identifique os parietais direito e esquerdo.' },
+      { id:'temporal', nome:'Temporais', grupo:'Crânio', instrucoes:'Observe partes timpânica, escamosa e petrosa; tubérculo articular, fossa da mandíbula, meatos acústicos, processo mastóide e estilóide.' },
+      { id:'nasais', nome:'Nasais', grupo:'Viscerocrânio', instrucoes:'Identifique os dois ossos nasais.' },
+      { id:'zigomaticos', nome:'Zigomáticos', grupo:'Viscerocrânio', instrucoes:'Observe o processo temporal.' },
+      { id:'maxilas', nome:'Maxilas', grupo:'Viscerocrânio', instrucoes:'Observe especialmente o processo palatino.' },
+      { id:'palatinos', nome:'Palatinos', grupo:'Viscerocrânio', instrucoes:'Observe a lâmina horizontal.' },
+      { id:'lacrimais', nome:'Lacrimais', grupo:'Viscerocrânio', instrucoes:'Identifique os dois lacrimais.' },
+      { id:'mandibula', nome:'Mandíbula', grupo:'Viscerocrânio', instrucoes:'Identifique corpo, processos alveolares, ramos, côndilo, processo coronóide e incisura da mandíbula.' },
+      { id:'vomer', nome:'Vômer', grupo:'Viscerocrânio', instrucoes:'Identifique o vômer.' },
+      { id:'conchas', nome:'Conchas nasais inferiores', grupo:'Viscerocrânio', instrucoes:'Identifique as conchas nasais inferiores.' },
+      { id:'esterno', nome:'Esterno', grupo:'Tórax', instrucoes:'Identifique manúbrio, corpo, processo xifóide, incisuras claviculares, jugular e costais.' },
+      { id:'costelas', nome:'Costelas', grupo:'Tórax', instrucoes:'São 12 pares. Para uma costela típica, posicione a cabeça posteriormente, o tubérculo e o sulco costal inferiormente.' },
+      { id:'vertebras_cervicais', nome:'Vértebras cervicais', grupo:'Coluna vertebral', instrucoes:'Reconheça atlas e áxis. Características: forame transverso, processo espinhoso bífido, corpo retangular e forame vertebral triangular.' },
+      { id:'vertebras_toracicas', nome:'Vértebras torácicas', grupo:'Coluna vertebral', instrucoes:'Apresentam fóveas costais, processo espinhoso longo e oblíquo, forame vertebral arredondado e corpo cordiforme.' },
+      { id:'vertebras_lombares', nome:'Vértebras lombares', grupo:'Coluna vertebral', instrucoes:'Possuem corpo volumoso e reniforme, processos espinhosos curtos e altos e processo mamilar.' },
+      { id:'sacro', nome:'Sacro', grupo:'Coluna vertebral', instrucoes:'Observe a face pélvica com forames sacrais pélvicos e a face dorsal com forames sacrais dorsais.' },
+      { id:'coccix', nome:'Cóccix', grupo:'Coluna vertebral', instrucoes:'Observe o cóccix no atlas ou coluna articulada.' }
     ];
 
-    const STORAGE_KEY = 'roteiro-esqueletico-v4';
-    let state = loadState();
-    let activeId = BONE_DATA[0].id;
+    let activeBoneId = bones[0].id;
+    let allData = JSON.parse(localStorage.getItem('skeletalNotes') || '[]');
+    let photoDb = null;
     let deferredPrompt = null;
+    const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
 
-    const tabList = document.getElementById('tabList');
-    const searchInput = document.getElementById('searchInput');
-    const boneTitle = document.getElementById('boneTitle');
-    const boneMeta = document.getElementById('boneMeta');
-    const boneDescription = document.getElementById('boneDescription');
-    const notesInput = document.getElementById('notesInput');
-    const studentInput = document.getElementById('studentInput');
-    const gallery = document.getElementById('gallery');
-    const boneCounters = document.getElementById('boneCounters');
-    const countBones = document.getElementById('countBones');
-    const countPhotos = document.getElementById('countPhotos');
-    const installBtn = document.getElementById('installBtn');
-    const pdfBtn = document.getElementById('pdfBtn');
-    const backupBtn = document.getElementById('backupBtn');
-    const restoreInput = document.getElementById('restoreInput');
-    const cameraInput = document.getElementById('cameraInput');
-    const fileInput = document.getElementById('fileInput');
-    const saveNowBtn = document.getElementById('saveNowBtn');
-    const clearAllBtn = document.getElementById('clearAllBtn');
-    const clearBoneBtn = document.getElementById('clearBoneBtn');
-    const exportHtmlBtn = document.getElementById('exportHtmlBtn');
-    const expandFirstBtn = document.getElementById('expandFirstBtn');
-    const viewer = document.getElementById('viewer');
-    const viewerBody = document.getElementById('viewerBody');
-    const viewerTitle = document.getElementById('viewerTitle');
-    document.getElementById('closeViewerBtn').addEventListener('click', () => viewer.close());
+    function escapeHtml(text=''){return String(text).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')}
+    function escapeHtmlAttr(text=''){return escapeHtml(text).replaceAll('"','&quot;')}
+    function formatBytes(bytes){if(!bytes && bytes!==0) return ''; const units=['B','KB','MB','GB']; let i=0,n=bytes; while(n>=1024&&i<units.length-1){n/=1024;i++;} return `${n.toFixed(n<10&&i>0?1:0)} ${units[i]}`;}
+    function showToast(message){const toast=document.createElement('div');toast.className='toast';toast.textContent=message;document.body.appendChild(toast);setTimeout(()=>toast.remove(),2800);}
+    function openModal(title, html){document.getElementById('modalTitle').textContent=title;document.getElementById('modalBody').innerHTML=html;document.getElementById('modal').classList.add('show');}
+    function closeModal(){document.getElementById('modal').classList.remove('show');document.getElementById('modalBody').innerHTML='';}
 
-    countBones.textContent = BONE_DATA.length;
-
-    function makeDefaultState(){
-      const bones = {};
-      for(const bone of BONE_DATA){
-        bones[bone.id] = { notes:'', student:'', media:[] };
-      }
-      return { bones, updatedAt: new Date().toISOString() };
-    }
-
-    function loadState(){
-      try{
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if(!raw) return makeDefaultState();
-        const parsed = JSON.parse(raw);
-        const base = makeDefaultState();
-        if(parsed && parsed.bones){
-          for(const key of Object.keys(base.bones)){
-            if(parsed.bones[key]){
-              base.bones[key].notes = parsed.bones[key].notes || '';
-              base.bones[key].student = parsed.bones[key].student || '';
-              base.bones[key].media = Array.isArray(parsed.bones[key].media) ? parsed.bones[key].media : [];
-            }
+    function initDB(){
+      return new Promise((resolve,reject)=>{
+        const req=indexedDB.open('SkeletalPhotos',1);
+        req.onerror=()=>reject(req.error);
+        req.onsuccess=()=>{photoDb=req.result;resolve();};
+        req.onupgradeneeded=(e)=>{
+          const db=e.target.result;
+          if(!db.objectStoreNames.contains('photos')){
+            const store=db.createObjectStore('photos',{keyPath:'id'});
+            store.createIndex('boneId','boneId',{unique:false});
           }
-        }
-        return base;
-      }catch(e){
-        console.error(e);
-        return makeDefaultState();
-      }
+        };
+      });
     }
 
-    function saveState(){
-      state.updatedAt = new Date().toISOString();
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      updateSummary();
+    function getEntry(boneId){return allData.find(e=>e.bone_id===boneId) || {bone_id:boneId,notes:'',photo_count:0};}
+
+    async function getPhotos(boneId){
+      return new Promise((resolve)=>{
+        const tx=photoDb.transaction('photos','readonly');
+        const idx=tx.objectStore('photos').index('boneId');
+        const req=idx.getAll(boneId);
+        req.onsuccess=()=>resolve(req.result||[]);
+      });
     }
 
-    function escapeHtml(s){
-      return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+    async function getAllPhotos(){
+      return new Promise((resolve)=>{
+        const tx=photoDb.transaction('photos','readonly');
+        const req=tx.objectStore('photos').getAll();
+        req.onsuccess=()=>resolve(req.result||[]);
+      });
     }
 
-    function currentBone(){ return BONE_DATA.find(b => b.id === activeId); }
+    async function saveEntry(boneId,notes){
+      const photoCount=(await getPhotos(boneId)).length;
+      const payload={bone_id:boneId,notes,photo_count:photoCount};
+      const index=allData.findIndex(e=>e.bone_id===boneId);
+      if(index>=0){allData[index]=payload;} else{allData.push(payload);}
+      localStorage.setItem('skeletalNotes',JSON.stringify(allData));
+    }
+
+    async function deletePhoto(photoId){
+      return new Promise((resolve)=>{
+        const tx=photoDb.transaction('photos','readwrite');
+        tx.objectStore('photos').delete(photoId);
+        tx.oncomplete=resolve;
+      });
+    }
 
     function renderTabs(filter=''){
-      const q = filter.trim().toLowerCase();
-      tabList.innerHTML = '';
-      BONE_DATA.filter(item => !q || item.title.toLowerCase().includes(q) || item.group.toLowerCase().includes(q) || item.desc.join(' ').toLowerCase().includes(q))
-      .forEach(item => {
-        const btn = document.createElement('button');
-        btn.className = 'tab-btn' + (item.id===activeId ? ' active' : '');
-        btn.innerHTML = `<strong>${escapeHtml(item.title)}</strong><br><span class="muted small">${escapeHtml(item.group)}</span>`;
-        btn.addEventListener('click', ()=>{ activeId = item.id; renderTabs(searchInput.value); renderContent(); });
+      const tabList=document.getElementById('tabList');
+      const query=filter.trim().toLowerCase();
+      const filtered=bones.filter(b=>b.nome.toLowerCase().includes(query)||b.grupo.toLowerCase().includes(query));
+      tabList.innerHTML='';
+      if(!filtered.length){tabList.innerHTML='<div class="empty">Nenhum osso encontrado.</div>';return;}
+      filtered.forEach(bone=>{
+        const btn=document.createElement('button');
+        btn.type='button';
+        btn.className='tab-btn'+(bone.id===activeBoneId?' active':'');
+        btn.innerHTML=`<span>${escapeHtml(bone.nome)}</span><small>${escapeHtml(bone.grupo)}</small>`;
+        btn.addEventListener('click',async()=>{activeBoneId=bone.id;renderTabs(document.getElementById('searchInput').value);await renderContent();});
         tabList.appendChild(btn);
       });
     }
 
-    function renderContent(){
-      const bone = currentBone();
-      const data = state.bones[bone.id];
-      boneTitle.textContent = bone.title;
-      boneMeta.textContent = bone.group;
-      boneDescription.innerHTML = bone.desc.map(item => `• ${escapeHtml(item)}`).join('<br>');
-      notesInput.value = data.notes || '';
-      studentInput.value = data.student || '';
-      boneCounters.textContent = `${data.media.length} mídia(s) • ${(data.notes || '').length} caracteres em notas`;
-      renderGallery();
-    }
-
-    function updateSummary(){
-      let mediaCount = 0;
-      for(const bone of BONE_DATA){ mediaCount += state.bones[bone.id].media.length; }
-      countPhotos.textContent = mediaCount;
-      const data = state.bones[activeId];
-      boneCounters.textContent = `${data.media.length} mídia(s) • ${(data.notes || '').length} caracteres em notas`;
-    }
-
-    function addFiles(fileList){
-      const data = state.bones[activeId];
-      const files = Array.from(fileList || []);
-      if(!files.length) return;
-      let pending = files.length;
-      files.forEach(file => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          data.media.push({
-            id: crypto.randomUUID(),
-            name: file.name,
-            type: file.type || 'application/octet-stream',
-            size: file.size,
-            dataUrl: reader.result,
-            addedAt: new Date().toISOString()
-          });
-          pending -= 1;
-          if(pending === 0){ saveState(); renderGallery(); }
+    async function compressImageFile(file,maxSide=1600,quality=0.82){
+      return new Promise((resolve,reject)=>{
+        const reader=new FileReader();
+        reader.onload=()=>{
+          const img=new Image();
+          img.onload=()=>{
+            let {width,height}=img;
+            if(width>height && width>maxSide){height=Math.round(height*(maxSide/width));width=maxSide;}
+            else if(height>=width && height>maxSide){width=Math.round(width*(maxSide/height));height=maxSide;}
+            const canvas=document.createElement('canvas');
+            canvas.width=width; canvas.height=height;
+            const ctx=canvas.getContext('2d');
+            ctx.drawImage(img,0,0,width,height);
+            const dataUrl=canvas.toDataURL('image/jpeg',quality);
+            const estimatedSize=Math.round((dataUrl.length*3)/4);
+            resolve({dataUrl,type:'image/jpeg',width,height,estimatedSize});
+          };
+          img.onerror=reject;
+          img.src=reader.result;
         };
+        reader.onerror=reject;
         reader.readAsDataURL(file);
       });
     }
 
-    function renderGallery(){
-      const data = state.bones[activeId];
-      gallery.innerHTML = '';
-      if(!data.media.length){
-        gallery.innerHTML = '<div class="muted">Nenhuma mídia nesta aba ainda.</div>';
-        updateSummary();
-        return;
+    async function addPhotos(boneId,files){
+      if(!files || !files.length) return;
+      for(const file of files){
+        const compressed=await compressImageFile(file);
+        const photo={
+          id:`${Date.now()}-${Math.random().toString(16).slice(2)}`,
+          boneId,
+          name:(file.name||'foto').replace(/\.[^.]+$/,'')+'.jpg',
+          type:'image/jpeg',
+          size:compressed.estimatedSize||file.size||0,
+          dataUrl:compressed.dataUrl,
+          createdAt:new Date().toISOString()
+        };
+        await new Promise((resolve)=>{
+          const tx=photoDb.transaction('photos','readwrite');
+          tx.objectStore('photos').add(photo);
+          tx.oncomplete=resolve;
+        });
       }
-      data.media.forEach(item => {
-        const isImage = item.type.startsWith('image/');
-        const card = document.createElement('article');
-        card.className = 'thumb';
-        card.innerHTML = `
-          <div class="preview">${isImage ? `<img src="${item.dataUrl}" alt="${escapeHtml(item.name)}">` : `<div class="file-icon">📎</div>`}</div>
-          <div class="meta"><strong>${escapeHtml(item.name)}</strong>${formatSize(item.size)}${isImage ? '<br>Imagem' : '<br>Arquivo anexado'}</div>
-          <div class="thumb-actions">
-            <button data-action="view">Ampliar</button>
-            <button data-action="download">Salvar</button>
-            <button data-action="remove" class="warn">Excluir</button>
-          </div>`;
-        const [viewBtn, downloadBtn, removeBtn] = card.querySelectorAll('button');
-        viewBtn.addEventListener('click', ()=> openViewer(item));
-        downloadBtn.addEventListener('click', ()=> downloadMedia(item));
-        removeBtn.addEventListener('click', ()=> removeMedia(item.id));
-        gallery.appendChild(card);
-      });
-      updateSummary();
+      await saveEntry(boneId,getEntry(boneId).notes);
+      await renderContent();
+      showToast('Fotos salvas e comprimidas no dispositivo.');
     }
 
-    function openViewer(item){
-      viewerTitle.textContent = item.name;
-      viewerBody.innerHTML = '';
-      if(item.type.startsWith('image/')){
-        const img = document.createElement('img');
-        img.src = item.dataUrl;
-        img.alt = item.name;
-        viewerBody.appendChild(img);
-      } else if(item.type === 'application/pdf'){
-        const frame = document.createElement('iframe');
-        frame.src = item.dataUrl;
-        viewerBody.appendChild(frame);
-      } else {
-        const box = document.createElement('div');
-        box.innerHTML = `<div class="card"><h3>${escapeHtml(item.name)}</h3><p class="muted">Visualização direta não disponível para este tipo de arquivo. Use o botão Salvar para baixar no aparelho.</p></div>`;
-        viewerBody.appendChild(box);
-      }
-      viewer.showModal();
-    }
+    async function renderContent(){
+      const content=document.getElementById('contentArea');
+      const bone=bones.find(b=>b.id===activeBoneId) || bones[0];
+      const entry=getEntry(bone.id);
+      const photos=await getPhotos(bone.id);
 
-    function downloadMedia(item){
-      const a = document.createElement('a');
-      a.href = item.dataUrl;
-      a.download = item.name || 'arquivo';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    }
+      content.innerHTML=`
+        <div class="section-card">
+          <div class="meta">
+            <span class="pill">${escapeHtml(bone.grupo)}</span>
+            <span class="pill">${photos.length} foto(s)</span>
+          </div>
+          <h2>${escapeHtml(bone.nome)}</h2>
+          <p>${escapeHtml(bone.instrucoes)}</p>
+        </div>
 
-    function removeMedia(id){
-      const data = state.bones[activeId];
-      data.media = data.media.filter(x => x.id !== id);
-      saveState();
-      renderGallery();
-    }
+        <div class="section-card">
+          <h3>Anotações</h3>
+          <textarea id="noteBox" class="note-box" placeholder="Escreva observações, acidentes ósseos, posição anatômica, respostas e dúvidas...">${escapeHtml(entry.notes||'')}</textarea>
+          <p class="hint">As notas são salvas automaticamente no aparelho.</p>
+        </div>
 
-    function formatSize(size){
-      if(size < 1024) return size + ' B';
-      if(size < 1024*1024) return (size/1024).toFixed(1) + ' KB';
-      return (size/(1024*1024)).toFixed(1) + ' MB';
-    }
+        <div class="section-card">
+          <h3>Fotos</h3>
+          <div class="actions">
+            <label class="file-label secondary" for="cameraInput">Tirar foto</label>
+            <input id="cameraInput" class="hidden" type="file" accept="image/*" capture="environment" multiple />
+            <label class="file-label tertiary" for="fileInput">Anexar imagem</label>
+            <input id="fileInput" class="hidden" type="file" accept="image/*" multiple />
+          </div>
 
-    function exportBackup(){
-      saveState();
-      const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'roteiro-esqueletico-backup.json';
-      a.click();
-      URL.revokeObjectURL(a.href);
-    }
+          <div id="imagesWrap">
+            ${photos.length ? `<div class="gallery">
+              ${photos.map(photo=>`<div class="media-card">
+                <img src="${photo.dataUrl}" alt="${escapeHtmlAttr(photo.name)}" class="open-image" data-name="${escapeHtmlAttr(photo.name)}" data-src="${photo.dataUrl}">
+                <div class="body">
+                  <div>
+                    <div class="file-name">${escapeHtml(photo.name)}</div>
+                    <div class="file-meta">${formatBytes(photo.size)}</div>
+                  </div>
+                  <div class="actions">
+                    <a class="btn soft" href="${photo.dataUrl}" download="${escapeHtmlAttr(photo.name)}">Baixar</a>
+                    <button class="btn soft remove-file-btn" type="button" data-photoid="${photo.id}">Remover</button>
+                  </div>
+                </div>
+              </div>`).join('')}
+            </div>` : '<div class="empty">Nenhuma foto adicionada ainda.</div>'}
+          </div>
+        </div>
+      `;
 
-    function restoreBackup(file){
-      const reader = new FileReader();
-      reader.onload = () => {
-        try{
-          const json = JSON.parse(reader.result);
-          const next = makeDefaultState();
-          if(!json || !json.bones) throw new Error('Backup inválido');
-          for(const bone of BONE_DATA){
-            if(json.bones[bone.id]){
-              next.bones[bone.id].notes = json.bones[bone.id].notes || '';
-              next.bones[bone.id].student = json.bones[bone.id].student || '';
-              next.bones[bone.id].media = Array.isArray(json.bones[bone.id].media) ? json.bones[bone.id].media : [];
-            }
-          }
-          state = next;
-          saveState();
-          renderTabs(searchInput.value);
-          renderContent();
-          alert('Backup restaurado com sucesso.');
-        }catch(err){
-          alert('Não foi possível restaurar o backup: ' + err.message);
-        }
-      };
-      reader.readAsText(file);
-    }
-
-    function buildReportHtml(){
-      const student = studentInput.value.trim();
-      const now = new Date();
-      const parts = BONE_DATA.map((bone, index) => {
-        const data = state.bones[bone.id];
-        const mediaHtml = data.media.map(item => {
-          if(item.type.startsWith('image/')) return `<div style="margin:8px 0;"><img src="${item.dataUrl}" style="max-width:100%;max-height:340px;border:1px solid #ccc;border-radius:8px;"><div style="font-size:12px;color:#555">${escapeHtml(item.name)}</div></div>`;
-          return `<div style="margin:6px 0;padding:8px;border:1px solid #ddd;border-radius:8px;font-size:12px;">Arquivo anexado: ${escapeHtml(item.name)}</div>`;
-        }).join('');
-        return `
-          <section style="page-break-inside:avoid;margin:0 0 26px;">
-            <h2 style="margin:0 0 8px;font-size:20px;color:#24324a">${index+1}. ${escapeHtml(bone.title)}</h2>
-            <div style="font-size:13px;color:#5b6b85;margin-bottom:8px">${escapeHtml(bone.group)}</div>
-            <div style="background:#f6f8ff;border:1px solid #dbe3f4;border-radius:12px;padding:10px;margin-bottom:10px;">${bone.desc.map(x=>`• ${escapeHtml(x)}`).join('<br>')}</div>
-            <div style="padding:10px;border:1px solid #dbe3f4;border-radius:12px;min-height:80px;"><strong>Anotações:</strong><br>${escapeHtml(data.notes || 'Sem anotações.').replace(/\n/g,'<br>')}</div>
-            <div style="margin-top:10px">${mediaHtml || '<div style="font-size:12px;color:#666;">Sem fotos/anexos.</div>'}</div>
-          </section>`;
-      }).join('');
-
-      return `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Roteiro prático sistema esquelético</title></head><body style="font-family:Arial,sans-serif;padding:20px;color:#24324a">
-        <h1 style="margin:0 0 6px;">Roteiro prático sistema esquelético</h1>
-        <div style="margin-bottom:6px;"><strong>Universidade Estadual de Maringá</strong> • Profª Dra. Cláudia Pinheiro</div>
-        <div style="margin-bottom:16px;color:#5b6b85;">Aluno: ${escapeHtml(student || 'Não informado')} • Gerado em: ${now.toLocaleString('pt-BR')}</div>
-        ${parts}
-      </body></html>`;
-    }
-
-    async function generatePdf(){
-      saveState();
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF({ unit:'pt', format:'a4' });
-      const pageWidth = doc.internal.pageSize.getWidth();
-      const pageHeight = doc.internal.pageSize.getHeight();
-      const margin = 36;
-      let y = margin;
-
-      function newPage(){ doc.addPage(); y = margin; }
-      function write(text, size=11, bold=false, color=[36,50,74]){
-        doc.setFont('helvetica', bold ? 'bold' : 'normal');
-        doc.setFontSize(size);
-        doc.setTextColor(...color);
-        const lines = doc.splitTextToSize(text, pageWidth - margin*2);
-        const needed = lines.length * (size + 3);
-        if(y + needed > pageHeight - margin) newPage();
-        doc.text(lines, margin, y);
-        y += needed + 4;
-      }
-      function line(){ doc.setDrawColor(219,227,244); doc.line(margin, y, pageWidth-margin, y); y += 12; }
-      async function addImage(src, name){
-        return new Promise(resolve => {
-          const img = new Image();
-          img.onload = () => {
-            const maxW = pageWidth - margin*2;
-            const maxH = 240;
-            let w = img.width, h = img.height;
-            const ratio = Math.min(maxW / w, maxH / h, 1);
-            w *= ratio; h *= ratio;
-            if(y + h + 28 > pageHeight - margin) newPage();
-            doc.addImage(src, 'JPEG', margin, y, w, h, undefined, 'FAST');
-            y += h + 14;
-            write('Imagem: ' + name, 9, false, [91,107,133]);
-            resolve();
-          };
-          img.onerror = resolve;
-          img.src = src;
+      const noteBox=document.getElementById('noteBox');
+      if(noteBox){
+        let saveTimeout;
+        noteBox.addEventListener('input',(e)=>{
+          clearTimeout(saveTimeout);
+          saveTimeout=setTimeout(async()=>{await saveEntry(bone.id,e.target.value);},400);
         });
       }
 
-      write('Roteiro prático sistema esquelético', 18, true);
-      write('Universidade Estadual de Maringá • Profª Dra. Cláudia Pinheiro', 11, false);
-      write('Gerado em ' + new Date().toLocaleString('pt-BR'), 10, false, [91,107,133]);
-      line();
+      const cameraInput=document.getElementById('cameraInput');
+      if(cameraInput){
+        cameraInput.addEventListener('change',async(e)=>{
+          await addPhotos(bone.id,Array.from(e.target.files||[]));
+          e.target.value='';
+        });
+      }
 
-      for(let i=0;i<BONE_DATA.length;i++){
-        const bone = BONE_DATA[i];
-        const data = state.bones[bone.id];
-        write(`${i+1}. ${bone.title}`, 14, true);
-        write(bone.group, 10, false, [91,107,133]);
-        write('Itens para observar: ' + bone.desc.join('; '), 11, false);
-        write('Anotações: ' + (data.notes ? data.notes : 'Sem anotações.'), 11, false);
-        if(data.media.length){
-          write('Mídias anexadas: ' + data.media.length, 10, true);
-          for(const media of data.media){
-            if(media.type.startsWith('image/')) await addImage(media.dataUrl, media.name);
-            else write('Arquivo anexado: ' + media.name, 10, false, [91,107,133]);
-          }
-        } else {
-          write('Sem fotos ou anexos nesta aba.', 10, false, [91,107,133]);
+      const fileInput=document.getElementById('fileInput');
+      if(fileInput){
+        fileInput.addEventListener('change',async(e)=>{
+          await addPhotos(bone.id,Array.from(e.target.files||[]));
+          e.target.value='';
+        });
+      }
+
+      document.querySelectorAll('.remove-file-btn').forEach(btn=>{
+        btn.addEventListener('click',async()=>{
+          await deletePhoto(btn.dataset.photoid);
+          await saveEntry(bone.id,getEntry(bone.id).notes);
+          await renderContent();
+        });
+      });
+
+      document.querySelectorAll('.open-image').forEach(img=>{
+        img.addEventListener('click',()=>{
+          openModal(img.dataset.name || 'Imagem', `<img src="${img.dataset.src}" alt="${escapeHtmlAttr(img.dataset.name || 'Imagem')}">`);
+        });
+      });
+    }
+
+    async function exportBackup(){
+      const payload={app:'Sistema Esquelético',version:4,exportedAt:new Date().toISOString(),entries:allData,photos:await getAllPhotos()};
+      const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url; a.download='backup-sistema-esqueletico.json'; a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    async function restoreBackup(file){
+      if(!file) return;
+      try{
+        const text=await file.text();
+        const json=JSON.parse(text);
+        if(!Array.isArray(json.entries)){throw new Error('Backup inválido');}
+        allData=json.entries.map(entry=>({bone_id:entry.bone_id,notes:entry.notes||'',photo_count:entry.photo_count||0}));
+        localStorage.setItem('skeletalNotes',JSON.stringify(allData));
+
+        const txClear=photoDb.transaction('photos','readwrite');
+        txClear.objectStore('photos').clear();
+        await new Promise(resolve=>txClear.oncomplete=resolve);
+
+        const photos=Array.isArray(json.photos)?json.photos:[];
+        for(const photo of photos){
+          const tx=photoDb.transaction('photos','readwrite');
+          tx.objectStore('photos').put(photo);
+          await new Promise(resolve=>tx.oncomplete=resolve);
         }
-        line();
+
+        renderTabs(document.getElementById('searchInput').value);
+        await renderContent();
+        showToast('Backup restaurado com sucesso.');
+      }catch(err){
+        console.error(err);
+        showToast('Erro ao restaurar backup.');
       }
-      doc.save('roteiro-pratico-sistema-esqueletico.pdf');
     }
 
-    function exportHtml(){
-      const html = buildReportHtml();
-      const blob = new Blob([html], {type:'text/html'});
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'roteiro-pratico-sistema-esqueletico.html';
-      a.click();
-      URL.revokeObjectURL(a.href);
+    async function addImageToPdf(pdf,dataUrl,x,y,width){
+      return new Promise((resolve,reject)=>{
+        const img=new Image();
+        img.onload=function(){
+          const canvas=document.createElement('canvas');
+          const ctx=canvas.getContext('2d');
+          canvas.width=img.width; canvas.height=img.height;
+          ctx.drawImage(img,0,0);
+          const cleanDataUrl=canvas.toDataURL('image/jpeg',0.85);
+          const ratio=img.height/img.width;
+          const height=width*ratio;
+          pdf.addImage(cleanDataUrl,'JPEG',x,y,width,height,undefined,'FAST');
+          resolve(height);
+        };
+        img.onerror=reject;
+        img.src=dataUrl;
+      });
     }
 
-    notesInput.addEventListener('input', () => { state.bones[activeId].notes = notesInput.value; saveState(); });
-    studentInput.addEventListener('input', () => { state.bones[activeId].student = studentInput.value; saveState(); });
-    searchInput.addEventListener('input', () => renderTabs(searchInput.value));
-    cameraInput.addEventListener('change', e => { addFiles(e.target.files); e.target.value=''; });
-    fileInput.addEventListener('change', e => { addFiles(e.target.files); e.target.value=''; });
-    backupBtn.addEventListener('click', exportBackup);
-    restoreInput.addEventListener('change', e => { if(e.target.files[0]) restoreBackup(e.target.files[0]); e.target.value=''; });
-    saveNowBtn.addEventListener('click', () => { saveState(); alert('Tudo salvo no aparelho.'); });
-    clearBoneBtn.addEventListener('click', () => {
-      if(!confirm('Apagar notas e mídias apenas desta aba?')) return;
-      state.bones[activeId] = { notes:'', student:state.bones[activeId].student || '', media:[] };
-      saveState(); renderContent();
-    });
-    clearAllBtn.addEventListener('click', () => {
-      if(!confirm('Apagar todas as anotações e mídias do aplicativo?')) return;
-      state = makeDefaultState(); saveState(); renderContent(); alert('Conteúdo apagado.');
-    });
-    pdfBtn.addEventListener('click', generatePdf);
-    exportHtmlBtn.addEventListener('click', exportHtml);
-    expandFirstBtn.addEventListener('click', () => {
-      const media = state.bones[activeId].media.find(x => x.type.startsWith('image/')) || state.bones[activeId].media[0];
-      if(!media){ alert('Não há imagem/arquivo nesta aba para ampliar.'); return; }
-      openViewer(media);
-    });
+    async function generatePDF(){
+      const { jsPDF }=window.jspdf;
+      const pdf=new jsPDF('p','mm','a4');
+      const margin=12, pageHeight=297, maxWidth=186;
+      let y=margin;
 
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      installBtn.disabled = false;
-    });
-
-    installBtn.addEventListener('click', async () => {
-      if(deferredPrompt){
-        deferredPrompt.prompt();
-        await deferredPrompt.userChoice;
-        deferredPrompt = null;
-        return;
+      function newPageIfNeeded(space=10){
+        if(y+space>pageHeight-margin){pdf.addPage(); y=margin;}
       }
-      alert('No Android/Chrome: toque em “Baixar app” ou no menu do navegador e escolha “Instalar app”.\n\nNo iPhone/Safari: toque em Compartilhar e depois em “Adicionar à Tela de Início”.');
+
+      function addWrappedText(text,size=10,gap=5,bold=false){
+        pdf.setFont('helvetica',bold?'bold':'normal');
+        pdf.setFontSize(size);
+        const lines=pdf.splitTextToSize(text||'',maxWidth);
+        const height=lines.length*(size*.42)+gap;
+        newPageIfNeeded(height);
+        pdf.text(lines,margin,y);
+        y+=height;
+      }
+
+      pdf.setFont('helvetica','bold');
+      pdf.setFontSize(18);
+      pdf.text('Roteiro prático sistema esquelético',margin,y);
+      y+=8;
+      addWrappedText(`Gerado em ${new Date().toLocaleDateString('pt-BR')}`,10,8,false);
+
+      let currentGroup='';
+      for(const bone of bones){
+        const entry=getEntry(bone.id);
+        const photos=await getPhotos(bone.id);
+
+        if(bone.grupo!==currentGroup){
+          currentGroup=bone.grupo;
+          addWrappedText(currentGroup,13,6,true);
+        }
+
+        addWrappedText(bone.nome,11,4,true);
+        addWrappedText(bone.instrucoes,9,4,false);
+
+        if(entry.notes){addWrappedText('Notas: '+entry.notes,9,4,false);}
+
+        if(photos.length){
+          addWrappedText(`Fotos (${photos.length}):`,9,4,true);
+          for(const photo of photos){
+            try{
+              newPageIfNeeded(90);
+              const imgHeight=await addImageToPdf(pdf,photo.dataUrl,margin,y,80);
+              y+=imgHeight+6;
+            }catch(error){
+              addWrappedText(`Imagem não pôde ser inserida: ${photo.name}`,9,4,false);
+            }
+          }
+        }
+
+        y+=3;
+        newPageIfNeeded(15);
+      }
+
+      pdf.save('roteiro-pratico-sistema-esqueletico.pdf');
+    }
+
+    function setupInstall(){
+      const installBtn=document.getElementById('installBtn');
+      if(isStandalone){installBtn.textContent='App instalado'; installBtn.disabled=true;}
+
+      window.addEventListener('beforeinstallprompt',(e)=>{e.preventDefault(); deferredPrompt=e;});
+
+      installBtn.addEventListener('click',async()=>{
+        if(deferredPrompt){
+          deferredPrompt.prompt();
+          await deferredPrompt.userChoice;
+          deferredPrompt=null;
+          return;
+        }
+        if(isIos){
+          openModal('Instalar no iPhone/iPad','<div style="line-height:1.6"><p>Abra este site no <strong>Safari</strong>.</p><p>Toque em <strong>Compartilhar</strong> e depois em <strong>Adicionar à Tela de Início</strong>.</p></div>');
+        }else{
+          openModal('Instalar no Android','<div style="line-height:1.6"><p>Se o botão não abrir a instalação, use o menu de <strong>3 pontos</strong> do navegador.</p><p>Depois toque em <strong>Instalar app</strong> ou <strong>Adicionar à tela inicial</strong>.</p></div>');
+        }
+      });
+    }
+
+    async function init(){
+      await initDB();
+
+      document.getElementById('searchInput').addEventListener('input',(e)=>{renderTabs(e.target.value);});
+      document.getElementById('pdfBtn').addEventListener('click',generatePDF);
+      document.getElementById('backupBtn').addEventListener('click',exportBackup);
+      document.getElementById('restoreInput').addEventListener('change',async(e)=>{await restoreBackup(e.target.files?.[0]); e.target.value='';});
+      document.getElementById('modalClose').addEventListener('click',closeModal);
+      document.getElementById('modal').addEventListener('click',(e)=>{if(e.target.id==='modal') closeModal();});
+
+      setupInstall();
+      renderTabs();
+      await renderContent();
+    }
+
+    init().catch(err=>{
+      console.error('ERRO REAL:',err);
+      const area=document.getElementById('contentArea');
+      if(area){area.innerHTML='<div class="empty">Erro ao carregar a primeira aba.</div>';}
     });
 
     if('serviceWorker' in navigator){
-      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(console.error));
+      window.addEventListener('load',()=>{
+        navigator.serviceWorker.register('./sw.js')
+          .then(()=>console.log('Service Worker registrado'))
+          .catch(err=>console.log(err));
+      });
     }
-
-    renderTabs();
-    renderContent();
-    updateSummary();
   </script>
 </body>
 </html>
