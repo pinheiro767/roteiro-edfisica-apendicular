@@ -1,22 +1,18 @@
 <!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#7bb8d9" />
-  <meta name="description" content="Roteiro prático sistema esquelético com notas, fotos, backup e PDF." />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Sistema Esquelético" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="format-detection" content="telephone=no" />
-  <link rel="manifest" href="./manifest.webmanifest" />
-  <link rel="apple-touch-icon" sizes="192x192" href="./icons/icon-192.png" />
-  <link rel="apple-touch-icon" sizes="512x512" href="./icons/icon-512.png" />
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#7bb8d9">
+  <meta name="description" content="Roteiro prático sistema esquelético com notas, fotos e PDF.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Sistema Esquelético">
+  <link rel="manifest" href="./manifest.webmanifest">
   <title>Roteiro prático sistema esquelético</title>
   <style>
     :root{--bg:#f7fbff;--panel:#ffffff;--panel-2:#f1f7ff;--line:#d8e5f2;--text:#1f2a37;--muted:#607489;--primary:#7bb8d9;--primary-2:#a7d7c5;--accent:#f7c6c7;--shadow:0 12px 28px rgba(61,102,140,.12);--radius:22px}
-    *{box-sizing:border-box} html,body{height:100%;margin:0;width:100%}
+    *{box-sizing:border-box}html,body{height:100%;margin:0;width:100%}
     body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--text);background:radial-gradient(circle at top left, rgba(167,215,197,.35), transparent 28%),radial-gradient(circle at top right, rgba(247,198,199,.35), transparent 28%),linear-gradient(180deg,#f8fbff 0%,#eef6ff 100%)}
     .app{min-height:100%;display:flex;flex-direction:column;padding:10px;gap:10px}
     .hero,.sidebar,.content,.modal-card{background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border:1px solid rgba(216,229,242,.92);box-shadow:var(--shadow);border-radius:var(--radius)}
@@ -26,7 +22,7 @@
     .subtitle{margin:4px 0 0 0;color:var(--muted);font-size:clamp(.78rem,2vw,.95rem)}
     .toolbar{display:flex;gap:8px;flex-wrap:wrap}
     .btn,.file-label{appearance:none;border:none;border-radius:14px;padding:10px 13px;min-height:42px;cursor:pointer;font-weight:700;font-size:.9rem;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:transform .16s ease, filter .16s ease;white-space:nowrap}
-    .btn:hover,.file-label:hover{transform:translateY(-1px);filter:saturate(1.04)} .btn:active,.file-label:active{transform:translateY(1px)} .btn:disabled{opacity:.6;cursor:not-allowed}
+    .btn:hover,.file-label:hover{transform:translateY(-1px);filter:saturate(1.04)}.btn:active,.file-label:active{transform:translateY(1px)}.btn:disabled{opacity:.6;cursor:not-allowed}
     .primary{background:linear-gradient(135deg,var(--primary),#8fc4e0);color:#11324a;box-shadow:0 6px 14px rgba(123,184,217,.22)}
     .secondary{background:linear-gradient(135deg,var(--primary-2),#c2eadb);color:#23483c;box-shadow:0 6px 14px rgba(167,215,197,.22)}
     .tertiary{background:linear-gradient(135deg,var(--accent),#ffd8d9);color:#5b2b2c;box-shadow:0 6px 14px rgba(247,198,199,.22)}
@@ -36,12 +32,13 @@
     .search{width:100%;border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 12px;font-size:.95rem;outline:none}
     .search:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(123,184,217,.15)}
     .tab-list{overflow:auto;display:grid;gap:6px;padding-right:4px}
-    .tab-btn{width:100%;text-align:left;border:1px solid transparent;background:var(--panel-2);padding:10px 12px;border-radius:14px;cursor:pointer;color:var(--text);font-weight:700;font-size:.9rem}
+    .tab-btn{width:100%;text-align:left;border:1px solid transparent;background:var(--panel-2);padding:10px 12px;border-radius:14px;cursor:pointer;color:var(--text);font-weight:700;font-size:.9rem;transition:all .15s}
     .tab-btn small{display:block;margin-top:3px;font-weight:600;font-size:.78rem;color:var(--muted)}
+    .tab-btn:hover{background:#e8f2ff;transform:translateX(2px)}
     .tab-btn.active{background:linear-gradient(135deg, rgba(123,184,217,.22), rgba(167,215,197,.18));border-color:rgba(123,184,217,.45)}
     .content{padding:14px;display:flex;flex-direction:column;gap:12px;overflow:auto;min-height:0}
     .section-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:13px}
-    .section-card h2{margin:0 0 8px 0;font-size:1.2rem} .section-card h3{margin:0 0 8px 0;font-size:1rem} .section-card p{margin:0;line-height:1.5}
+    .section-card h2{margin:0 0 8px 0;font-size:1.2rem}.section-card h3{margin:0 0 8px 0;font-size:1rem}.section-card p{margin:0;line-height:1.5}
     .meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
     .pill{background:var(--panel-2);border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:.78rem;color:var(--muted);font-weight:700}
     .note-box{width:100%;min-height:130px;max-height:40vh;resize:vertical;border:1px solid var(--line);border-radius:14px;padding:11px;font-size:.95rem;line-height:1.4;outline:none;background:#fff;font-family:inherit}
@@ -49,7 +46,8 @@
     .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;align-items:center}
     .hint{color:var(--muted);font-size:.85rem;margin:0}
     .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-top:10px}
-    .media-card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;display:grid;grid-template-rows:auto 1fr}
+    .media-card{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;display:grid;grid-template-rows:auto 1fr;transition:all .2s}
+    .media-card:hover{box-shadow:0 8px 20px rgba(61,102,140,.1);transform:translateY(-2px)}
     .media-card img{width:100%;height:130px;object-fit:cover;display:block;background:#eef6ff;cursor:pointer}
     .media-card .body{padding:8px;display:flex;flex-direction:column;gap:6px}
     .file-name{font-weight:700;word-break:break-word;font-size:.85rem}
@@ -67,50 +65,100 @@
     .modal-close{appearance:none;border:none;background:transparent;font-size:26px;line-height:1;cursor:pointer;min-width:40px;min-height:40px}
     .modal-body{padding:14px;overflow:auto;display:flex;align-items:center;justify-content:center}
     .modal-body img{max-width:100%;max-height:74vh;border-radius:12px;object-fit:contain}
-    @media (max-width:768px){.layout{grid-template-columns:1fr}.sidebar{grid-template-columns:auto 1fr;grid-template-rows:auto;max-height:58px}.tab-list{display:none}.search{order:2}.btn,.file-label{min-height:40px;font-size:.82rem;padding:8px 10px}.gallery{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}.media-card img{height:110px}.app{padding:8px}}
-    @media (max-width:480px){.sidebar{display:none}.hero-top{flex-direction:column}.toolbar{width:100%}.btn,.file-label{flex:1;min-width:70px;min-height:42px;font-size:.75rem;padding:8px 9px}.gallery{grid-template-columns:repeat(auto-fill,minmax(95px,1fr))}.media-card img{height:95px}.content,.hero,.sidebar{padding:10px}h1{font-size:1.05rem}}
+    @media (max-width:1024px){.sidebar{max-height:280px}}
+    @media (max-width:768px){
+      .layout{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+      .sidebar{grid-template-rows:auto 1fr;grid-template-columns:1fr;max-height:none;border-bottom:1px solid var(--line);border-right:none}
+      .search{width:100%;margin-bottom:4px}
+      .tab-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:6px;max-height:240px;overflow-y:auto;padding-right:4px;padding-bottom:4px}
+      .tab-btn{font-size:.85rem;padding:8px 10px;min-height:auto}
+      .tab-btn small{margin-top:2px;font-size:.7rem}
+      .btn,.file-label{min-height:40px;font-size:.82rem;padding:8px 10px}
+      .gallery{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
+      .media-card img{height:110px}
+      .app{padding:8px;gap:8px}
+      .content{padding:12px;gap:10px}
+      .hero{padding:12px;gap:8px}
+      .section-card{padding:11px}
+    }
+    @media (max-width:480px){
+      .hero-top{flex-direction:column}
+      .toolbar{width:100%;justify-content:flex-start}
+      .btn,.file-label{flex:1;min-width:60px;min-height:40px;font-size:.75rem;padding:8px 9px}
+      .tab-list{grid-template-columns:repeat(auto-fill,minmax(95px,1fr))}
+      .gallery{grid-template-columns:repeat(auto-fill,minmax(95px,1fr))}
+      .media-card img{height:95px}
+      .content,.hero,.sidebar{padding:10px}
+      h1{font-size:1.05rem}
+      .modal-card{width:95vw}
+    }
   </style>
-</head>
-<body>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.17" type="text/javascript"></script>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body>
   <div class="app">
-    <header class="hero">
-      <div class="hero-top">
-        <div>
-          <h1>Roteiro prático sistema esquelético</h1>
-          <p class="subtitle">Universidade Estadual de Maringá • Estude cada osso com notas, fotos, backup e PDF.</p>
-        </div>
-        <div class="toolbar">
-          <button class="btn primary" id="installBtn" type="button">Baixar app</button>
-          <button class="btn primary" id="pdfBtn" type="button">Gerar PDF</button>
-          <button class="btn secondary" id="backupBtn" type="button">Salvar backup</button>
-          <label class="file-label soft" for="restoreInput">Restaurar backup</label>
-          <input id="restoreInput" class="hidden" type="file" accept=".json,application/json" />
-        </div>
-      </div>
-      <p class="hint">As fotos são comprimidas antes de salvar e o PDF reconverte as imagens para evitar listras no Android.</p>
-    </header>
-    <main class="layout">
-      <aside class="sidebar">
-        <input class="search" id="searchInput" type="search" placeholder="Buscar osso..." />
-        <div class="tab-list" id="tabList"></div>
-      </aside>
-      <section id="contentArea" class="content"><div class="empty">Carregando roteiro...</div></section>
-    </main>
-    <p class="footer-note">Anatomia Humana • Profa. Dra. Cláudia Pinheiro • Todos os direitos reservados © 2026</p>
-  </div>
-
-  <div class="modal" id="modal">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h2 class="modal-title" id="modalTitle">Visualização</h2>
-        <button class="modal-close" id="modalClose" type="button" aria-label="Fechar">×</button>
-      </div>
-      <div class="modal-body" id="modalBody"></div>
+   <header class="hero">
+    <div class="hero-top">
+     <div>
+      <h1 id="appTitle">Roteiro prático sistema esquelético</h1>
+      <p class="subtitle" id="appSubtitle">Universidade Estadual de Maringá • Estude cada osso com notas, fotos, backup e PDF.</p>
+     </div>
+     <div class="toolbar"><button class="btn primary" id="installBtn" type="button">Baixar app</button> <button class="btn primary" id="pdfBtn" type="button">Gerar PDF</button> <button class="btn secondary" id="backupBtn" type="button">Backup</button> <label class="file-label soft" for="restoreInput">Restaurar</label> <input id="restoreInput" class="hidden" type="file" accept=".json,application/json">
+     </div>
     </div>
+   </header>
+   <main class="layout">
+    <aside class="sidebar"><input class="search" id="searchInput" type="search" placeholder="Buscar osso...">
+     <div class="tab-list" id="tabList"></div>
+    </aside>
+    <section id="contentArea" class="content">
+     <div class="empty">
+      Carregando...
+     </div>
+    </section>
+   </main>
+   <p class="footer-note">Anatomia Humana • Profª Dra. Cláudia Pinheiro • © 2026</p>
   </div>
-
+  <div class="modal" id="modal">
+   <div class="modal-card">
+    <div class="modal-header">
+     <h2 class="modal-title" id="modalTitle">Visualização</h2><button class="modal-close" id="modalClose" type="button">×</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+   </div>
+  </div>
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
   <script>
+    const defaultConfig = {
+      institution_name: 'Universidade Estadual de Maringá',
+      professor_name: 'Profª Dra. Cláudia Pinheiro',
+      app_subtitle: 'Roteiro prático do sistema esquelético - Anatomia'
+    };
+
+    function applyConfig(config) {
+      document.getElementById('appSubtitle').textContent = `${config.institution_name || defaultConfig.institution_name} • ${config.app_subtitle || defaultConfig.app_subtitle}`;
+    }
+
+    window.elementSdk.init({
+      defaultConfig,
+      onConfigChange: async (config) => { applyConfig(config); },
+      mapToCapabilities: (config) => ({
+        recolorables: [],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      }),
+      mapToEditPanelValues: (config) => new Map([
+        ['institution_name', config.institution_name || defaultConfig.institution_name],
+        ['professor_name', config.professor_name || defaultConfig.professor_name],
+        ['app_subtitle', config.app_subtitle || defaultConfig.app_subtitle]
+      ])
+    });
+
     const bones = [
       { id:'clavicula', nome:'Clavícula', grupo:'Membro superior', instrucoes:'Posicione a extremidade acromial lateralmente, a face lisa superiormente, a maior convexidade anteriormente e o processo conóide inferiormente.' },
       { id:'escapula', nome:'Escápula', grupo:'Membro superior', instrucoes:'Posicione a espinha da escápula superior e posteriormente, com a cavidade glenóide e o acrômio lateralmente; a fossa subescapular e o processo coracóide ficam anteriormente.' },
@@ -277,7 +325,7 @@
       }
       await saveEntry(boneId,getEntry(boneId).notes);
       await renderContent();
-      showToast('Fotos salvas e comprimidas no dispositivo.');
+      showToast('Fotos salvas e comprimidas.');
     }
 
     async function renderContent(){
@@ -526,18 +574,16 @@
     }
 
     init().catch(err=>{
-      console.error('ERRO REAL:',err);
+      console.error('Erro ao inicializar:',err);
       const area=document.getElementById('contentArea');
-      if(area){area.innerHTML='<div class="empty">Erro ao carregar a primeira aba.</div>';}
+      if(area){area.innerHTML='<div class="empty">Erro ao carregar. Atualize a página.</div>';}
     });
 
     if('serviceWorker' in navigator){
       window.addEventListener('load',()=>{
-        navigator.serviceWorker.register('./sw.js')
-          .then(()=>console.log('Service Worker registrado'))
-          .catch(err=>console.log(err));
+        navigator.serviceWorker.register('./sw.js').catch(()=>{});
       });
     }
   </script>
-</body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e6cc5670221a507',t:'MTc3NTI2ODU2OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
