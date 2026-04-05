@@ -4,110 +4,16 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>
 Roteiro Prático do Sistema Esquelético
 </title>
 
 <link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
 
-<style>
-
-body{
-margin:0;
-font-family: "Segoe UI", Arial;
-background:#eef2ff;
-}
-
-header{
-background:linear-gradient(135deg,#4338ca,#6366f1);
-color:white;
-padding:20px;
-text-align:center;
-font-size:22px;
-font-weight:bold;
-}
-
-.toolbar{
-padding:12px;
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-background:white;
-box-shadow:0 2px 6px rgba(0,0,0,0.1);
-}
-
-.toolbar input{
-flex:1;
-padding:8px;
-border-radius:8px;
-border:1px solid #ccc;
-}
-
-button{
-background:#4338ca;
-color:white;
-border:none;
-padding:8px 14px;
-border-radius:8px;
-cursor:pointer;
-}
-
-button:hover{
-background:#3730a3;
-}
-
-.tabs{
-display:flex;
-flex-wrap:wrap;
-gap:8px;
-padding:12px;
-}
-
-.tab{
-background:white;
-padding:10px 14px;
-border-radius:8px;
-cursor:pointer;
-box-shadow:0 2px 6px rgba(0,0,0,0.1);
-}
-
-.tab:hover{
-background:#e0e7ff;
-}
-
-#conteudo{
-padding:20px;
-}
-
-.card{
-background:white;
-padding:18px;
-border-radius:12px;
-box-shadow:0 4px 12px rgba(0,0,0,0.15);
-}
-
-pre{
-white-space:pre-wrap;
-line-height:1.5;
-font-size:15px;
-}
-
-.galeria{
-display:flex;
-flex-wrap:wrap;
-gap:10px;
-margin-top:10px;
-}
-
-.galeria img{
-width:120px;
-border-radius:8px;
-box-shadow:0 2px 6px rgba(0,0,0,0.2);
-}
-
-</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 </head>
 
@@ -115,239 +21,50 @@ box-shadow:0 2px 6px rgba(0,0,0,0.2);
 
 <header>
 
-Roteiro Prático do Sistema Esquelético  
-Prof. Dra. Cláudia Pinheiro
+<h1>
+Roteiro Prático do Sistema Esquelético
+</h1>
+
+<p>
+Prof. Dra. Cláudia Pinheiro  
+Universidade Estadual de Maringá
+</p>
 
 </header>
 
-<div class="toolbar">
+<div class="topbar">
 
-<input id="busca" placeholder="Buscar região ou osso">
+<input id="search" placeholder="Pesquisar osso">
 
-<button onclick="gerarPDF()">PDF</button>
+<button onclick="instalarApp()">
+📱 Baixar App
+</button>
+
+<button onclick="gerarPDF()">
+📄 Gerar PDF
+</button>
 
 </div>
 
-<div class="tabs" id="tabs"></div>
+<div id="tabs"></div>
 
 <div id="conteudo"></div>
 
-<script>
+<script src="app.js"></script>
 
-const roteiro = {
+<!-- VLibras -->
 
-"Membro Superior":`Escápula:
-Espinha da escápula
-Acrômio
-Processo coracóide
-Fossa supraespinal
-Fossa infraespinal
-Margem medial
-Margem lateral
-Incisura da escápula
-
-Clavícula:
-Extremidade esternal
-Corpo da clavícula
-Extremidade acromial
-Tubérculo conoide
-
-Úmero:
-Cabeça do úmero
-Tubérculo maior
-Tubérculo menor
-Sulco intertubercular
-Corpo do úmero
-Tróclea
-Capítulo
-Fossa coronóide
-Fossa do olecrano
-Sulco do nervo radial
-
-Rádio:
-Cabeça do rádio
-Corpo do rádio
-Tuberosidade do rádio
-Processo estilóide do rádio
-
-Ulna:
-Olécrano
-Processo coronóide
-Incisura radial
-Incisura troclear
-Corpo da ulna
-Cabeça da ulna
-Tuberosidade da ulna
-
-Ossos Carpais:
-Escafóide
-Semilunar
-Piramidal
-Pisiforme
-Trapézio
-Trapezóide
-Capitato
-Hamato
-
-Ossos metacarpais (I ao V)
-
-Falanges (proximal, média e distal)
-`,
-
-"Membro Inferior":`Osso do Quadril:
-Acetábulo
-Fossa do acetábulo
-
-Ílio:
-Crista ilíaca
-Espinha ilíaca antero-superior
-Espinha ilíaca antero-inferior
-Espinha ilíaca postero-superior
-Espinha ilíaca postero-inferior
-Face auricular
-
-Ísquio:
-Túber isquiático
-Espinha isquiática
-Ramo do ísquio
-Corpo de ísquio
-Incisura isquiática maior
-Incisura isquiática menor
-
-Púbis:
-Corpo do púbis
-Face sinfisial
-Ramo superior do púbis
-Ramo inferior do púbis
-
-Fêmur:
-Cabeça do fêmur
-Colo do fêmur
-Trocânter maior
-Trocânter menor
-Corpo do fêmur
-Côndilo medial
-Côndilo lateral
-Face patelar
-Fóvea da cabeça do fêmur
-Linha intertrocantérica
-Crista intertrocantérica
-`,
-
-"Crânio":`Neurocrânio:
-Frontal
-Parietais
-Temporais
-Occipital
-Esfenoide
-Etmoide
-
-Viscerocrânio:
-Nasais
-Maxilas
-Zigomáticos
-Lacrimais
-Palatinos
-Conchas nasais inferiores
-Vômer
-Mandíbula
-`,
-
-"Coluna Vertebral":`A coluna vertebral é dividida em quatro regiões:
-cervical
-torácica
-lombar
-sacral
-
-Lordose cervical e lombar  
-Cifose torácica e sacral
-
-Identificar:
-
-corpo vertebral  
-canal vertebral  
-processo transverso  
-processo espinhoso  
-processos articulares
-`
-}
-
-let fotos={}
-
-const tabs=document.getElementById("tabs")
-
-Object.keys(roteiro).forEach(r=>{
-
-let t=document.createElement("div")
-
-t.className="tab"
-
-t.innerText=r
-
-t.onclick=()=>abrir(r)
-
-tabs.appendChild(t)
-
-})
-
-function abrir(r){
-
-document.getElementById("conteudo").innerHTML=`
-
-<div class="card">
-
-<h2>${r}</h2>
-
-<pre>${roteiro[r]}</pre>
-
-<button onclick="audio('${r}')">🔊 Ouvir</button>
-
-<br><br>
-
-<input type="file" accept="image/*" capture="environment" multiple onchange="foto(event,'${r}')">
-
-<div class="galeria" id="galeria"></div>
-
+<div vw class="enabled">
+<div vw-access-button class="active"></div>
+<div vw-plugin-wrapper>
+<div class="vw-plugin-top-wrapper"></div>
+</div>
 </div>
 
-`
+<script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
 
-}
-
-function audio(r){
-
-let msg=new SpeechSynthesisUtterance(roteiro[r])
-
-msg.lang="pt-BR"
-
-speechSynthesis.speak(msg)
-
-}
-
-function foto(e,r){
-
-if(!fotos[r]) fotos[r]=[]
-
-for(let f of e.target.files){
-
-let url=URL.createObjectURL(f)
-
-fotos[r].push(url)
-
-}
-
-let g=document.getElementById("galeria")
-
-g.innerHTML=""
-
-fotos[r].forEach(i=>{
-
-g.innerHTML+=`<img src="${i}">`
-
-})
-
-}
-
+<script>
+new window.VLibras.Widget("https://vlibras.gov.br/app");
 </script>
 
 </body>
