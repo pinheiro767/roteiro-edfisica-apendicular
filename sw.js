@@ -1,30 +1,17 @@
-const CACHE="roteiro-esqueleto-v1"
-
 self.addEventListener("install",e=>{
 
 e.waitUntil(
 
-caches.open(CACHE).then(cache=>{
+caches.open("app").then(cache=>{
 
 return cache.addAll([
+
 "/",
 "/index.html",
-"/style.css"
+"/style.css",
+"/app.js"
+
 ])
-
-})
-
-)
-
-})
-
-self.addEventListener("fetch",e=>{
-
-e.respondWith(
-
-caches.match(e.request).then(res=>{
-
-return res||fetch(e.request)
 
 })
 
