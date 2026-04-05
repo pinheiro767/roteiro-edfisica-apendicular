@@ -122,6 +122,10 @@ Processo espinhoso
 `
 }
 
+/* ============================
+   BANCO INDEXEDDB
+============================ */
+
 let db
 
 function iniciarDB(){
@@ -132,9 +136,13 @@ req.onupgradeneeded = e =>{
 
 db = e.target.result
 
+if(!db.objectStoreNames.contains("fotos")){
+
 let store = db.createObjectStore("fotos",{keyPath:"id",autoIncrement:true})
 
 store.createIndex("osso","osso",{unique:false})
+
+}
 
 }
 
@@ -197,8 +205,10 @@ return `
 
 <button onclick="audio('${nome}')">🔊 áudio</button>
 
-<label class="fotoBtn">
-📷 foto
+<br><br>
+
+<label>
+📷 Tirar foto
 <input type="file"
 accept="image/*"
 capture="environment"
@@ -206,12 +216,23 @@ multiple
 onchange="foto(event,'${id}')">
 </label>
 
+<label>
+📂 Importar imagem
+<input type="file"
+accept="image/*"
+multiple
+onchange="foto(event,'${id}')">
+</label>
+
+<button onclick="limparFotos('${id}')">
+🧹 Limpar fotos
+</button>
+
 <div id="galeria-${id}" class="galeria"></div>
 
 </div>
 
 `
-
 }
 
 function abrir(regiao){
@@ -232,9 +253,7 @@ if(linha==="") return
 if(ossosPrincipais.includes(linha)){
 
 if(ossoAtual){
-
 html += montarOsso(ossoAtual,acidentes)
-
 }
 
 ossoAtual = linha
@@ -249,9 +268,7 @@ acidentes.push(linha)
 })
 
 if(ossoAtual){
-
 html += montarOsso(ossoAtual,acidentes)
-
 }
 
 html += `</div>`
@@ -282,6 +299,10 @@ speechSynthesis.speak(msg)
 
 }
 
+/* ============================
+   SALVAR FOTO
+============================ */
+
 function foto(e,id){
 
 for(let file of e.target.files){
@@ -311,6 +332,10 @@ reader.readAsDataURL(file)
 
 }
 
+/* ============================
+   CARREGAR FOTOS
+============================ */
+
 function carregarFotos(id){
 
 let galeria = document.getElementById("galeria-"+id)
@@ -333,6 +358,8 @@ req.result.forEach(item=>{
 
 let img = document.createElement("img")
 img.src = item.imagem
+img.style.width="120px"
+img.style.margin="5px"
 
 galeria.appendChild(img)
 
@@ -341,6 +368,38 @@ galeria.appendChild(img)
 }
 
 }
+
+/* ============================
+   LIMPAR FOTOS
+============================ */
+
+function limparFotos(id){
+
+if(!confirm("Apagar todas as fotos deste osso?")) return
+
+let tx = db.transaction("fotos","readwrite")
+
+let store = tx.objectStore("fotos")
+
+let index = store.index("osso")
+
+let req = index.getAll(id)
+
+req.onsuccess = ()=>{
+
+req.result.forEach(item=>{
+store.delete(item.id)
+})
+
+carregarFotos(id)
+
+}
+
+}
+
+/* ============================
+   GERAR PDF
+============================ */
 
 function gerarPDF(){
 
