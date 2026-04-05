@@ -205,38 +205,19 @@ speechSynthesis.speak(msg)
 
 }
 
-function foto(e,r){
+function foto(e,osso){
 
-if(!fotos[r]) fotos[r]=[]
+let galeria = document.getElementById("galeria-"+osso)
 
 for(let f of e.target.files){
 
-let url=URL.createObjectURL(f)
+let img = URL.createObjectURL(f)
 
-fotos[r].push(url)
-
-}
-
-mostrar(r)
+galeria.innerHTML += `<img src="${img}">`
 
 }
 
-function mostrar(r){
-
-let g=document.getElementById("galeria")
-
-g.innerHTML=""
-
-if(!fotos[r]) return
-
-fotos[r].forEach(i=>{
-
-g.innerHTML+=`<img src="${i}">`
-
-})
-
 }
-
 function gerarPDF(){
 
 const {jsPDF} = window.jspdf
