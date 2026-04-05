@@ -123,32 +123,38 @@ processo espinhoso
 
 }
 
-let fotos={}
+let fotos = {}
 
-const tabs=document.getElementById("tabs")
+const tabs = document.getElementById("tabs")
 
-Object.keys(roteiro).forEach(r=>{
+Object.keys(roteiro).forEach(regiao=>{
 
-let t=document.createElement("div")
-
+let t = document.createElement("div")
 t.className="tab"
-t.innerText=r
-
-t.onclick=()=>abrir(r)
+t.innerText = regiao
+t.onclick=()=>abrir(regiao)
 
 tabs.appendChild(t)
 
 })
 
+function limparID(texto){
+
+return texto.replace(/\s+/g,"_")
+
+}
+
 function abrir(regiao){
 
-let texto = roteiro[regiao].split("\n")
+let linhas = roteiro[regiao].split("\n")
 
 let html = `<div class="card"><h2>${regiao}</h2>`
 
-texto.forEach(osso =>{
+linhas.forEach(osso=>{
 
 if(osso.trim()==="") return
+
+let id = limparID(osso)
 
 html += `
 
@@ -168,7 +174,7 @@ html += `
 accept="image/*"
 capture="environment"
 multiple
-onchange="foto(event,'${osso}')">
+onchange="foto(event,'${id}')">
 
 </label>
 
@@ -177,12 +183,11 @@ onchange="foto(event,'${osso}')">
 📂 arquivo
 
 <input type="file"
-multiple
-onchange="arquivo(event,'${osso}')">
+multiple>
 
 </label>
 
-<div id="galeria-${osso}" class="galeria"></div>
+<div id="galeria-${id}" class="galeria"></div>
 
 </div>
 
@@ -195,9 +200,10 @@ html += `</div>`
 document.getElementById("conteudo").innerHTML = html
 
 }
-function audio(r){
 
-let msg=new SpeechSynthesisUtterance(roteiro[r])
+function audio(texto){
+
+let msg = new SpeechSynthesisUtterance(texto)
 
 msg.lang="pt-BR"
 
@@ -205,42 +211,64 @@ speechSynthesis.speak(msg)
 
 }
 
-function foto(e,osso){
+function foto(e,id){
 
-let galeria = document.getElementById("galeria-"+osso)
+if(!fotos[id]){
+fotos[id]=[]
+}
 
-for(let f of e.target.files){
+for(let file of e.target.files){
 
-let img = URL.createObjectURL(f)
+let reader = new FileReader()
+
+reader.onload=function(event){
+
+fotos[id].push(event.target.result)
+
+mostrarFotos(id)
+
+}
+
+reader.readAsDataURL(file)
+
+}
+
+}
+
+function mostrarFotos(id){
+
+let galeria = document.getElementById("galeria-"+id)
+
+galeria.innerHTML=""
+
+fotos[id].forEach(img=>{
 
 galeria.innerHTML += `<img src="${img}">`
 
-}
+})
 
 }
+
 function gerarPDF(){
 
 const {jsPDF} = window.jspdf
+
 const pdf = new jsPDF()
 
-let y = 20
+let y=20
 
-Object.keys(roteiro).forEach(regiao => {
-
-if(y>260){
-pdf.addPage()
-y=20
-}
+Object.keys(roteiro).forEach(regiao=>{
 
 pdf.setFontSize(18)
 pdf.text(regiao,10,y)
+
 y+=10
 
-const linhas = pdf.splitTextToSize(roteiro[regiao],180)
+let linhas = pdf.splitTextToSize(roteiro[regiao],180)
 
 pdf.setFontSize(12)
 
-linhas.forEach(l =>{
+linhas.forEach(l=>{
 
 if(y>260){
 pdf.addPage()
@@ -252,7 +280,27 @@ y+=7
 
 })
 
+y+=10
+
+})
+
+Object.keys(fotos).forEach(osso=>{
+
+fotos[osso].forEach(img=>{
+
+if(y>220){
+pdf.addPage()
+y=20
+}
+
+pdf.text(osso.replace(/_/g," "),10,y)
 y+=5
+
+pdf.addImage(img,"JPEG",10,y,80,60)
+
+y+=70
+
+})
 
 })
 
