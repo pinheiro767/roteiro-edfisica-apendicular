@@ -212,22 +212,42 @@ g.innerHTML+=`<img src="${i}">`
 
 function gerarPDF(){
 
-const {jsPDF}=window.jspdf
+const {jsPDF} = window.jspdf
+const pdf = new jsPDF()
 
-let pdf=new jsPDF()
+let y = 20
 
-let y=10
+Object.keys(roteiro).forEach(regiao => {
 
-Object.keys(roteiro).forEach(r=>{
+if(y>260){
+pdf.addPage()
+y=20
+}
 
-pdf.text(r,10,y)
+pdf.setFontSize(18)
+pdf.text(regiao,10,y)
 y+=10
 
-pdf.text(roteiro[r],10,y)
-y+=20
+const linhas = pdf.splitTextToSize(roteiro[regiao],180)
+
+pdf.setFontSize(12)
+
+linhas.forEach(l =>{
+
+if(y>260){
+pdf.addPage()
+y=20
+}
+
+pdf.text(l,10,y)
+y+=7
 
 })
 
-pdf.save("roteiro_anatomia.pdf")
+y+=5
+
+})
+
+pdf.save("roteiro_pratico_sistema_esqueletico.pdf")
 
 }
