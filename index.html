@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
 
 <meta charset="UTF-8">
@@ -10,9 +11,103 @@ Roteiro Prático do Sistema Esquelético
 </title>
 
 <link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="style.css">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+
+body{
+margin:0;
+font-family: "Segoe UI", Arial;
+background:#eef2ff;
+}
+
+header{
+background:linear-gradient(135deg,#4338ca,#6366f1);
+color:white;
+padding:20px;
+text-align:center;
+font-size:22px;
+font-weight:bold;
+}
+
+.toolbar{
+padding:12px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+background:white;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+.toolbar input{
+flex:1;
+padding:8px;
+border-radius:8px;
+border:1px solid #ccc;
+}
+
+button{
+background:#4338ca;
+color:white;
+border:none;
+padding:8px 14px;
+border-radius:8px;
+cursor:pointer;
+}
+
+button:hover{
+background:#3730a3;
+}
+
+.tabs{
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+padding:12px;
+}
+
+.tab{
+background:white;
+padding:10px 14px;
+border-radius:8px;
+cursor:pointer;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+.tab:hover{
+background:#e0e7ff;
+}
+
+#conteudo{
+padding:20px;
+}
+
+.card{
+background:white;
+padding:18px;
+border-radius:12px;
+box-shadow:0 4px 12px rgba(0,0,0,0.15);
+}
+
+pre{
+white-space:pre-wrap;
+line-height:1.5;
+font-size:15px;
+}
+
+.galeria{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+margin-top:10px;
+}
+
+.galeria img{
+width:120px;
+border-radius:8px;
+box-shadow:0 2px 6px rgba(0,0,0,0.2);
+}
+
+</style>
 
 </head>
 
@@ -27,15 +122,13 @@ Prof. Dra. Cláudia Pinheiro
 
 <div class="toolbar">
 
-<input id="busca" placeholder="Buscar">
+<input id="busca" placeholder="Buscar região ou osso">
 
-<button onclick="modo()">Modo</button>
-
-<button onclick="gerarPDF()">Gerar PDF</button>
+<button onclick="gerarPDF()">PDF</button>
 
 </div>
 
-<div id="tabs"></div>
+<div class="tabs" id="tabs"></div>
 
 <div id="conteudo"></div>
 
@@ -43,9 +136,7 @@ Prof. Dra. Cláudia Pinheiro
 
 const roteiro = {
 
-"Membro Superior":`
-
-Escápula:
+"Membro Superior":`Escápula:
 Espinha da escápula
 Acrômio
 Processo coracóide
@@ -101,12 +192,9 @@ Hamato
 Ossos metacarpais (I ao V)
 
 Falanges (proximal, média e distal)
-
 `,
 
-"Membro Inferior":`
-
-Osso do Quadril:
+"Membro Inferior":`Osso do Quadril:
 Acetábulo
 Fossa do acetábulo
 
@@ -144,162 +232,107 @@ Face patelar
 Fóvea da cabeça do fêmur
 Linha intertrocantérica
 Crista intertrocantérica
-
-Patela:
-Face articular
-Ápice
-Base
-
-Tíbia:
-Côndilo lateral
-Côndilo medial
-Corpo da tíbia
-Tuberosidade da tíbia
-Maléolo medial
-Tubérculos intercondilares da eminência intercondilar
-Margem interóssea
-
-Fíbula:
-Cabeça da fíbula
-Corpo da fíbula
-Maléolo lateral
-
-Ossos do Pé:
-Tálus
-Calcâneo
-Navicular
-Cubóide
-Cuneiforme medial
-Cuneiforme intermédio
-Cuneiforme lateral
-
-Ossos metatarsais (I ao V)
-Falanges (proximal, média e distal)
-
 `,
 
-"Crânio":`
-
-Neurocrânio:
+"Crânio":`Neurocrânio:
 Frontal
-Parietais (2)
-Temporais (2)
+Parietais
+Temporais
 Occipital
 Esfenoide
 Etmoide
 
 Viscerocrânio:
-Nasais (2)
-Maxilas (2)
-Zigomáticos (2)
-Lacrimais (2)
-Palatinos (2)
-Conchas Nasais Inferiores (2)
+Nasais
+Maxilas
+Zigomáticos
+Lacrimais
+Palatinos
+Conchas nasais inferiores
 Vômer
 Mandíbula
-
 `,
 
-"Coluna Vertebral":`
+"Coluna Vertebral":`A coluna vertebral é dividida em quatro regiões:
+cervical
+torácica
+lombar
+sacral
 
-A coluna vertebral é dividida em quatro regiões:
-
-cervical  
-torácica  
-lombar  
-sacral  
-
-As regiões cervical e lombar apresentam lordose  
-(concavidade para trás)
-
-As regiões torácica e sacral exibem cifose  
-(convexidade para trás)
-
-Identificar nas vértebras cervicais, torácicas e lombares:
-
-corpo  
-canal vertebral  
-processos articulares  
-processo transverso  
-processo espinhoso  
+Lordose cervical e lombar  
+Cifose torácica e sacral
 
 Identificar:
 
-CI ou atlas  
-CII ou axis  
-CVII ou vértebra proeminente  
-
-Nas vértebras torácicas:
-
-fóveas costais  
-fóvea costal do processo transverso  
-
-No sacro:
-
-Promontório  
-Asas Sacrais  
-Processos Articulares Superiores Direito e Esquerdo  
-Canal Sacral  
-
+corpo vertebral  
+canal vertebral  
+processo transverso  
+processo espinhoso  
+processos articulares
 `
-
 }
 
-let fotos = {}
+let fotos={}
 
-const tabs = document.getElementById("tabs")
+const tabs=document.getElementById("tabs")
 
-Object.keys(roteiro).forEach(r => {
+Object.keys(roteiro).forEach(r=>{
 
-let b = document.createElement("button")
+let t=document.createElement("div")
 
-b.innerText = r
+t.className="tab"
 
-b.onclick = () => abrir(r)
+t.innerText=r
 
-tabs.appendChild(b)
+t.onclick=()=>abrir(r)
+
+tabs.appendChild(t)
 
 })
 
-function abrir(osso){
+function abrir(r){
 
-document.getElementById("conteudo").innerHTML = `
+document.getElementById("conteudo").innerHTML=`
 
-<h2>${osso}</h2>
+<div class="card">
 
-<pre>${roteiro[osso]}</pre>
+<h2>${r}</h2>
 
-<button onclick="ler('${osso}')">
-Ler roteiro
-</button>
+<pre>${roteiro[r]}</pre>
 
-<input type="file" accept="image/*" capture="environment" multiple onchange="foto(event,'${osso}')">
+<button onclick="audio('${r}')">🔊 Ouvir</button>
 
-<div id="galeria"></div>
+<br><br>
+
+<input type="file" accept="image/*" capture="environment" multiple onchange="foto(event,'${r}')">
+
+<div class="galeria" id="galeria"></div>
+
+</div>
 
 `
 
 }
 
-function ler(osso){
+function audio(r){
 
-let msg = new SpeechSynthesisUtterance(roteiro[osso])
+let msg=new SpeechSynthesisUtterance(roteiro[r])
 
-msg.lang = "pt-BR"
+msg.lang="pt-BR"
 
 speechSynthesis.speak(msg)
 
 }
 
-function foto(e,osso){
+function foto(e,r){
 
-if(!fotos[osso]) fotos[osso]=[]
+if(!fotos[r]) fotos[r]=[]
 
 for(let f of e.target.files){
 
-let url = URL.createObjectURL(f)
+let url=URL.createObjectURL(f)
 
-fotos[osso].push(url)
+fotos[r].push(url)
 
 }
 
@@ -307,47 +340,11 @@ let g=document.getElementById("galeria")
 
 g.innerHTML=""
 
-fotos[osso].forEach(i=>{
+fotos[r].forEach(i=>{
 
 g.innerHTML+=`<img src="${i}">`
 
 })
-
-}
-
-function gerarPDF(){
-
-const {jsPDF}=window.jspdf
-
-let pdf=new jsPDF()
-
-let y=10
-
-Object.keys(roteiro).forEach(osso=>{
-
-pdf.text(osso,10,y)
-
-y+=10
-
-})
-
-pdf.save("roteiro_esqueleto.pdf")
-
-}
-
-function modo(){
-
-document.body.classList.toggle("dark")
-
-}
-
-</script>
-
-<script>
-
-if('serviceWorker' in navigator){
-
-navigator.serviceWorker.register("sw.js")
 
 }
 
