@@ -115,15 +115,16 @@ Lordose cervical e lombar
 Cifose torácica e sacral
 
 Estruturas
-corpo
-canal vertebral
-processo transverso
-processo espinhoso
+Corpo
+Canal vertebral
+Processo transverso
+Processo espinhoso
 `
 
 }
 
 let fotos = {}
+let arquivos = {}
 
 const tabs = document.getElementById("tabs")
 
@@ -132,7 +133,13 @@ Object.keys(roteiro).forEach(regiao=>{
 let t = document.createElement("div")
 t.className="tab"
 t.innerText = regiao
-t.onclick=()=>abrir(regiao)
+
+t.onclick=()=>{
+abrir(regiao)
+
+document.querySelectorAll(".tab").forEach(el=>el.classList.remove("ativo"))
+t.classList.add("ativo")
+}
 
 tabs.appendChild(t)
 
@@ -140,7 +147,11 @@ tabs.appendChild(t)
 
 function limparID(texto){
 
-return texto.replace(/\s+/g,"_")
+return texto
+.normalize("NFD")
+.replace(/[\u0300-\u036f]/g,"")
+.replace(/\s+/g,"_")
+.toLowerCase()
 
 }
 
@@ -167,24 +178,19 @@ html += `
 </button>
 
 <label class="fotoBtn">
-
 📷 foto
-
 <input type="file"
 accept="image/*"
 capture="environment"
 multiple
 onchange="foto(event,'${id}')">
-
 </label>
 
 <label class="arquivoBtn">
-
 📂 arquivo
-
 <input type="file"
-multiple>
-
+multiple
+onchange="arquivo(event,'${id}')">
 </label>
 
 <div id="galeria-${id}" class="galeria"></div>
@@ -204,24 +210,22 @@ document.getElementById("conteudo").innerHTML = html
 function audio(texto){
 
 let msg = new SpeechSynthesisUtterance(texto)
-
 msg.lang="pt-BR"
 
+speechSynthesis.cancel()
 speechSynthesis.speak(msg)
 
 }
 
 function foto(e,id){
 
-if(!fotos[id]){
-fotos[id]=[]
-}
+if(!fotos[id]) fotos[id] = []
 
 for(let file of e.target.files){
 
 let reader = new FileReader()
 
-reader.onload=function(event){
+reader.onload = function(event){
 
 fotos[id].push(event.target.result)
 
@@ -235,15 +239,32 @@ reader.readAsDataURL(file)
 
 }
 
+function arquivo(e,id){
+
+if(!arquivos[id]) arquivos[id] = []
+
+for(let file of e.target.files){
+
+arquivos[id].push(file.name)
+
+}
+
+}
+
 function mostrarFotos(id){
 
 let galeria = document.getElementById("galeria-"+id)
+
+if(!galeria) return
 
 galeria.innerHTML=""
 
 fotos[id].forEach(img=>{
 
-galeria.innerHTML += `<img src="${img}">`
+let el = document.createElement("img")
+el.src = img
+
+galeria.appendChild(el)
 
 })
 
@@ -251,11 +272,11 @@ galeria.innerHTML += `<img src="${img}">`
 
 function gerarPDF(){
 
-const {jsPDF} = window.jspdf
+const { jsPDF } = window.jspdf
 
 const pdf = new jsPDF()
 
-let y=20
+let y = 20
 
 Object.keys(roteiro).forEach(regiao=>{
 
@@ -288,13 +309,15 @@ Object.keys(fotos).forEach(osso=>{
 
 fotos[osso].forEach(img=>{
 
-if(y>220){
+if(y>210){
 pdf.addPage()
 y=20
 }
 
+pdf.setFontSize(14)
 pdf.text(osso.replace(/_/g," "),10,y)
-y+=5
+
+y+=6
 
 pdf.addImage(img,"JPEG",10,y,80,60)
 
