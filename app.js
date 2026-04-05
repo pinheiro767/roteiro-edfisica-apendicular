@@ -140,34 +140,61 @@ tabs.appendChild(t)
 
 })
 
-function abrir(r){
+function abrir(regiao){
 
-document.getElementById("conteudo").innerHTML=`
+let texto = roteiro[regiao].split("\n")
 
-<div class="card">
+let html = `<div class="card"><h2>${regiao}</h2>`
 
-<h2>${r}</h2>
+texto.forEach(osso =>{
 
-<pre>${roteiro[r]}</pre>
+if(osso.trim()==="") return
 
-<button onclick="audio('${r}')">
-🔊 Ouvir
+html += `
+
+<div class="osso">
+
+<h3>${osso}</h3>
+
+<button onclick="audio('${osso}')">
+🔊 áudio
 </button>
 
-<br><br>
+<label class="fotoBtn">
 
-<input type="file" accept="image/*" capture="environment" multiple onchange="foto(event,'${r}')">
+📷 foto
 
-<input type="file" multiple onchange="arquivo(event)">
+<input type="file"
+accept="image/*"
+capture="environment"
+multiple
+onchange="foto(event,'${osso}')">
 
-<div class="galeria" id="galeria"></div>
+</label>
+
+<label class="arquivoBtn">
+
+📂 arquivo
+
+<input type="file"
+multiple
+onchange="arquivo(event,'${osso}')">
+
+</label>
+
+<div id="galeria-${osso}" class="galeria"></div>
 
 </div>
 
 `
 
-}
+})
 
+html += `</div>`
+
+document.getElementById("conteudo").innerHTML = html
+
+}
 function audio(r){
 
 let msg=new SpeechSynthesisUtterance(roteiro[r])
