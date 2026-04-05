@@ -120,11 +120,37 @@ Canal vertebral
 Processo transverso
 Processo espinhoso
 `
+}
+
+let db
+
+function iniciarDB(){
+
+const req = indexedDB.open("atlas_anatomia",1)
+
+req.onupgradeneeded = e =>{
+
+db = e.target.result
+
+let store = db.createObjectStore("fotos",{keyPath:"id",autoIncrement:true})
+
+store.createIndex("osso","osso",{unique:false})
 
 }
 
-let fotos = {}
-let arquivos = {}
+req.onsuccess = e =>{
+db = e.target.result
+}
+
+}
+
+iniciarDB()
+
+const ossosPrincipais = [
+"Escápula","Clavícula","Úmero","Rádio","Ulna","Ossos Carpais",
+"Osso do Quadril","Ílio","Ísquio","Púbis","Fêmur",
+"Neurocrânio","Viscerocrânio"
+]
 
 const tabs = document.getElementById("tabs")
 
@@ -155,27 +181,21 @@ return texto
 
 }
 
-function abrir(regiao){
+function montarOsso(nome, acidentes){
 
-let linhas = roteiro[regiao].split("\n")
+let id = limparID(nome)
 
-let html = `<div class="card"><h2>${regiao}</h2>`
+let lista = acidentes.map(a=>`<li>${a}</li>`).join("")
 
-linhas.forEach(osso=>{
-
-if(osso.trim()==="") return
-
-let id = limparID(osso)
-
-html += `
+return `
 
 <div class="osso">
 
-<h3>${osso}</h3>
+<h3>${nome}</h3>
 
-<button onclick="audio('${osso}')">
-🔊 áudio
-</button>
+<ul>${lista}</ul>
+
+<button onclick="audio('${nome}')">🔊 áudio</button>
 
 <label class="fotoBtn">
 📷 foto
@@ -186,24 +206,69 @@ multiple
 onchange="foto(event,'${id}')">
 </label>
 
-<label class="arquivoBtn">
-📂 arquivo
-<input type="file"
-multiple
-onchange="arquivo(event,'${id}')">
-</label>
-
 <div id="galeria-${id}" class="galeria"></div>
 
 </div>
 
 `
 
+}
+
+function abrir(regiao){
+
+let linhas = roteiro[regiao].split("\n")
+
+let html = `<div class="card"><h2>${regiao}</h2>`
+
+let ossoAtual = null
+let acidentes = []
+
+linhas.forEach(linha=>{
+
+linha = linha.trim()
+
+if(linha==="") return
+
+if(ossosPrincipais.includes(linha)){
+
+if(ossoAtual){
+
+html += montarOsso(ossoAtual,acidentes)
+
+}
+
+ossoAtual = linha
+acidentes = []
+
+}else{
+
+acidentes.push(linha)
+
+}
+
 })
+
+if(ossoAtual){
+
+html += montarOsso(ossoAtual,acidentes)
+
+}
 
 html += `</div>`
 
 document.getElementById("conteudo").innerHTML = html
+
+setTimeout(()=>{
+
+document.querySelectorAll(".osso").forEach(el=>{
+
+let id = limparID(el.querySelector("h3").innerText)
+
+carregarFotos(id)
+
+})
+
+},200)
 
 }
 
@@ -219,17 +284,24 @@ speechSynthesis.speak(msg)
 
 function foto(e,id){
 
-if(!fotos[id]) fotos[id] = []
-
 for(let file of e.target.files){
 
 let reader = new FileReader()
 
-reader.onload = function(event){
+reader.onload = event =>{
 
-fotos[id].push(event.target.result)
+let tx = db.transaction("fotos","readwrite")
 
-mostrarFotos(id)
+let store = tx.objectStore("fotos")
+
+store.add({
+osso:id,
+imagem:event.target.result
+})
+
+tx.oncomplete = ()=>{
+carregarFotos(id)
+}
 
 }
 
@@ -239,19 +311,7 @@ reader.readAsDataURL(file)
 
 }
 
-function arquivo(e,id){
-
-if(!arquivos[id]) arquivos[id] = []
-
-for(let file of e.target.files){
-
-arquivos[id].push(file.name)
-
-}
-
-}
-
-function mostrarFotos(id){
+function carregarFotos(id){
 
 let galeria = document.getElementById("galeria-"+id)
 
@@ -259,14 +319,26 @@ if(!galeria) return
 
 galeria.innerHTML=""
 
-fotos[id].forEach(img=>{
+let tx = db.transaction("fotos","readonly")
 
-let el = document.createElement("img")
-el.src = img
+let store = tx.objectStore("fotos")
 
-galeria.appendChild(el)
+let index = store.index("osso")
+
+let req = index.getAll(id)
+
+req.onsuccess = ()=>{
+
+req.result.forEach(item=>{
+
+let img = document.createElement("img")
+img.src = item.imagem
+
+galeria.appendChild(img)
 
 })
+
+}
 
 }
 
@@ -278,55 +350,77 @@ const pdf = new jsPDF()
 
 let y = 20
 
-Object.keys(roteiro).forEach(regiao=>{
-
 pdf.setFontSize(18)
-pdf.text(regiao,10,y)
+pdf.text("Roteiro Prático do Sistema Esquelético",10,y)
 
 y+=10
 
-let linhas = pdf.splitTextToSize(roteiro[regiao],180)
-
-pdf.setFontSize(12)
-
-linhas.forEach(l=>{
+Object.keys(roteiro).forEach(regiao=>{
 
 if(y>260){
 pdf.addPage()
 y=20
 }
 
-pdf.text(l,10,y)
-y+=7
+pdf.setFontSize(16)
+pdf.text(regiao,10,y)
+
+y+=8
+
+let linhas = roteiro[regiao].split("\n")
+
+pdf.setFontSize(12)
+
+linhas.forEach(l=>{
+
+l=l.trim()
+
+if(l==="") return
+
+if(y>260){
+pdf.addPage()
+y=20
+}
+
+pdf.text("- "+l,12,y)
+y+=6
 
 })
 
-y+=10
+y+=5
 
 })
 
-Object.keys(fotos).forEach(osso=>{
+let tx = db.transaction("fotos","readonly")
 
-fotos[osso].forEach(img=>{
+let store = tx.objectStore("fotos")
 
-if(y>210){
+store.getAll().onsuccess = e =>{
+
+let dados = e.target.result
+
+dados.forEach(item=>{
+
+let nome = item.osso.replace(/_/g," ")
+
+if(y>220){
 pdf.addPage()
 y=20
 }
 
 pdf.setFontSize(14)
-pdf.text(osso.replace(/_/g," "),10,y)
+pdf.text(nome,10,y)
 
-y+=6
+y+=8
 
-pdf.addImage(img,"JPEG",10,y,80,60)
+pdf.addImage(item.imagem,"JPEG",10,y,90,65)
 
 y+=70
 
 })
 
-})
-
 pdf.save("roteiro_pratico_sistema_esqueletico.pdf")
+
+}
 
 }
